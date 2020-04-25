@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>BJR Web</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'style', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%= favicon_link_tag 'favicon.png', type: 'image/png' %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+
+  <%= javascript_include_tag 'plugins/common/common.min', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'js/custom.min', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'js/settings', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'js/gleek', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'js/styleSwitcher', 'data-turbolinks-track': 'reload' %>
+</html>
