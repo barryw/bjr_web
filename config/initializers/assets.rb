@@ -20,4 +20,10 @@ Rails.application.config.assets.precompile += %w( style.scss plugins/common/comm
   icons/flag-icon-css/flag-icon.min.css icons/themify-icons/themify-icons.css icons/cryptocoins/css/cryptocoins.css
   icons/cryptocoins/css/cryptocoins-colors.css icons/ionicons/css/ionicons.css icons/linea-icons/linea.css
   icons/simple-line-icons/css/simple-line-icons.css icons/font-awesome/css/font-awesome.min.css
-  plugins/highlightjs/highlight.pack.min )
+  plugins/highlightjs/highlight.pack.min icons/themify-icons/themify-icons.css plugins/animate/animate.min.css
+  icons/linea-icons/linea.css icons/flag-icon-css/flag-icon.min.css icons/simple-line-icons/css/simple-line-icons.css
+  icons/font-awesome/css/font-awesome.min.css plugins/metismenu/css/metisMenu.min.css Simple-Line-Icons4c82.eot
+  Simple-Line-Iconsd41d.eot Simple-Line-Icons4c82.ttf Simple-Line-Icons4c82.woff2
+  Simple-Line-Icons4c82.woff Simple-Line-Icons4c82.svg materialdesignicons-webfont.woff2
+  materialdesignicons-webfont.woff Simple-Line-Icons4c82.woff2 fontawesome-webfont3e6e.woff
+  materialdesignicons-webfont.ttf fontawesome-webfont3e6e.ttf )
