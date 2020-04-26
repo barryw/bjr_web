@@ -5,6 +5,10 @@ en:
       title: BJR
 
   welcome:
+    errors:
+      server_version_unknown: Unknown
+      server_connection_failed: "Failed to communicate with BJR server: %{error}"
+
     new:
       username: Username
       password: Password

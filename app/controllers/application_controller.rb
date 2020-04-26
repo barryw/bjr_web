@@ -24,11 +24,4 @@ class ApplicationController < ActionController::Base
   def ensure_session
     redirect_to root_url if current_user.nil?
   end
-
-  def server_version
-    result = HTTParty.get("#{$api_host}/version", headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' })
-    version = "v#{JSON.parse(result.body)['object']}"
-  rescue
-    '(Unknown)'
-  end
 end

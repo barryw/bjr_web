@@ -3,11 +3,11 @@
         <span class="activity active"></span>
         <%= image_tag 'user/1.png', height: 40, width: 40 %>
     </div>
-    <div class="drop-down dropdown-profile   dropdown-menu">
+    <div class="drop-down dropdown-profile dropdown-menu">
         <div class="dropdown-content-body">
             <ul>
                 <li><%= link_to show_profile_url, method: :get do %><i class="icon-user"></i><span><%= t('.profile') %></span><% end %></li>
-                <hr class="my-2">
+                <hr class="my-2"/>
                 <li><%= link_to logout_url, method: :post do %><i class="icon-key"></i><span><%= t('.logout') %></span><% end %></li>
             </ul>
         </div>
