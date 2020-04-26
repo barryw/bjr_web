@@ -1,4 +1,5 @@
 class WelcomeController < ApplicationController
+  layout "sign_in"
   protect_from_forgery with: :null_session
   skip_before_action :ensure_session
 
