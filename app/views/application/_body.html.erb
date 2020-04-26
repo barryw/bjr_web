@@ -1,0 +1,12 @@
+<%= render 'preloader' %>
+<div id="main-wrapper">
+    <%= render 'nav_header' %>
+    <%= render "header" %>
+    <%= render "sidebar" %>
+    <div class="content-body">
+        <%= render "breadcrumbs" %>
+        <%= yield %>
+    </div>
+    <%= render 'footer' %>
+</div>
+<%= render "javascript" %>
