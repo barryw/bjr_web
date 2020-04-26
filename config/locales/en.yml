@@ -1,10 +1,19 @@
 en:
-  common:
-    server_version: BJR Server Version %{version}
-    username: Username
-    password: Password
-    sign_in: Sign In
   site_name: BJR Web
   welcome:
     index:
       title: BJR
+
+  welcome:
+    new:
+      username: Username
+      password: Password
+      sign_in: Sign In
+      server_version: BJR Server Version %{version}
+  application:
+    footer:
+      bjr_html: BJR Server and BJR Web Copyright &copy; 2020 Barry Walker
+      theme_html: Theme is Designed, Developed and Copyright &copy; 2018 <a href="https://themeforest.net/user/quixlab">Quixlab</a>
+    menu_user:
+      profile: Profile
+      logout: Logout

@@ -12,18 +12,5 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'fonts
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-Rails.application.config.assets.precompile += %w( style.scss plugins/common/common.min.js
-  js/custom.min.js js/settings.js js/gleek.js js/styleSwitcher.js plugins/animate/animate.min.css
-  plugins/metismenu/css/metisMenu.min.css plugins/metismenu/js/metisMenu.min.js
-  plugins/bootstrap-select/dist/css/bootstrap-select.min.css icons/pe-icon-set-weather/css/pe-icon-set-weather.min.css
-  icons/material-design-iconic-font/materialdesignicons.min.css icons/weather-icons/css/weather-icons.min.css
-  icons/flag-icon-css/flag-icon.min.css icons/themify-icons/themify-icons.css icons/cryptocoins/css/cryptocoins.css
-  icons/cryptocoins/css/cryptocoins-colors.css icons/ionicons/css/ionicons.css icons/linea-icons/linea.css
-  icons/simple-line-icons/css/simple-line-icons.css icons/font-awesome/css/font-awesome.min.css
-  plugins/highlightjs/highlight.pack.min icons/themify-icons/themify-icons.css plugins/animate/animate.min.css
-  icons/linea-icons/linea.css icons/flag-icon-css/flag-icon.min.css icons/simple-line-icons/css/simple-line-icons.css
-  icons/font-awesome/css/font-awesome.min.css plugins/metismenu/css/metisMenu.min.css Simple-Line-Icons4c82.eot
-  Simple-Line-Iconsd41d.eot Simple-Line-Icons4c82.ttf Simple-Line-Icons4c82.woff2
-  Simple-Line-Icons4c82.woff Simple-Line-Icons4c82.svg materialdesignicons-webfont.woff2
-  materialdesignicons-webfont.woff Simple-Line-Icons4c82.woff2 fontawesome-webfont3e6e.woff
-  materialdesignicons-webfont.ttf fontawesome-webfont3e6e.ttf )
+Rails.application.config.assets.precompile += %w( style.css plugins/highlightjs/highlight.pack.min.js
+  plugins/common/common.min js/custom.min js/settings js/styleSwitcher plugins/highlightjs/highlight.pack.min )

@@ -9,24 +9,27 @@
 The smaller device rules always should write below the bigger device rules
 Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Component
 */
-@import "**/*";
-/*
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
-@import asset-path("icons/font-awesome/css/font-awesome.min.css");
-@import asset-path("icons/simple-line-icons/css/simple-line-icons.css");
-@import asset-path("icons/weather-icons/css/weather-icons.min.css");
-@import asset-path("icons/cryptocoins/css/cryptocoins.css");
-@import asset-path("icons/cryptocoins/css/cryptocoins-colors.css");
-@import asset-path("icons/linea-icons/linea.css");
-@import asset-path("icons/ionicons/css/ionicons.css");
-@import asset-path("icons/themify-icons/themify-icons.css");
-@import asset-path("icons/flag-icon-css/flag-icon.min.css");
-@import asset-path("icons/material-design-iconic-font/materialdesignicons.min.css");
-@import asset-path("icons/pe-icon-set-weather/css/pe-icon-set-weather.min.css");
-@import asset-path("plugins/animate/animate.min.css");
-@import asset-path("plugins/metismenu/css/metisMenu.min.css");
-@import asset-path("plugins/bootstrap-select/dist/css/bootstrap-select.min.css");
+@import "icons/**/*";
+@import "plugins/**/*";
+
+/*
+@import "icons/font-awesome/css/font-awesome.min.scss";
+@import "icons/simple-line-icons/css/simple-line-icons.scss";
+@import "icons/weather-icons/css/weather-icons.min.scss";
+@import "icons/cryptocoins/css/cryptocoins.scss";
+@import "icons/cryptocoins/css/cryptocoins-colors.scss";
+@import "icons/linea-icons/linea.scss";
+@import "icons/ionicons/css/ionicons.scss";
+@import "icons/themify-icons/themify-icons.scss";
+@import "icons/flag-icon-css/flag-icon.min.scss";
+@import "icons/material-design-iconic-font/materialdesignicons.min.scss";
+@import "icons/pe-icon-set-weather/css/pe-icon-set-weather.min.scss";
+@import "plugins/animate/animate.min.scss";
+@import "plugins/metismenu/css/metisMenu.min.scss";
+@import "plugins/bootstrap-select/dist/css/bootstrap-select.min.scss";
 */
+
 .gradient-1, .dropdown-mega-menu .ext-link.link-1 a, .morris-hover, .datamaps-hoverover {
   background-image: linear-gradient(230deg, #759bff, #843cf6); }
 
@@ -11357,13 +11360,13 @@ table.dataTable thead .sorting::after {
   left: 30px; }
 
 .card-bg-img-1 {
-  background: url(../../assets/images/big/img6.jpg);
+  background: asset-url("img6.jpg");
   background-position: center;
   background-size: cover;
   min-height: 300px; }
 
 .card-bg-img-2 {
-  background: url(../../assets/images/big/img6.jpg);
+  background: asset-url("img6.jpg");
   background-position: center;
   background-size: cover;
   min-height: 400px; }
@@ -11804,7 +11807,7 @@ table.dataTable thead .sorting::after {
   margin-bottom: 0 !important; }
 
 .comming-soon-wrapper {
-  background-image: url("../../assets/images/big/comming-soon-bg.png");
+  background-image: asset-url("comming-soon-bg.png");
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -11893,7 +11896,7 @@ table.dataTable thead .sorting::after {
   color: #7571f9; }
 
 #password-page1 body {
-  background: url(../../assets/images/background/password-bg.jpg);
+  background: asset-url("password-bg.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12048,7 +12051,7 @@ table.dataTable thead .sorting::after {
       color: #ff5e5e; }
 
 #register-page1 body {
-  background: url(../../assets/images/background/register-bg.jpg);
+  background: asset-url("register-bg.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12056,7 +12059,7 @@ table.dataTable thead .sorting::after {
   position: relative; }
 
 #login-page2 body {
-  background: url(../../assets/images/background/login-register2.jpg);
+  background: asset-url("login-register2.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12073,7 +12076,7 @@ table.dataTable thead .sorting::after {
     z-index: -1; }
 
 #login-page1 body {
-  background: url(../../assets/images/background/login-bg.jpg);
+  background: asset-url("login-bg.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12087,7 +12090,7 @@ table.dataTable thead .sorting::after {
   flex-direction: column; }
 
 #userLock-page1 body {
-  background: url(../../assets/images/background/user-lock-bg.jpg);
+  background: asset-url("user-lock-bg.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
