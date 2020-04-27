@@ -8,7 +8,7 @@
                 <div class="form-input-content">
                     <div class="card login-form mb-0">
                         <div class="card-body pt-5">
-                            <h4 class="text-center">BJR Web Login</h4>
+                            <h4 class="text-center"><%= t('.title') %></h4>
                             <%= form_tag login_path, class: 'mt-5 mb-5 login-input' do |form| %>
                                 <div class="form-group">
                                   <%= text_field_tag(:username, nil, class: 'form-control', placeholder: t('.username')) %>

@@ -13,4 +13,5 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'fonts
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
 Rails.application.config.assets.precompile += %w( style.css plugins/highlightjs/highlight.pack.min.js
-  plugins/common/common.min js/custom.min js/settings js/styleSwitcher plugins/highlightjs/highlight.pack.min )
+  plugins/common/common.min js/custom.min js/settings js/styleSwitcher plugins/highlightjs/highlight.pack.min
+  plugins/chart.js/Chart.bundle.min.js js/plugins-init/chartjs-init.js )

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get 'dashboard', to: 'home#new', as: 'dashboard'
 
+  get 'jobs', to: 'jobs#new', as: 'list_jobs'
+
   post 'logout', to: 'welcome#destroy', as: 'logout'
   post 'login', to: 'welcome#create', as: 'login'
 

@@ -1,5 +1,12 @@
-const body = $('body');
-const html = $('html');
+var body;
+var html;
+
+if(typeof body === 'undefined') {
+    body = $('body');
+}
+if(typeof html === 'undefined') {
+    html = $('html');
+}
 
 function quixSettings({version, layout, navheaderBg, headerBg, sidebarStyle, sidebarBg, sidebarPosition, headerPosition, containerLayout, direction}) {
     this.version = version || "light";

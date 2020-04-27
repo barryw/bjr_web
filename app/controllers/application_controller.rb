@@ -1,3 +1,5 @@
+include Pagy::Backend
+
 class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :token_expired
@@ -23,5 +25,10 @@ class ApplicationController < ActionController::Base
 
   def ensure_session
     redirect_to root_url if current_user.nil?
+  end
+
+  def log_out
+    reset_session
+    redirect_to root_url, notice: I18n.t('welcome.new.signed_out')
   end
 end

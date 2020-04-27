@@ -1,19 +1,32 @@
 en:
-  site_name: BJR Web
-  welcome:
-    index:
-      title: BJR
-
   welcome:
     errors:
+      invalid_login: "Invalid login: %{error}"
       server_version_unknown: Unknown
       server_connection_failed: "Failed to communicate with BJR server: %{error}"
-
     new:
+      title: BJR Web Login
       username: Username
       password: Password
       sign_in: Sign In
+      signed_out: You have been signed out.
       server_version: BJR Server Version %{version}
+  jobs:
+    new:
+      name: Name
+      cron: Cron
+      command: Command
+      timezone: Timezone
+      enabled: Enabled
+      running: Running
+      succeeded: Succeeded
+      last_run: Last Run
+      next_run: Next Run
+      created_at: Create Date
+      updated_at: Updated Date
+      success_callback: Success Callback
+      failure_callback: Failure Callback
+      tags: Tags
   application:
     footer:
       bjr_html: BJR Server and BJR Web Copyright &copy; 2020 Barry Walker
@@ -21,3 +34,5 @@ en:
     menu_user:
       profile: Profile
       logout: Logout
+    dashboard: Dashboard
+    jobs: Jobs

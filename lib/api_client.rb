@@ -1,18 +1,29 @@
 class ApiClient
-  class << self
-    def authenticate(username, password)
-      result = HTTParty.post("#{$api_host}/authenticate", body: {username: username, password: password}.to_json,
-                              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' })
-      JSON.parse(result.body)
-    rescue
-      {"is_error" => true, "message" => I18n.t('welcome.errors.server_connection_failed', error: $!) }
-    end
 
-    def server_version
-      result = HTTParty.get("#{$api_host}/version", headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' })
-      version = "v#{JSON.parse(result.body)['object']}"
-    rescue
-      "(#{I18n.t('welcome.errors.server_version_unknown')})"
-    end
+  def initialize
+    config = BJR::Configuration.new
+    config.scheme = $api_host.sub(/:\/\/.*/, '').split('/').first
+    config.host = $api_host.sub(/https?:\/\//, '').split('/').first
+    @client = BJR::ApiClient.new(config)
+  end
+
+  def authenticate(username, password)
+    auth = BJR::AuthIn.new(username: username, password: password)
+    opts = { auth_in: auth }
+    api = BJR::AuthenticationApi.new(@client)
+    api.authenticate_user(opts)
+  end
+
+  def server_version
+    api = BJR::StaticApi.new(@client)
+    api.get_version
+  end
+
+  def jobs(token, page)
+    @client.config.access_token = token
+    api = BJR::JobsApi.new(@client)
+    opts = {}
+    opts[:page] = page unless page.nil?
+    api.get_jobs_with_http_info(opts)
   end
 end

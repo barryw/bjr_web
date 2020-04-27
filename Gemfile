@@ -30,6 +30,12 @@ gem 'jwt'
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
 gem 'font-awesome-rails'
+gem 'chartjs-ror'
+gem 'browser-timezone-rails'
+gem 'pagy', '~> 3.5'
+
+# Use the generated BJR Ruby SDK
+gem 'bjr4r', github: 'barryw/bjr', glob: 'sdks/ruby/bjr4r.gemspec'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

@@ -14,3 +14,6 @@
 //= require jquery3
 //= require rails-ujs
 //= require popper
+//= require Chart.bundle.min
+//= require js.cookie
+//= require browser_timezone_rails/set_time_zone
