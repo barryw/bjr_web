@@ -10,7 +10,7 @@ ADD Gemfile.lock /app
 RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y build-essential libxml2-dev libxslt-dev default-libmysqlclient-dev \
-                          curl wget jq ca-certificates tzdata libffi-dev ncat nodejs yarn \
+                          curl wget jq ca-certificates tzdata libffi-dev ncat nodejs git \
     && gem install bundler \
     && bundle install --without=development test \
     && apt-get remove -y build-essential \
