@@ -28,11 +28,12 @@ en:
       failure_callback: Failure Callback
       tags: Tags
   application:
+    sidebar:
+      dashboard: Dashboard
+      jobs: Jobs
     footer:
       bjr_html: BJR Server and BJR Web Copyright &copy; 2020 Barry Walker
       theme_html: Theme is Designed, Developed and Copyright &copy; 2018 <a href="https://themeforest.net/user/quixlab">Quixlab</a>
     menu_user:
       profile: Profile
       logout: Logout
-    dashboard: Dashboard
-    jobs: Jobs

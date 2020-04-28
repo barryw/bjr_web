@@ -2,9 +2,14 @@
     <div class="nk-nav-scroll">
         <ul class="metismenu" id="menu">
             <li class="nav-label">BJR Server v1.0.0</li>
-            <li><%= link_to dashboard_url, method: :get do %><i class="icon-speedometer menu-icon"></i><span><%= t('.dashboard') %></span><% end %></li>
-            <li><%= link_to list_jobs_url, method: :get do%><i class="icon menu-icon"></i><span><%= t('.jobs') %></span><% end %></li>
-
+            <li><%= link_to dashboard_url, method: :get, 'aria-expanded': false do %>
+                <i class="icon-speedometer menu-icon"></i><span class="nav-text"><%= t('.dashboard') %></span>
+                <% end %>
+            </li>
+            <li><%= link_to list_jobs_url, method: :get, 'aria-expanded': false do%>
+                <i class="icon-clock menu-icon"></i><span class="nav-text"><%= t('.jobs') %></span>
+                <% end %>
+            </li>
             <li class="mega-menu mega-menu-sm">
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Layouts</span>
