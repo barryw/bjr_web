@@ -9,26 +9,6 @@
 The smaller device rules always should write below the bigger device rules
 Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Component
 */
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
-@import "icons/**/*";
-@import "plugins/**/*";
-
-/*
-@import "icons/font-awesome/css/font-awesome.min.scss";
-@import "icons/simple-line-icons/css/simple-line-icons.scss";
-@import "icons/weather-icons/css/weather-icons.min.scss";
-@import "icons/cryptocoins/css/cryptocoins.scss";
-@import "icons/cryptocoins/css/cryptocoins-colors.scss";
-@import "icons/linea-icons/linea.scss";
-@import "icons/ionicons/css/ionicons.scss";
-@import "icons/themify-icons/themify-icons.scss";
-@import "icons/flag-icon-css/flag-icon.min.scss";
-@import "icons/material-design-iconic-font/materialdesignicons.min.scss";
-@import "icons/pe-icon-set-weather/css/pe-icon-set-weather.min.scss";
-@import "plugins/animate/animate.min.scss";
-@import "plugins/metismenu/css/metisMenu.min.scss";
-@import "plugins/bootstrap-select/dist/css/bootstrap-select.min.scss";
-*/
 
 .gradient-1, .dropdown-mega-menu .ext-link.link-1 a, .morris-hover, .datamaps-hoverover {
   background-image: linear-gradient(230deg, #759bff, #843cf6); }
