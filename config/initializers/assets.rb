@@ -12,5 +12,4 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'fonts
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-Rails.application.config.assets.precompile += %w( plugins/highlightjs/highlight.pack.min.js
-  plugins/common/common.min js/custom.min js/settings js/styleSwitcher )
+Rails.application.config.assets.precompile += %w( js/custom.min js/settings js/gleek )

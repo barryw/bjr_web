@@ -17,3 +17,7 @@
 //= require Chart.bundle.min
 //= require js.cookie
 //= require browser_timezone_rails/set_time_zone
+
+//= require plugins/common/common.min
+//= require plugins/highlightjs/highlight.pack.min
+//= require js/styleSwitcher
