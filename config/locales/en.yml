@@ -1,22 +1,12 @@
 en:
-  welcome:
-    errors:
-      invalid_login: "Invalid login: %{error}"
-      server_version_unknown: Unknown
-      server_connection_failed: "Failed to communicate with BJR server: %{error}"
-    new:
-      title: BJR Web Login
-      username: Username
-      password: Password
-      sign_in: Sign In
-      signed_out: You have been signed out.
-      server_version: BJR Server Version %{version}
-  jobs:
-    new:
+  common:
+    session_timeout: Your session timed out.
+    versions: Server v%{server_version} / Web v%{web_version}
+    job_table:
       name: Name
       cron: Cron
       command: Command
-      timezone: Timezone
+      timezone: TZ
       enabled: Enabled
       running: Running
       succeeded: Succeeded
@@ -27,6 +17,34 @@ en:
       success_callback: Success Callback
       failure_callback: Failure Callback
       tags: Tags
+  session:
+    errors:
+      invalid_login: "Invalid login: %{error}"
+      server_version_unknown: Unknown
+      server_connection_failed: "Failed to communicate with BJR server: %{error}"
+    new:
+      title: BJR Web Login
+      username: Username
+      password: Password
+      sign_in: Sign In
+      signed_out: You have been signed out.
+  home:
+    runs_charts:
+      runs: Job Runs
+      failed: Failed Jobs
+      job_count: Job Count
+    runtime_charts:
+      avg_runtime: Avg Runtime
+      max_runtime: Max Runtime
+      min_runtime: Min Runtime
+    stats_by_minute:
+      title: Job Runtimes by Minute
+      xlabel: Time
+      ylabel: Seconds
+    stats_by_hour:
+      title: Job Runtimes by Hour
+      xlabel: Time
+      ylabel: Seconds
   application:
     sidebar:
       dashboard: Dashboard

@@ -4,8 +4,8 @@
     new quixSettings({
         version: "light", //2 options "light" and "dark"
         layout: "vertical", //2 options, "vertical" and "horizontal"
-        navheaderBg: "color_4", //have 10 options, "color_1" to "color_10"
-        headerBg: "color_4", //have 10 options, "color_1" to "color_10"
+        navheaderBg: "color_1", //have 10 options, "color_1" to "color_10"
+        headerBg: "color_1", //have 10 options, "color_1" to "color_10"
         sidebarStyle: "vertical", //defines how sidebar should look like, options are: "full", "compact", "mini" and "overlay". If layout is "horizontal", sidebarStyle won't take "overlay" argument anymore, this will turn into "full" automatically!
         sidebarBg: "color_1", //have 10 options, "color_1" to "color_10"
         sidebarPosition: "static", //have two options, "static" and "fixed"

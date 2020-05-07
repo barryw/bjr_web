@@ -29,10 +29,13 @@ gem 'sidekiq'
 gem 'jwt'
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'font-awesome-rails'
 gem 'chartjs-ror'
 gem 'browser-timezone-rails'
 gem 'pagy', '~> 3.5'
+gem 'paloma', '~> 6.0.0'
+gem 'rack-cors'
 
 # Use the generated BJR Ruby SDK
 gem 'bjr4r', github: 'barryw/bjr', glob: 'sdks/ruby/bjr4r.gemspec'
@@ -61,6 +64,3 @@ group :test do
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
 end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

@@ -1,9 +1,8 @@
-include Pagy::Backend
-
 class ApplicationController < ActionController::Base
-  helper_method :current_user
-  helper_method :token_expired
+  include ErrorHandler
+  include Pagy::Backend
 
+  helper_method :current_user
   before_action :ensure_session
 
   def current_user
@@ -14,21 +13,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def token_expired
-    jwt = JsonWebToken.decode(current_user)
-
-    logger.debug "JWT = #{jwt}"
-    jwt.nil? or jwt[:exp].to_i < Time.now.to_i
-  rescue
-    true
-  end
-
   def ensure_session
-    redirect_to root_url if current_user.nil?
-  end
-
-  def log_out
-    reset_session
-    redirect_to root_url, notice: I18n.t('welcome.new.signed_out')
+    redirect_to root_url, notice: I18n.t('common.session_timeout') if current_user.nil?
   end
 end

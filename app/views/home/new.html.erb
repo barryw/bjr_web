@@ -3,126 +3,78 @@
         <div class="col-lg-3">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">API Server Health</h4>
+                    <canvas id="minute-stats" width="250" height="250"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-lg-3">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Worker Count</h4>
+                    <canvas id="hour-stats" width="250" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="day-stats" width="250" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="week-stats" width="250" height="250"></canvas>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <!-- /# column -->
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Team</h4>
-                    <canvas id="canvas" width="500" height="250"></canvas>
-                </div>
-            </div>
-            <!-- /# card -->
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Team</h4>
-                    <%= line_chart  @team_data, @team_options %>
-                </div>
-            </div>
-            <!-- /# card -->
-        </div>
-
-    </div>
-    <!-- /# row -->
-    <div class="row">
-        <!-- Bar Chart -->
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Bar chart</h4>
-                    <canvas id="barChart" width="500" height="250"></canvas>
+                    <canvas id="minute-runs" width="250" height="250"></canvas>
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Sales</h4>
-                    <canvas id="sales-chart" width="500" height="250"></canvas>
+                    <canvas id="hour-runs" width="250" height="250"></canvas>
                 </div>
             </div>
         </div>
-
-    </div>
-    <div class="row">
-        <!-- Line Chart -->
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Line chart</h4>
-                    <canvas id="lineChart" width="500" height="250"></canvas>
+                    <canvas id="day-runs" width="250" height="250"></canvas>
                 </div>
             </div>
         </div>
-        <!-- Pie Chart -->
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Pie chart</h4>
-                    <canvas id="pieChart" width="500" height="250"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <!-- Radar Chart -->
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Rader chart</h4>
-                    <canvas id="radarChart" width="500" height="250"></canvas>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-            <!-- Doughnut Chart -->
-            <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Doughut chart</h4>
-                    <canvas id="doughutChart" width="500" height="250"></canvas>
+                    <canvas id="week-runs" width="250" height="250"></canvas>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-
-        <!-- Polar Chart -->
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Polar chart</h4>
-                    <canvas id="polarChart" width="500" height="250"></canvas>
+                    <h4 class="card-title">Recently Run Jobs</h4>
+                    <%= render partial: 'job_list', locals: { jobs: @recent_jobs, table_id: 'recent_jobs' } %>
                 </div>
             </div>
         </div>
-        <!-- Single Bar Chart -->
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Single Bar Chart</h4>
-                    <canvas id="singelBarChart" width="500" height="250"></canvas>
+                    <h4 class="card-title">Upcoming Jobs</h4>
+                    <%= render partial: 'job_list', locals: { jobs: @upcoming_jobs, table_id: 'upcoming_jobs' } %>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<%= javascript_include_tag 'js/plugins-init/chartjs-init', 'data-turbolinks-track': 'reload' %>

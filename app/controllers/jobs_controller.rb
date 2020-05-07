@@ -1,5 +1,6 @@
 class JobsController < ApplicationController
-  def new
+
+  def index
     page = params[:page] || 1
 
     api = ApiClient.new
@@ -9,7 +10,5 @@ class JobsController < ApplicationController
 
     @pagy = Pagy.new(count: total, page: page)
     @jobs = jobs.object
-  #rescue
-  #  log_out
   end
 end

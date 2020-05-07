@@ -29,21 +29,79 @@ class ApiClient
   # Get jobs matching some criteria
   #
   def jobs(token, page)
-    @client.config.access_token = token
-    api = BJR::JobsApi.new(@client)
+    api = job_api(token)
     opts = {}
     opts[:page] = page unless page.nil?
     api.get_jobs_with_http_info(opts)
   end
 
   #
-  # Get stats on the number of jobs performed and succeeded per day
+  # Get a list of the most recently run jobs
   #
-  def job_runs_by_day(token, days)
+  def recent_jobs(token, count)
+    api = job_server_api(token)
+    opts = count.nil? ? {} : { count: count }
+    api.recent_jobs(opts)
+  end
+
+  #
+  # Get a list of the upcoming jobs
+  #
+  def upcoming_jobs(token, count)
+    api = job_server_api(token)
+    opts = count.nil? ? {} : { count: count }
+    api.upcoming_jobs(opts)
+  end
+
+  #
+  # Get job statistics by week for the last month
+  #
+  def stats_by_week(token)
+    api = job_server_api(token)
+    opts = { start_date: DateTime.now - 4.weeks, end_date: DateTime.now }
+    api.stats_by_week(opts)
+  end
+
+  #
+  # Get job statistics by day for the last week
+  #
+  def stats_by_day(token)
+    api = job_server_api(token)
+    opts = { start_date: DateTime.now - 7.days, end_date: DateTime.now }
+    api.stats_by_day(opts)
+  end
+
+  #
+  # Get job statistics by hour for the last day
+  #
+  def stats_by_hour(token)
+    api = job_server_api(token)
+    opts = { start_date: DateTime.now - 10.hours, end_date: DateTime.now }
+    api.stats_by_hour(opts)
+  end
+
+  #
+  # Get job statistics by minute for the last hour
+  #
+  def stats_by_minute(token)
+    api = job_server_api(token)
+    opts = { start_date: DateTime.now - 10.minutes, end_date: DateTime.now }
+    api.stats_by_minute(opts)
+  end
+
+  private
+
+  def set_token(token)
     @client.config.access_token = token
-    api = BJR::JobServerApi.new(@client)
-    opts = {}
-    opts[:days] = days unless days.nil?
-    api.jobs_per_day(opts)
+  end
+
+  def job_api(token)
+    set_token(token)
+    BJR::JobsApi.new(@client)
+  end
+
+  def job_server_api(token)
+    set_token(token)
+    BJR::JobServerApi.new(@client)
   end
 end

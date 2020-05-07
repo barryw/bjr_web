@@ -19,7 +19,7 @@
                                 <%= submit_tag t('.sign_in'), class: 'btn login-form__btn submit w-100' %>
                             <% end %>
                             <%= render 'alerts' %>
-                            <h6 class="text-center"><%= t('.server_version', version: @version) %></h5>
+                            <h6 class="text-center"><%= t('common.versions', server_version: server_version, web_version: web_version) %></h5>
                         </div>
                     </div>
                 </div>

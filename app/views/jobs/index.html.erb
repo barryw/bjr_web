@@ -1,0 +1,14 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">All System Jobs</h4>
+                    <%= render partial: 'paginate', locals: { pagy: @pagy } %>
+                    <%= render partial: 'job_list', locals: { jobs: @jobs, show_full: true, table_id: 'jobs' } %>
+                    <%= render partial: 'paginate', locals: { pagy: @pagy } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
