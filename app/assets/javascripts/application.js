@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require turbolinks
-//= require plugins/common/common.min
+//= require js/common.min
 //= require rails-ujs
 //= require js/datatables.min
 //= require popper
@@ -20,7 +20,8 @@
 //= require browser_timezone_rails/set_time_zone
 //= require paloma
 //= require js/paloma
+//= require js/metisMenu.min
 
-//= require plugins/highlightjs/highlight.pack.min
+//= require js/highlight.pack.min
 //= require js/styleSwitcher
 //= require_tree ./controllers
