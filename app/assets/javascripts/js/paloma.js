@@ -16,6 +16,11 @@ Paloma.controller('Home', {
 
 Paloma.controller('Jobs', {
   index: function() {
-    console.log('jobs#index');
+    initJobsIndex();
   }
 });
+
+function redirectHomeOnError()
+{
+  window.location.href = '/dashboard';
+}

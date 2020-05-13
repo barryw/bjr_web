@@ -7,12 +7,14 @@ Rails.application.routes.draw do
 
   get 'dashboard', to: 'home#new', as: 'dashboard'
 
-  get 'jobs', to: 'jobs#index', as: 'list_jobs'
+  resources :jobs
+  get 'job_list', to: 'jobs#jobs', as: 'job_list'
 
   post 'login', to: 'session#create', as: 'login'
   post 'logout', to: 'session#destroy', as: 'logout'
 
   get 'job_stats', to: 'home#job_stats', as: 'job_stats'
+  get 'todays_stats', to: 'home#todays_stats', as: 'todays_stats'
   get 'upcoming_jobs', to: 'home#upcoming_jobs', as: 'upcoming_jobs'
   get 'recent_jobs', to: 'home#recent_jobs', as: 'recent_jobs'
 

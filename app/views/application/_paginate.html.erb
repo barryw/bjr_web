@@ -8,16 +8,16 @@
 <% link = pagy_link_proc(pagy, 'class="page-link"') -%>
 <%#                            -%><nav aria-label="pager"  class="pagy-bootstrap-nav" role="navigation">
 <%#                            -%>  <ul class="pagination justify-content-end">
-<% if pagy.prev                -%>    <li class="page-item prev"><%== link_to t('pagy.nav.prev'), list_jobs_path(page: pagy.prev), class: "page-link", method: :get %></li>
+<% if pagy.prev                -%>    <li class="page-item prev"><%== link_to t('pagy.nav.prev'), jobs_path(page: pagy.prev), class: "page-link", method: :get %></li>
 <% else                        -%>    <li class="page-item prev disabled"><a href="#" class="page-link"><%== pagy_t('pagy.nav.prev') %></a></li>
 <% end                         -%>
 <% pagy.series.each do |item| # series example: [1, :gap, 7, 8, "9", 10, 11, :gap, 36] -%>
-<%   if    item.is_a?(Integer) -%>    <li class="page-item"><%== link_to item.to_s, list_jobs_path(page: item), class: "page-link", method: :get %></li>
-<%   elsif item.is_a?(String)  -%>    <li class="page-item active"><%== link_to item.to_s, list_jobs_path(page: item), class: "page-link", method: :get %></li>
+<%   if    item.is_a?(Integer) -%>    <li class="page-item"><%== link_to item.to_s, jobs_path(page: item), class: "page-link", method: :get %></li>
+<%   elsif item.is_a?(String)  -%>    <li class="page-item active"><%== link_to item.to_s, jobs_path(page: item), class: "page-link", method: :get %></li>
 <%   elsif item == :gap        -%>    <li class="page-item disabled gap"><a href="#" class="page-link"><%== pagy_t('pagy.nav.gap') %></a></li>
 <%   end                       -%>
 <% end                         -%>
-<% if pagy.next                -%>    <li class="page-item next"><%== link_to t('pagy.nav.next'), list_jobs_path(page: pagy.next), class: "page-link", method: :get %></li>
+<% if pagy.next                -%>    <li class="page-item next"><%== link_to t('pagy.nav.next'), jobs_path(page: pagy.next), class: "page-link", method: :get %></li>
 <% else                        -%>    <li class="page-item next disabled"><a href="#" class="page-link"><%== pagy_t('pagy.nav.next') %></a></li>
 <% end                         -%>
 <%#                            -%>  </ul>

@@ -2,6 +2,8 @@ en:
   common:
     session_timeout: Your session timed out.
     versions: Server v%{server_version} / Web v%{web_version}
+    timezone: Timezone
+    close: Close
     job_table:
       name: Name
       cron: Cron
@@ -28,24 +30,34 @@ en:
       password: Password
       sign_in: Sign In
       signed_out: You have been signed out.
+  jobs:
+    index:
+      title: All System Jobs
+      create_job: Create Job
   home:
+    new:
+      recent_title: Recently Run Jobs
+      upcoming_title: Upcoming Jobs
     runs_charts:
       runs: Job Runs
       failed: Failed Jobs
       job_count: Job Count
+      xlabel: Time
+      ylabel: Runs
+      title: "Job Runs by %{period}"
     runtime_charts:
       avg_runtime: Avg Runtime
       max_runtime: Max Runtime
       min_runtime: Min Runtime
-    stats_by_minute:
-      title: Job Runtimes by Minute
       xlabel: Time
       ylabel: Seconds
-    stats_by_hour:
-      title: Job Runtimes by Hour
-      xlabel: Time
-      ylabel: Seconds
+      title: "Job Runtimes by %{period}"
   application:
+    status_bar:
+      jobs_enabled: Jobs Enabled
+      jobs_ran_today: Jobs Ran Today
+      jobs_failed_today: Jobs Failed Today
+      average_runtime_today: Average Runtime Today
     sidebar:
       dashboard: Dashboard
       jobs: Jobs

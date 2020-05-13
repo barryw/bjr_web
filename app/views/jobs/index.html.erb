@@ -1,14 +1,15 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">All System Jobs</h4>
-                    <%= render partial: 'paginate', locals: { pagy: @pagy } %>
-                    <%= render partial: 'job_list', locals: { jobs: @jobs, show_full: true, table_id: 'jobs' } %>
-                    <%= render partial: 'paginate', locals: { pagy: @pagy } %>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title"><%= t('.title') %></h4>
+            <%= button_tag t('.create_job'), type: :button, class: "btn btn-primary", data: { toggle: 'modal', target: '#new-job-modal' } %>
+            <%= render partial: 'job_list' %>
         </div>
+      </div>
     </div>
+  </div>
 </div>
+
+<%= render partial: 'job_details_modal', locals: { timezones: @timezones } %>

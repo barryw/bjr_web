@@ -14,6 +14,9 @@
 //= require js/common.min
 //= require rails-ujs
 //= require js/datatables.min
+//= require js/datatables.select.min
+//= require js/datatables.checkboxes.min
+//= require js/sweetalert2.min
 //= require popper
 //= require Chart.bundle.min
 //= require js.cookie
@@ -21,6 +24,7 @@
 //= require paloma
 //= require js/paloma
 //= require js/metisMenu.min
+//= require js/toastr.min
 
 //= require js/highlight.pack.min
 //= require js/styleSwitcher

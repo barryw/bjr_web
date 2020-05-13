@@ -15,6 +15,12 @@ var recentTable;
 
 function initHomeNew()
 {
+  $.extend( $.fn.dataTable.defaults, {
+    searching: false,
+    ordering: false,
+    paging: false
+  });
+
   initCharts();
   updateCharts();
   initJobTables();
@@ -34,14 +40,15 @@ function initJobTables()
     ajax: {
       url: '/upcoming_jobs',
       dataSrc: '',
+      error: function(response) {
+        redirectHomeOnError();
+      }
     },
     columns: [
       {data: 'name'},
       {data: 'cron'},
       {data: 'command'},
       {data: 'timezone'},
-      {data: 'enabled'},
-      {data: 'running'},
       {data: 'success'},
       {data: 'last_run'},
       {data: 'next_run'}
@@ -50,17 +57,18 @@ function initJobTables()
   recentTable = $('#recent_jobs').DataTable({
     ajax: {
       url: '/recent_jobs',
-      dataSrc: ''
+      dataSrc: '',
+      error: function(response) {
+        redirectHomeOnError();
+      }
     },
     columns: [
       {data: 'name'},
       {data: 'cron'},
       {data: 'command'},
       {data: 'timezone'},
-      {data: 'enabled'},
-      {data: 'running'},
       {data: 'success'},
-      {data: 'last_run'},
+      {data: 'last_run', defaultContent: null},
       {data: 'next_run'}
     ]
   });
@@ -143,6 +151,24 @@ function updateCharts()
 {
   Rails.ajax({
     type: "GET",
+    url: "/todays_stats",
+    success: function(response) {
+      var jobsEnabled = document.getElementById("jobsEnabled");
+      jobsEnabled.innerText = response['enabled_jobs'] + ' / ' + response['total_jobs'];
+      var jobsRan = document.getElementById("jobsRan");
+      jobsRan.innerText = response['run_jobs'];
+      var jobsFailed = document.getElementById("jobsFailed");
+      jobsFailed.innerText = response['failed_jobs'];
+      var avgRuntime = document.getElementById("avgRuntime");
+      avgRuntime.innerText = response['avg_job_runtime'].toFixed(3) + ' seconds';
+    },
+    error: function(response) {
+      redirectHomeOnError();
+    }
+  });
+
+  Rails.ajax({
+    type: "GET",
     url: "/job_stats",
     success: function(response) {
       runtimesByMinuteChart.data.labels = response['minute']['labels'];
@@ -184,10 +210,9 @@ function updateCharts()
       runsByWeekChart.data.datasets = response['week']['runs']['datasets'];
       runsByWeekChart.options = response['week']['runs']['options'];
       runsByWeekChart.update(0);
-
-      console.log(response);
     },
-    error: function(response){
+    error: function(response) {
+      redirectHomeOnError();
     }
   });
 }
