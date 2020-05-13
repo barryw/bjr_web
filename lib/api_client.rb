@@ -46,6 +46,14 @@ class ApiClient
   end
 
   #
+  # Update an existing job
+  #
+  def update_job(id, job)
+    api = job_api
+    api.update_job_with_http_info(id, { job_in: job })
+  end
+
+  #
   # Delete a job. May fail if the job is running.
   #
   def delete_job(id)

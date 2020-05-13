@@ -15,16 +15,19 @@ $(document).ready(function() {
     }).then((result) => {
       if(result.value) {
         deleteSelectedJobs();
+        deselectAllJobs();
       }
     });
     event.preventDefault();
   });
   $('#enable-jobs').click(function(event) {
-    enableSelectedJobs();
+    enableDisableSelectedJobs(true);
+    deselectAllJobs();
     event.preventDefault();
   });
   $('#disable-jobs').click(function(event) {
-    disableSelectedJobs();
+    enableDisableSelectedJobs(false);
+    deselectAllJobs();
     event.preventDefault();
   });
   $('#toggle-jobs-enable').click(function(event) {
@@ -46,6 +49,14 @@ function getSelectedJobs()
 }
 
 /*
+Deselect all selected jobs
+*/
+function deselectAllJobs()
+{
+  jobsTable.column(0).checkboxes.deselectAll();
+}
+
+/*
 Delete any jobs selected in the job table
 */
 function deleteSelectedJobs()
@@ -56,7 +67,6 @@ function deleteSelectedJobs()
       url: "/jobs/" + rowId,
       success: function(response) {
         jobsTable.ajax.reload();
-        jobsTable.column(0).checkboxes.deselectAll();
         toastr.success('Deleted Job ' + rowId);
       },
       error: function(response) {
@@ -67,19 +77,25 @@ function deleteSelectedJobs()
 }
 
 /*
-Mark all of the selected jobs as 'enabled', regardless of their current status
+Enable or disable a collection of jobs
 */
-function enableSelectedJobs()
+function enableDisableSelectedJobs(enabled)
 {
-
-}
-
-/*
-Mark all of the selected jobs as 'disabled', regardless of their current status
-*/
-function disableSelectedJobs()
-{
-
+  $.each(getSelectedJobs(), function(index, rowId) {
+    Rails.ajax({
+      type: "PATCH",
+      url: "/jobs/" + rowId,
+      data: "enabled=" + (enabled ? "1" : "0"),
+      dataType: 'json',
+      success: function(response) {
+        jobsTable.ajax.reload();
+        toastr.success((enabled ? 'Enabled' : 'Disabled') + ' Job ' + rowId);
+      },
+      error: function(response) {
+        toastr.error(response['message']);
+      }
+    });
+  });
 }
 
 /*
