@@ -136,6 +136,10 @@ function initJobsIndex()
   });
 
   initJobTable();
+
+  setInterval(() => {
+    jobsTable.ajax.reload(null, false);
+  }, 1000);
 }
 
 /*
