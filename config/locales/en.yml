@@ -54,8 +54,8 @@ en:
       title: "Job Runtimes by %{period}"
   application:
     status_bar:
-      jobs_enabled: Jobs Enabled
-      jobs_ran_today: Jobs Ran Today
+      jobs_enabled: "Jobs Enabled / Total Jobs"
+      jobs_ran_today: Job Runs Today
       jobs_failed_today: Jobs Failed Today
       average_runtime_today: Average Runtime Today
     sidebar:
