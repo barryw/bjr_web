@@ -1,5 +1,6 @@
 class JobsController < ApplicationController
   include ApplicationHelper
+  include JobsHelper
   before_action :timezones, only: [:index]
   before_action :api_client
 
@@ -45,6 +46,13 @@ class JobsController < ApplicationController
 
   def destroy
     msg, status_code, headers = @api.delete_job(params[:id])
+    head :no_content
+  rescue BJR::ApiError => ae
+    render json: ae.response_body, status: ae.code
+  end
+
+  def run_now
+    msg, status_code, headers = @api.run_job(params[:id])
     head :no_content
   rescue BJR::ApiError => ae
     render json: ae.response_body, status: ae.code

@@ -62,6 +62,14 @@ class ApiClient
   end
 
   #
+  # Trigger a job to run now
+  #
+  def run_job(id)
+    api = job_api
+    api.run_job_now_with_http_info(id)
+  end
+
+  #
   # Get a list of the most recently run jobs
   #
   def recent_jobs(count)

@@ -15,30 +15,38 @@ $(document).ready(function() {
     }).then((result) => {
       if(result.value) {
         deleteSelectedJobs();
-        deselectAllJobs();
+        deselectAndRefresh(event);
       }
     });
     event.preventDefault();
   });
   $('#enable-jobs').click(function(event) {
     enableDisableSelectedJobs(true);
-    deselectAllJobs();
-    event.preventDefault();
+    deselectAndRefresh(event);
   });
   $('#disable-jobs').click(function(event) {
     enableDisableSelectedJobs(false);
-    deselectAllJobs();
-    event.preventDefault();
+    deselectAndRefresh(event);
   });
   $('#toggle-jobs-enable').click(function(event) {
     toggleEnableSelectedJobs();
-    event.preventDefault();
+    deselectAndRefresh(event);
   });
   $('#run-jobs').click(function(event) {
     runSelectedJobs();
-    event.preventDefault();
+    deselectAndRefresh(event);
   });
 });
+
+/*
+Run after any bulk action to deselect all of the selected jobs and refresh the job table
+*/
+function deselectAndRefresh(event)
+{
+  deselectAllJobs();
+  jobsTable.ajax.reload();
+  event.preventDefault();
+}
 
 /*
 Common function to gather the list of selected jobs
@@ -115,10 +123,9 @@ function runSelectedJobs()
   $.each(getSelectedJobs(), function(index, rowId) {
     Rails.ajax({
       type: "POST",
-      url: "/jobs/" + rowId,
+      url: "/jobs/" + rowId + "/run_now",
       success: function(response) {
-        jobsTable.ajax.reload();
-        toastr.success('Deleted Job ' + rowId);
+        toastr.success('Queued Job ' + rowId);
       },
       error: function(response) {
         toastr.error(response['message']);
@@ -139,7 +146,7 @@ function initJobsIndex()
 
   setInterval(() => {
     jobsTable.ajax.reload(null, false);
-  }, 1000);
+  }, 5000);
 }
 
 /*
@@ -166,9 +173,9 @@ function initJobTable()
       { data: 'cron' },
       { data: 'command' },
       { data: 'timezone' },
-      { data: 'success' },
-      { data: 'enabled' },
-      { data: 'running' },
+      { data: 'success', className: "jobTableCenter" },
+      { data: 'enabled', className: "jobTableCenter" },
+      { data: 'running', className: "jobTableCenter" },
       { data: 'last_run', type: 'date', defaultContent: null },
       { data: 'next_run', type: 'date' },
       { data: 'created_at', type: 'date' },

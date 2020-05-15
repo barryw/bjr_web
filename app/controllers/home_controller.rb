@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   include HomeHelper
   include ApplicationHelper
+  include JobsHelper
 
   def new
   end

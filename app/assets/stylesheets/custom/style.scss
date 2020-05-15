@@ -9523,7 +9523,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     padding-right: 5px; }
   .login-form__btn.submit {
     padding: 15px 40px;
-    background: #7571f9;
+    background: #000000;
     font-weight: 700; }
 
 .login-form__intro p, .login-form__intro h4 {
@@ -11408,6 +11408,11 @@ table.dataTable thead .sorting::after {
   .card-widget__icon i, .card-widget__icon span {
     font-size: 35px;
     color: #fff; }
+
+.card-widget__icon2 {
+  margin-right: 20px; }
+  .card-widget__icon2 i, .card-widget__icon2 span {
+  font-size: 20px; }
 
 @-webkit-keyframes mymove {
   0% {
