@@ -6,7 +6,7 @@ en:
     close: Close
     job_table:
       name: Name
-      cron: Cron
+      cron: Schedule
       command: Command
       timezone: TZ
       enabled: Enabled
@@ -19,6 +19,9 @@ en:
       success_callback: Success Callback
       failure_callback: Failure Callback
       tags: Tags
+      running: running...
+      never: never
+      soon: soon
   session:
     errors:
       invalid_login: "Invalid login: %{error}"

@@ -4,7 +4,6 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title"><%= t('.title') %></h4>
-            <%= button_tag t('.create_job'), type: :button, class: "btn btn-primary", data: { toggle: 'modal', target: '#new-job-modal' } %>
             <%= render partial: 'job_list' %>
         </div>
       </div>

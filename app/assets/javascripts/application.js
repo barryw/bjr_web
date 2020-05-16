@@ -13,13 +13,13 @@
 //= require turbolinks
 //= require js/common.min
 //= require jquery-ui
+//= require popper
+//= require bootstrap-sprockets
 //= require rails-ujs
-//= require bootstrap/bootstrap.min
 //= require js/datatables.min
 //= require js/datatables.select.min
 //= require js/datatables.checkboxes.min
 //= require js/sweetalert2.min
-//= require popper
 //= require Chart.bundle.min
 //= require js.cookie
 //= require browser_timezone_rails/set_time_zone

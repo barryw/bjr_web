@@ -37,11 +37,22 @@ class ApiClient
   #
   # Get jobs matching some criteria
   #
-  def jobs(page, per_page=25)
+  def jobs(page, per_page=25, search)
     api = job_api
     opts = {}
     opts[:page] = page unless page.nil?
     opts[:per_page] = per_page
+    opts[:name] = search[:name] unless search[:name].nil?
+    opts[:tags] = search[:tags] unless search[:tags].nil?
+    opts[:running] = search[:running] unless search[:running].nil?
+    opts[:enabled] = search[:enabled] unless search[:enabled].nil?
+    opts[:succeeded] = search[:succeeded] unless search[:succeeded].nil?
+    opts[:search_timezone] = search[:timezone] unless search[:timezone].nil?
+    opts[:command] = search[:command] unless search[:command].nil?
+    opts[:start_date] = search[:start_date] unless search[:start_date].nil?
+    opts[:end_date] = search[:end_date] unless search[:end_date].nil?
+
+    Rails.logger.debug (opts)
     api.get_jobs_with_http_info(opts)
   end
 

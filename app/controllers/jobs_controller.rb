@@ -4,6 +4,11 @@ class JobsController < ApplicationController
   before_action :timezones, only: [:index]
   before_action :api_client
 
+  #
+  # This feeds jobs to the job data table. The data table can send us down
+  # things like paging information, and searching information which we then
+  # need to pass to the BJR server.
+  #
   def jobs
     start = params[:start].to_i || 0
     length = params[:length].to_i
@@ -12,7 +17,9 @@ class JobsController < ApplicationController
 
     page = (start / length) + 1
 
-    jobs, status_code, headers = @api.jobs(page, length)
+    search_params = parse_search(search)
+
+    jobs, status_code, headers = @api.jobs(page, length, search_params)
     total_jobs = headers['Total'].to_i
 
     payload = { recordsTotal: total_jobs, draw: draw, recordsFiltered: total_jobs, data: jobs_to_uijobs(jobs) }
@@ -26,6 +33,9 @@ class JobsController < ApplicationController
   def create
   end
 
+  #
+  # Update a job
+  #
   def update
     opts = {}
     opts[:name] = params[:name] unless params[:name].blank?
@@ -44,6 +54,9 @@ class JobsController < ApplicationController
     render json: ae.response_body, status: ae.code
   end
 
+  #
+  # Delete a single job
+  #
   def destroy
     msg, status_code, headers = @api.delete_job(params[:id])
     head :no_content
@@ -51,6 +64,9 @@ class JobsController < ApplicationController
     render json: ae.response_body, status: ae.code
   end
 
+  #
+  # Schedule a single job to run now
+  #
   def run_now
     msg, status_code, headers = @api.run_job(params[:id])
     head :no_content

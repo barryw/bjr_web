@@ -30,12 +30,12 @@ gem 'jwt'
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'font-awesome-rails'
 gem 'chartjs-ror'
 gem 'browser-timezone-rails'
 gem 'pagy', '~> 3.5'
 gem 'paloma', '~> 6.0.0'
 gem 'rack-cors'
+gem 'cronex'
 
 # Use the generated BJR Ruby SDK
 gem 'bjr4r', github: 'barryw/bjr', glob: 'sdks/ruby/bjr4r.gemspec'

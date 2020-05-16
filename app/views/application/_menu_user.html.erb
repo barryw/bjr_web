@@ -1,26 +1,30 @@
-<li class="icons dropdown">
-  <div class="user-img c-pointer position-relative" data-toggle="dropdown">
-    <span class="card-widget__icon">
-      <i class="icon-user"></i>
-    </span>
-  </div>
-  <div class="drop-down dropdown-profile dropdown-menu">
-    <div class="dropdown-content-body">
-      <ul>
-        <li>
-          <%= link_to show_profile_url, method: :get do %>
-            <i class="icon-user"></i>
-            <span><%= t('.profile') %></span>
-          <% end %>
-        </li>
-        <hr class="my-2"/>
-        <li>
-          <%= link_to logout_url, method: :post do %>
-            <i class="icon-logout"></i>
-            <span><%= t('.logout') %></span>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-  </div>
-</li>
+<div class="header-right">
+  <ul class="clearfix">
+    <li class="icons dropdown">
+      <div class="user-img c-pointer position-relative mt-4 mr-5" data-toggle="dropdown">
+        <span class="card-widget__icon">
+          <i class="icon-user"></i>
+        </span>
+      </div>
+      <div class="drop-down dropdown-profile dropdown-menu">
+        <div class="dropdown-content-body">
+          <ul>
+            <li>
+              <%= link_to show_profile_url, method: :get do %>
+                <i class="icon-user"></i>
+                <span><%= t('.profile') %></span>
+              <% end %>
+            </li>
+            <hr class="my-2"/>
+            <li>
+              <%= link_to logout_url, method: :post do %>
+                <i class="icon-logout"></i>
+                <span><%= t('.logout') %></span>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

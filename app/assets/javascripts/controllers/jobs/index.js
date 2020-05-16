@@ -74,7 +74,6 @@ function deleteSelectedJobs()
       type: "DELETE",
       url: "/jobs/" + rowId,
       success: function(response) {
-        jobsTable.ajax.reload();
         toastr.success('Deleted Job ' + rowId);
       },
       error: function(response) {
@@ -179,10 +178,7 @@ function initJobTable()
       { data: 'last_run', type: 'date', defaultContent: null },
       { data: 'next_run', type: 'date' },
       { data: 'created_at', type: 'date' },
-      { data: 'updated_at', type: 'date' },
-      { data: 'success_callback', defaultContent: null },
-      { data: 'failure_callback', defaultContent: null },
-      { data: 'tags', defaultContent: null }
+      { data: 'updated_at', type: 'date' }
     ],
     select: { style: 'multi' },
     order: [[1, 'asc']]
