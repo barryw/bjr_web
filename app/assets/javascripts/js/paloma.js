@@ -8,18 +8,33 @@ $(document).ready(function(){
   Paloma.start();
 });
 
+/*
+Javascript for Home controller actions
+*/
 Paloma.controller('Home', {
   new: function() {
     initHomeNew();
   }
 });
 
+/*
+Javascript for Jobs controller actions
+*/
 Paloma.controller('Jobs', {
   index: function() {
     initJobsIndex();
+  },
+  edit: function() {
+    initJobsEdit();
+  },
+  new: function() {
+    initJobsNew();
   }
 });
 
+/*
+Navigate back to the login page
+*/
 function redirectHomeOnError()
 {
   window.location.href = '/dashboard';

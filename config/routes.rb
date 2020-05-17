@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :jobs
   get 'job_list', to: 'jobs#jobs', as: 'job_list'
   post 'jobs/:id/run_now', to: 'jobs#run_now', as: 'run_now'
+  get 'tags', to: 'jobs#tags', as: 'tags'
 
   post 'login', to: 'session#create', as: 'login'
   post 'logout', to: 'session#destroy', as: 'logout'

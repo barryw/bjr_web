@@ -65,6 +65,14 @@ function deselectAllJobs()
 }
 
 /*
+Deselect a job row by the id of the job
+*/
+function deselectJobById(jobId)
+{
+  jobsTable.row('#' + jobId).deselect();
+}
+
+/*
 Delete any jobs selected in the job table
 */
 function deleteSelectedJobs()
@@ -167,7 +175,8 @@ function initJobTable()
       { targets: 0, data: 'id', checkboxes: { selectRow: true } }
     ],
     columns: [
-      null,
+      { width: '1.5%' },
+      { data: 'edit', width: '1.5%' },
       { data: 'name' },
       { data: 'cron' },
       { data: 'command' },

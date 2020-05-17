@@ -22,16 +22,30 @@ class ApiClient
   # Get the BJR server's version
   #
   def server_version
-    api = BJR::StaticApi.new(@client)
-    api.get_version
+    static_api.get_version
   end
 
   #
   # Get the timezones that the BJR server recognizes
   #
   def timezones
-    api = BJR::StaticApi.new(@client)
-    api.get_timezones
+    static_api.get_timezones
+  end
+
+  #
+  # Get all tags associated with this user
+  #
+  def tags
+    tags = static_api.get_tags({ per_page: 10000 })
+    tags.object.collect {|t| t.name}
+  end
+
+  #
+  # Retrieve a single job
+  #
+  def job(id)
+    api = job_api
+    api.get_job_with_http_info(id)
   end
 
   #
@@ -52,7 +66,6 @@ class ApiClient
     opts[:start_date] = search[:start_date] unless search[:start_date].nil?
     opts[:end_date] = search[:end_date] unless search[:end_date].nil?
 
-    Rails.logger.debug (opts)
     api.get_jobs_with_http_info(opts)
   end
 
@@ -159,5 +172,9 @@ class ApiClient
 
   def job_server_api
     BJR::JobServerApi.new(@client)
+  end
+
+  def static_api
+    BJR::StaticApi.new(@client)
   end
 end

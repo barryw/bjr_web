@@ -1,5 +1,8 @@
 module JobsHelper
   include ApplicationHelper
+  include ActionView::Helpers::UrlHelper
+
+  attr_accessor :output_buffer
 
   #
   # Convert the job objects coming from the API into something the UI can handle
@@ -7,21 +10,30 @@ module JobsHelper
   def jobs_to_uijobs(jobs)
     ui_jobs = []
     jobs.object.each do |job|
-      ui_jobs << { id: job.id, name: job.name, cron: cron_to_english(job), command: job.command, timezone: job.timezone,
-                   success: bool_icon(job.success), enabled: bool_icon(job.enabled), running: bool_icon(job.running),
-                   last_run: last_run(job), next_run: next_run(job), created_at: user_tz(job.created_at),
+      ui_jobs << { id: job.id, edit: job_edit_link(job), name: job.name, cron: cron_to_english(job), command: job.command,
+                   timezone: job.timezone, success: bool_icon(job.success), enabled: bool_icon(job.enabled),
+                   running: bool_icon(job.running), last_run: last_run(job), next_run: next_run(job), created_at: user_tz(job.created_at),
                    updated_at: user_tz(job.updated_at), success_callback: job.success_callback,
-                   failure_callback: job.failure_callback, tags: job.tags }
+                   failure_callback: job.failure_callback, tags: job.tags.join(',') }
     end
 
     ui_jobs
   end
 
   #
+  # Create a link to allow us to edit a job
+  #
+  def job_edit_link(job)
+    link_to edit_job_path(job.id), remote: true do
+      content_tag(:i, '', class: 'icon-note').html_safe
+    end
+  end
+
+  #
   # Figure out what to display for 'last_run'
   #
   def last_run(job)
-    job.running ? I18n.t('common.job_table.running') : user_tz(job.last_run)
+    job.running ? I18n.t('common.job_table.running_now') : user_tz(job.last_run)
   end
 
   #
@@ -57,9 +69,15 @@ module JobsHelper
           search_params[:name] = search
         when 'tags'
           search_params[:tags] = search
+        when 'tag'
+          search_params[:tags] = search
         when 'timezone'
           search_params[:timezone] = search
+        when 'tz'
+          search_params[:timezone] = search
         when 'command'
+          search_params[:command] = search
+        when 'cmd'
           search_params[:command] = search
         end
       else

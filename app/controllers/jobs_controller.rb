@@ -1,8 +1,8 @@
 class JobsController < ApplicationController
   include ApplicationHelper
   include JobsHelper
-  before_action :timezones, only: [:index]
   before_action :api_client
+  before_action :timezones, only: [:new, :edit]
 
   #
   # This feeds jobs to the job data table. The data table can send us down
@@ -25,6 +25,37 @@ class JobsController < ApplicationController
     payload = { recordsTotal: total_jobs, draw: draw, recordsFiltered: total_jobs, data: jobs_to_uijobs(jobs) }
 
     render json: payload
+  end
+
+  #
+  # Used by the new/edit job tag lookahead to gather a list of tags already
+  # associated with other jobs. This is to help with duplicated tags that
+  # only vary slightly
+  #
+  def tags
+    render json: @api.tags
+  end
+
+  #
+  # Fetch a single job for editing
+  #
+  def edit
+    obj, status_code, headers = @api.job(params[:id])
+    job = obj.object
+
+    # TODO: This shit doesn't belong here
+    j = Job.new
+    j.id = job.id
+    j.name = job.name
+    j.cron = job.cron
+    j.command = job.command
+    j.enabled = job.enabled
+    j.tags = job.tags.join(',')
+    j.timezone = job.timezone
+    j.success_callback = job.success_callback
+    j.failure_callback = job.failure_callback
+
+    @job = j
   end
 
   def index
@@ -81,7 +112,6 @@ class JobsController < ApplicationController
   end
 
   def timezones
-    api = ApiClient.new(current_user)
-    @timezones = api.timezones.object
+    @timezones = @api.timezones.object
   end
 end

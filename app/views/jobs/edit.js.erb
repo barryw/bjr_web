@@ -1,0 +1,21 @@
+deselectJobById(<%= @job.id %>);
+
+$('#modal-window').find('.modal-content').html('<%= j render partial: 'edit_job', locals: { job: @job } %>');
+$('#modal-window').modal('show');
+
+$(document).ready(function() {
+  $('#job_tags').tagsinput({
+    typeahead: {
+      source: function(query) {
+        return $.get('/tags');
+      }
+    }
+  });
+
+  // Patch: In my case when selecting an option, the input (with typeahead) added the suggested text twice)
+  $('#job_tags').on('itemAdded', function(event) {
+    setTimeout(function() {
+      $('.bootstrap-tagsinput :input').val('');
+    }, 0);
+  });
+});

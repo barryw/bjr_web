@@ -27,6 +27,8 @@
 //= require js/paloma
 //= require js/metisMenu.min
 //= require js/toastr.min
+//= require js/bootstrap-typeahead
+//= require js/bootstrap-tagsinput
 
 //= require js/highlight.pack.min
 //= require js/styleSwitcher
