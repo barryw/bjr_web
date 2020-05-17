@@ -104,7 +104,7 @@
         </div>
         <div class="col-4">
           <%= f.label 'Timezone' %>
-          <%= f.select :timezone, @timezones %>
+          <%= f.select(:timezone, @timezones, {}, { class: 'custom-select mr-sm-2 mt-1' }) %>
         </div>
       </div>
     </p>
