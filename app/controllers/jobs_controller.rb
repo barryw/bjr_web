@@ -69,18 +69,18 @@ class JobsController < ApplicationController
   #
   def update
     opts = {}
-    opts[:name] = params[:name] unless params[:name].blank?
-    opts[:cron] = params[:cron] unless params[:cron].blank?
-    opts[:command] = params[:command] unless params[:command].blank?
-    opts[:timezone] = params[:timezone] unless params[:timezone].blank?
-    opts[:enabled] = params[:enabled] unless params[:enabled].blank?
-    opts[:tags] = params[:tags] unless params[:tags].blank?
-    opts[:success_callback] = params[:success_callback] unless params[:success_callback].blank?
-    opts[:failure_callback] = params[:failure_callback] unless params[:failure_callback].blank?
+    opts[:name] = params[:job][:name] unless params[:job][:name].blank?
+    opts[:cron] = params[:job][:cron] unless params[:job][:cron].blank?
+    opts[:command] = params[:job][:command] unless params[:job][:command].blank?
+    opts[:timezone] = params[:job][:timezone] unless params[:job][:timezone].blank?
+    opts[:enabled] = params[:job][:enabled] unless params[:job][:enabled].blank?
+    opts[:tags] = params[:job][:tags] unless params[:job][:tags].blank?
+    opts[:success_callback] = params[:job][:success_callback] unless params[:job][:success_callback].blank?
+    opts[:failure_callback] = params[:job][:failure_callback] unless params[:job][:failure_callback].blank?
 
     job = BJR::JobIn.new(opts)
-    msg, status_code, headers = @api.update_job(params[:id], job)
-    head :no_content
+    @api.update_job(params[:id], job)
+    @id = params[:id]
   rescue BJR::ApiError => ae
     render json: ae.response_body, status: ae.code
   end

@@ -8,7 +8,7 @@ en:
       name: Name
       cron: Schedule
       command: Command
-      timezone: TZ
+      timezone: Timezone
       enabled: Enabled
       running: Running
       succeeded: Succeeded
@@ -34,10 +34,11 @@ en:
       sign_in: Sign In
       signed_out: You have been signed out.
   jobs:
+    edit_job:
+      update_job: Update Job
     index:
       title: All System Jobs
       create_job: Create Job
-      update_job: Update Job
   home:
     new:
       recent_title: Recently Run Jobs

@@ -49,7 +49,7 @@
       <%= f.text_field :tags, class: 'form-control', data: { role: 'tagsinput' } %>
     </p>
     <p>
-      <%= label_tag "Pick a predefined schedule or define your own below" %>
+      <%= label_tag "Pick a predefined schedule or click 'Custom' and define your own below" %>
     </p>
     <p>
       <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -89,7 +89,7 @@
               <%= f.text_field :cron_hour, class: "form-control" %>
             </div>
             <div class="col-2">
-              <%= f.label "Day" %>
+              <%= f.label "DOM" %>
               <%= f.text_field :cron_day, class: "form-control" %>
             </div>
             <div class="col-2">
@@ -97,7 +97,7 @@
               <%= f.text_field :cron_month, class: "form-control" %>
             </div>
             <div class="col-2">
-              <%= f.label "Week" %>
+              <%= f.label "DOW" %>
               <%= f.text_field :cron_week, class: "form-control" %>
             </div>
           </div>
@@ -109,9 +109,9 @@
       </div>
     </p>
   </div>
-  <% end %>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= t('common.close') %></button>
-    <button type="button" class="btn btn-primary"><%= t('.update_job') %></button>
+    <%= f.submit t('.update_job'), class: 'btn btn-primary' %>
   </div>
+  <% end %>
 </div>
