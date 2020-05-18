@@ -4,6 +4,7 @@ class JobsController < ApplicationController
 
   before_action :api_client
   before_action :timezones, only: [:new, :edit]
+  before_action :params_to_job, only: [:create, :update]
 
   #
   # This feeds jobs to the job data table. The data table can send us down
@@ -46,16 +47,10 @@ class JobsController < ApplicationController
   end
 
   #
-  # Send the job details to the BJR server
+  # Send the new job details to the BJR server
   #
   def create
-    job = Job.new
-    job.name = params[:job][:name] unless params[:job][:name].blank?
-    job.cron = params[:job][:cron] unless params[:job][:cron].blank?
-    job.command = params[:job][:command] unless params[:job][:command].blank?
-    job.tags = params[:job][:tags] unless params[:job][:tags].blank?
-
-    @api.create_job(job)
+    @api.create_job(@job)
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
     @error = { message: error['message'], title: 'Failed to create job' }
@@ -87,22 +82,10 @@ class JobsController < ApplicationController
   # Update a job
   #
   def update
-    opts = {}
-    opts[:name] = params[:job][:name] unless params[:job][:name].blank?
-    opts[:cron] = params[:job][:cron] unless params[:job][:cron].blank?
-    opts[:command] = params[:job][:command] unless params[:job][:command].blank?
-    opts[:timezone] = params[:job][:timezone] unless params[:job][:timezone].blank?
-    opts[:enabled] = params[:job][:enabled] unless params[:job][:enabled].blank?
-    opts[:tags] = params[:job][:tags] unless params[:job][:tags].blank?
-    opts[:success_callback] = params[:job][:success_callback] unless params[:job][:success_callback].blank?
-    opts[:failure_callback] = params[:job][:failure_callback] unless params[:job][:failure_callback].blank?
-
-    job = BJR::JobIn.new(opts)
-    @api.update_job(params[:id], job)
-    @id = params[:id]
+    @api.update_job(@job)
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
-    @error = { message: error['message'], title: 'Failed to update job' }
+    @error = { message: error['message'], title: "Failed to update job #{@job.id}" }
   end
 
   #
@@ -112,7 +95,8 @@ class JobsController < ApplicationController
     msg, status_code, headers = @api.delete_job(params[:id])
     head :no_content
   rescue BJR::ApiError => ae
-    render json: ae.response_body, status: ae.code
+    error = JSON.parse(ae.response_body)
+    @error = { message: error['message'], title: "Failed to delete job #{params[:id]}" }
   end
 
   #
@@ -122,10 +106,27 @@ class JobsController < ApplicationController
     msg, status_code, headers = @api.run_job(params[:id])
     head :no_content
   rescue BJR::ApiError => ae
-    render json: ae.response_body, status: ae.code
+    error = JSON.parse(ae.response_body)
+    @error = { message: error['message'], title: "Failed to run job #{params[:id]}" }
   end
 
   private
+
+  #
+  # Convert incoming params to a job object
+  #
+  def params_to_job
+    @job = Job.new
+    @job.id = params[:id] unless params[:id].blank?
+    @job.name = params[:job][:name] unless params[:job][:name].blank?
+    @job.cron = params[:job][:cron] unless params[:job][:cron].blank?
+    @job.command = params[:job][:command] unless params[:job][:command].blank?
+    @job.timezone = params[:job][:timezone] unless params[:job][:timezone].blank?
+    @job.enabled = params[:job][:enabled] unless params[:job][:enabled].blank?
+    @job.tags = params[:job][:tags] unless params[:job][:tags].blank?
+    @job.success_callback = params[:job][:success_callback] unless params[:job][:success_callback].blank?
+    @job.failure_callback = params[:job][:failure_callback] unless params[:job][:failure_callback].blank?
+  end
 
   def api_client
     @api = ApiClient.new(current_user)

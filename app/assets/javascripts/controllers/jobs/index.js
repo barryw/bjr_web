@@ -100,15 +100,8 @@ function enableDisableSelectedJobs(enabled)
     Rails.ajax({
       type: "PATCH",
       url: "/jobs/" + rowId,
-      data: "enabled=" + (enabled ? "1" : "0"),
-      dataType: 'json',
-      success: function(response) {
-        jobsTable.ajax.reload();
-        toastr.success((enabled ? 'Enabled' : 'Disabled') + ' Job ' + rowId);
-      },
-      error: function(response) {
-        toastr.error(response['message']);
-      }
+      data: "job[enabled]=" + (enabled ? "1" : "0"),
+      dataType: 'json'
     });
   });
 }

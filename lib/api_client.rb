@@ -49,6 +49,22 @@ class ApiClient
   end
 
   #
+  # Update an existing job
+  #
+  def update_job(job)
+    api = job_api
+    api.update_job(job.id, { job_in: job.to_json })
+  end
+
+  #
+  # Delete a job. May fail if the job is running.
+  #
+  def delete_job(id)
+    api = job_api
+    api.delete_job(id)
+  end
+
+  #
   # Retrieve a single job
   #
   def job(id)
@@ -75,22 +91,6 @@ class ApiClient
     opts[:end_date] = search[:end_date] unless search[:end_date].nil?
 
     api.get_jobs_with_http_info(opts)
-  end
-
-  #
-  # Update an existing job
-  #
-  def update_job(id, job)
-    api = job_api
-    api.update_job_with_http_info(id, { job_in: job })
-  end
-
-  #
-  # Delete a job. May fail if the job is running.
-  #
-  def delete_job(id)
-    api = job_api
-    api.delete_job_with_http_info(id)
   end
 
   #
