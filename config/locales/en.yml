@@ -34,11 +34,11 @@ en:
       sign_in: Sign In
       signed_out: You have been signed out.
   jobs:
-    edit_job:
+    job_details:
       update_job: Update Job
+      create_job: Create Job
     index:
       title: All System Jobs
-      create_job: Create Job
   home:
     new:
       recent_title: Recently Run Jobs

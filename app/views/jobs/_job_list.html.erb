@@ -1,6 +1,20 @@
 <div class="row">
-  <%= render 'edit_job_actions' %>
-  <%= render 'create_job_button' %>
+  <div class='col-11'>
+    <div class='btn-group mb-1'>
+      <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selected Jobs</button>
+      <div class='dropdown-menu'>
+        <%= link_to '<i class="icon-trash"></i>&nbsp;&nbsp;Delete'.html_safe, '#', class: 'dropdown-item', id: 'delete-jobs' %>
+        <%= link_to '<i class="icon-check"></i>&nbsp;&nbsp;Enable'.html_safe, '#', class: 'dropdown-item', id: 'enable-jobs' %>
+        <%= link_to '<i class="icon-close"></i>&nbsp;&nbsp;Disable'.html_safe, '#', class: 'dropdown-item', id: 'disable-jobs' %>
+        <%= link_to '<i class="icon-shuffle"></i>&nbsp;&nbsp;Toggle Enabled'.html_safe, '#', class: 'dropdown-item', id: 'toggle-jobs-enable' %>
+        <div class='dropdown-divider'></div>
+        <%= link_to '<i class="icon-control-play"></i>&nbsp;&nbsp;Run'.html_safe, '#', class: 'dropdown-item', id: 'run-jobs' %>
+      </div>
+    </div>
+  </div>
+  <div class="col-1">
+    <%= link_to t('.create_job'), new_job_path, remote: true, class: 'btn btn-primary float-right' %>
+  </div>
 </div>
 <div class="row">
   <div class="col-12">

@@ -2,6 +2,6 @@
   toastr.error('<%= @error[:message] %>', '<%= @error[:title] %>');
 <% else %>
   $('#modal-window').modal('toggle');
-  toastr.success('Updated Job <%= @id %>');
+  toastr.success('Created Job <%= @id %>');
   jobsTable.ajax.reload();
 <% end %>

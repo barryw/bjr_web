@@ -41,6 +41,14 @@ class ApiClient
   end
 
   #
+  # Create a new job
+  #
+  def create_job(job)
+    api = job_api
+    api.create_job({ job_in: job.to_json })
+  end
+
+  #
   # Retrieve a single job
   #
   def job(id)

@@ -1,19 +1,144 @@
-<div class="modal hide fade" id="<%= modal_id %>" tabindex="-1" role="dialog" aria-labelledby="new-job" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="new-job">New Job</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <%= render partial: 'timezone', locals: { timezones: @timezones } %>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= t('common.close') %></button>
-        <button type="button" class="btn btn-primary"><%= t('.create_job') %></button>
-      </div>
-    </div>
+<div class="modal-header">
+    <h5 class="modal-title">Edit Job <%= job.id %></h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
+  <%= form_with model: @job, remote: true do |f| %>
+  <div class='modal-body'>
+    <p>
+      <%= f.label :name, 'Name' %>
+      <%= f.text_field :name, class: 'form-control', required: true %>
+    </p>
+    <p>
+      <%= f.label :command, 'Command' %>
+      <%= f.text_area :command, rows: 5, class: 'form-control', required: true %>
+    </p>
+    <p>
+      <div class="row">
+        <div class="col-3">
+          <%= f.label :success_callback, 'Success Callback' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10">
+          <%= f.text_field :success_callback, class: "form-control" %>
+        </div>
+        <div class="col-2">
+          <button type='button' class='btn btn-secondary'>Test</button>
+        </div>
+      </div>
+    </p>
+    <p>
+      <div class="row">
+        <div class="col-3">
+          <%= f.label :failure_callback, 'Failure Callback' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10">
+          <%= f.text_field :failure_callback, class: 'form-control' %>
+        </div>
+        <div class="col-2">
+          <button type='button' class='btn btn-secondary'>Test</button>
+        </div>
+      </div>
+    </p>
+    <p>
+      <%= f.label :tags, 'Tags' %>
+      <%= f.text_field :tags, class: 'form-control', data: { role: 'tagsinput' } %>
+    </p>
+    <p>
+      <%= label_tag "Pick a predefined schedule or click 'Custom' and define your own below" %>
+    </p>
+    <p>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-secondary active">
+          <input type="radio" name="options" id="minutely" autocomplete="off" checked> Minutely
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="options" id="hourly" autocomplete="off"> Hourly
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="options" id="daily" autocomplete="off"> Daily
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="options" id="weekly" autocomplete="off"> Weekly
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="options" id="monthly" autocomplete="off"> Monthly
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="options" id="yearly" autocomplete="off"> Yearly
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="options" id="custom" autocomplete="off"> Custom
+        </label>
+      </div>
+    </p>
+    <p>
+      <div class="row">
+        <div class="col-8">
+          <div class="row">
+            <div class="col-2">
+              <%= f.label "Minute" %>
+              <%= f.text_field :cron_minute, class: "form-control" %>
+            </div>
+            <div class="col-2">
+              <%= f.label "Hour" %>
+              <%= f.text_field :cron_hour, class: "form-control" %>
+            </div>
+            <div class="col-2">
+              <%= f.label "DOM" %>
+              <%= f.text_field :cron_day, class: "form-control" %>
+            </div>
+            <div class="col-2">
+              <%= f.label "Month" %>
+              <%= f.text_field :cron_month, class: "form-control" %>
+            </div>
+            <div class="col-2">
+              <%= f.label "DOW" %>
+              <%= f.text_field :cron_week, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <%= f.label 'Timezone' %>
+          <%= f.select(:timezone, @timezones, {}, { class: 'custom-select mr-sm-2 mt-1' }) %>
+        </div>
+      </div>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= t('common.close') %></button>
+    <% if @job.persisted? %>
+      <%= f.submit t('.update_job'), class: 'btn btn-primary' %>
+    <% else %>
+      <%= f.submit t('.create_job'), class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+  <% end %>
 </div>
+
+<script>
+/*
+Use the typeahead function to suggest tags based on tags the user has already used to tag other jobs. This
+should hopefully cut down on slightly different duplicates.
+*/
+$(document).ready(function() {
+  $('#job_tags').tagsinput({
+    typeahead: {
+      source: function(query) {
+        return $.get('/tags');
+      }
+    }
+  });
+
+  // Patch: In my case when selecting an option, the input (with typeahead) added the suggested text twice)
+  $('#job_tags').on('itemAdded', function(event) {
+    setTimeout(function() {
+      $('.bootstrap-tagsinput :input').val('');
+    }, 0);
+  });
+});
+</script>

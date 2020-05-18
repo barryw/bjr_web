@@ -1,6 +1,7 @@
 class JobsController < ApplicationController
   include ApplicationHelper
   include JobsHelper
+
   before_action :api_client
   before_action :timezones, only: [:new, :edit]
 
@@ -37,6 +38,30 @@ class JobsController < ApplicationController
   end
 
   #
+  # Render the 'create job' modal
+  #
+  def new
+    @job = Job.new
+    @job.timezone = Time.zone.name
+  end
+
+  #
+  # Send the job details to the BJR server
+  #
+  def create
+    job = Job.new
+    job.name = params[:job][:name] unless params[:job][:name].blank?
+    job.cron = params[:job][:cron] unless params[:job][:cron].blank?
+    job.command = params[:job][:command] unless params[:job][:command].blank?
+    job.tags = params[:job][:tags] unless params[:job][:tags].blank?
+
+    @api.create_job(job)
+  rescue BJR::ApiError => ae
+    error = JSON.parse(ae.response_body)
+    @error = { message: error['message'], title: 'Failed to create job' }
+  end
+
+  #
   # Fetch a single job for editing
   #
   def edit
@@ -58,12 +83,6 @@ class JobsController < ApplicationController
     @job = j
   end
 
-  def index
-  end
-
-  def create
-  end
-
   #
   # Update a job
   #
@@ -82,7 +101,8 @@ class JobsController < ApplicationController
     @api.update_job(params[:id], job)
     @id = params[:id]
   rescue BJR::ApiError => ae
-    render json: ae.response_body, status: ae.code
+    error = JSON.parse(ae.response_body)
+    @error = { message: error['message'], title: 'Failed to update job' }
   end
 
   #
