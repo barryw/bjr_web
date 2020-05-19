@@ -11414,6 +11414,12 @@ table.dataTable thead .sorting::after {
   .card-widget__icon2 i, .card-widget__icon2 span {
   font-size: 20px; }
 
+.card-widget__icon_disabled {
+  margin-right: 20px; }
+  .card-widget__icon_disabled i, .card-widget__icon_disabled span {
+  font-size: 35px;
+  color: #777777; }
+
 @-webkit-keyframes mymove {
   0% {
     -webkit-transform: rotate(0deg);

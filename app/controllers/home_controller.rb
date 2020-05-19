@@ -3,9 +3,6 @@ class HomeController < ApplicationController
   include ApplicationHelper
   include JobsHelper
 
-  def new
-  end
-
   def recent_jobs
     api = ApiClient.new(current_user)
     recent_jobs = api.recent_jobs(5)

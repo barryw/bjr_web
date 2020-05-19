@@ -7,17 +7,17 @@
   <%= form_with model: @job, remote: true do |f| %>
   <div class='modal-body'>
     <p>
-      <%= f.label :name, 'Name' %>
+      <%= f.label :name, 'Name' %><%= help_icon "The name you give your job must be unique, but can contain spaces, letters, numbers and symbols." %>
       <%= f.text_field :name, class: 'form-control', required: true %>
     </p>
     <p>
-      <%= f.label :command, 'Command' %>
+      <%= f.label :command, 'Command' %><%= help_icon "The command your job will execute when it fires. If you don't specify a shebang line, your command will be executed with bash." %>
       <%= f.text_area :command, rows: 5, class: 'form-control', required: true %>
     </p>
     <p>
       <div class="row">
         <div class="col-3">
-          <%= f.label :success_callback, 'Success Callback' %>
+          <%= f.label :success_callback, 'Success Callback' %><%= help_icon "If specified, this URL will receive a POST request upon successful job completion containing details about the job's run." %>
         </div>
       </div>
       <div class="row">
@@ -32,7 +32,7 @@
     <p>
       <div class="row">
         <div class="col-3">
-          <%= f.label :failure_callback, 'Failure Callback' %>
+          <%= f.label :failure_callback, 'Failure Callback' %><%= help_icon "If specified, this URL will receive a POST request upon job failure containing details about the job's run." %>
         </div>
       </div>
       <div class="row">
@@ -45,14 +45,14 @@
       </div>
     </p>
     <p>
-      <%= f.label :tags, 'Tags' %>
+      <%= f.label :tags, 'Tags' %><%= help_icon "Use tags to organize your jobs and make them easily searchable. The tag text box supports lookahead so that you can easily reuse your existing tags." %>
       <%= f.text_field :tags, class: 'form-control', data: { role: 'tagsinput' } %>
     </p>
     <p>
       <%= label_tag "Pick a predefined schedule or click 'Custom' and define your own below" %>
     </p>
     <p>
-      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <div class="btn-group btn-group-toggle" data-toggle="buttons" id="periods">
         <label class="btn btn-secondary active">
           <input type="radio" name="options" id="minutely" autocomplete="off" checked> Minutely
         </label>
@@ -75,6 +75,7 @@
           <input type="radio" name="options" id="custom" autocomplete="off"> Custom
         </label>
       </div>
+      <%= help_icon "Using this button group, you can easily set up your job's schedule. If your schedule is more complex, select 'Custom' and use the boxes below to specify your job's schedule." %>
     </p>
     <p>
       <div class="row">
@@ -103,8 +104,15 @@
           </div>
         </div>
         <div class="col-4">
-          <%= f.label 'Timezone' %>
+          <%= f.label 'Timezone' %><%= help_icon "Specify the timezone to run the job in. This only matters for jobs with an hourly component. The default for new jobs will be the timezone reported by your browser." %>
           <%= f.select(:timezone, @timezones, {}, { class: 'custom-select mr-sm-2 mt-1' }) %>
+        </div>
+      </div>
+    </p>
+    <p>
+      <div class="row">
+        <div class="col-12 mt-1">
+          <%= f.label :english_cron_label, "" %>
         </div>
       </div>
     </p>
@@ -121,6 +129,27 @@
 </div>
 
 <script>
+
+/*
+Enable tooltips
+*/
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+$("#periods :input").change(function() {
+  console.log(this);
+});
+
+function selectMinutelyCron()
+{
+  $('#job_cron_minute').prop('disabled', true);
+  $('#job_cron_hour').prop('disabled', true);
+  $('#job_cron_day').prop('disabled', true);
+  $('#job_cron_month').prop('disabled', true);
+  $('#job_cron_week').prop('disabled', true);
+}
+
 /*
 Use the typeahead function to suggest tags based on tags the user has already used to tag other jobs. This
 should hopefully cut down on slightly different duplicates.
@@ -133,6 +162,8 @@ $(document).ready(function() {
       }
     }
   });
+
+  selectMinutelyCron();
 
   // Patch: In my case when selecting an option, the input (with typeahead) added the suggested text twice)
   $('#job_tags').on('itemAdded', function(event) {

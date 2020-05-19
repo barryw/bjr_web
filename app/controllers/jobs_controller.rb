@@ -26,7 +26,7 @@ class JobsController < ApplicationController
 
     payload = { recordsTotal: total_jobs, draw: draw, recordsFiltered: total_jobs, data: jobs_to_uijobs(jobs) }
 
-    render json: payload
+    render json: payload, status: status_code
   end
 
   #
@@ -108,6 +108,18 @@ class JobsController < ApplicationController
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
     @error = { message: error['message'], title: "Failed to run job #{params[:id]}" }
+  end
+
+  #
+  # Accepts a cron expression and returns the cron expression in English. Used in the AJAX call
+  # to display the cron expression in a nicer way on the job create/edit modal.
+  #
+  def parse_cron
+    cron = params[:cron]
+    timezone = params[:timezone]
+
+    description = cron_to_english(cron, timezone)
+    render json: { expression: cron, timezone: timezone, description: description }
   end
 
   private

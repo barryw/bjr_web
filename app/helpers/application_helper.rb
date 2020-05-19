@@ -44,4 +44,15 @@ module ApplicationHelper
   def spinner
     '<div class="spinner-border spinner-border-sm"></div>'.html_safe
   end
+
+  #
+  # Display a friendly help icon with a tool tip
+  #
+  def help_icon(tooltip_text)
+    if session[:enable_help]
+      "&nbsp;<i class=\"ion-help-circled\" title=\"#{tooltip_text}\" data-placement=\"auto\" data-toggle=\"tooltip\"></i>".html_safe
+    else
+      ''
+    end
+  end
 end

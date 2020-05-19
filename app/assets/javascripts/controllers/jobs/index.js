@@ -160,7 +160,7 @@ function initJobTable()
     ajax: {
       url: '/job_list',
       error: function(response) {
-        //redirectHomeOnError();
+        redirectHomeOnError();
       }
     },
     rowId: 'id',

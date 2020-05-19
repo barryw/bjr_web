@@ -10,7 +10,7 @@ module JobsHelper
   def jobs_to_uijobs(jobs)
     ui_jobs = []
     jobs.object.each do |job|
-      ui_jobs << { id: job.id, edit: job_edit_link(job), name: job.name, cron: cron_to_english(job), command: job.command,
+      ui_jobs << { id: job.id, edit: job_edit_link(job), name: job.name, cron: cron_to_english(job.cron, job.timezone), command: job.command,
                    timezone: job.timezone, success: bool_icon(job.success), enabled: bool_icon(job.enabled),
                    running: bool_icon(job.running), last_run: last_run(job), next_run: next_run(job), created_at: user_tz(job.created_at),
                    updated_at: user_tz(job.updated_at), success_callback: job.success_callback,
@@ -49,8 +49,10 @@ module JobsHelper
   #
   # Convert our cryptic cron expressions into plain english for display in the job table
   #
-  def cron_to_english(job)
-    Cronex::ExpressionDescriptor.new(job.cron, {}, I18n.locale, job.timezone).description
+  def cron_to_english(cron, timezone)
+    Cronex::ExpressionDescriptor.new(cron, {}, I18n.locale, timezone).description
+  rescue
+    ''
   end
 
   #

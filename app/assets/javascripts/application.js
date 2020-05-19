@@ -33,3 +33,4 @@
 //= require js/highlight.pack.min
 //= require js/styleSwitcher
 //= require_tree ./controllers
+//= require js/bjr_common
