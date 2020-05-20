@@ -13,10 +13,10 @@
                             </div>
                             <%= form_tag login_path, class: 'mt-3 mb-5 login-input' do |form| %>
                                 <div class="form-group">
-                                  <%= text_field_tag(:username, nil, class: 'form-control', placeholder: t('.username')) %>
+                                  <%= text_field_tag(:username, nil, class: 'form-control', placeholder: t('.username'), required: true) %>
                                 </div>
                                 <div class="form-group">
-                                  <%= password_field_tag(:password, nil, class: 'form-control', placeholder: t('.password')) %>
+                                  <%= password_field_tag(:password, nil, class: 'form-control', placeholder: t('.password'), required: true) %>
                                 </div>
                                 <%= submit_tag t('.sign_in'), class: 'btn login-form__btn submit w-100' %>
                             <% end %>

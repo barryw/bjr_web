@@ -36,10 +36,10 @@ function getHelpStatus()
       console.log(response);
       if(response['enabled'] == true) {
         $('#help-icon-status').attr('class', 'card-widget__icon');
-        $('#help-icon').attr('title', response['text']);
+        $('#help-icon').attr('data-original-title', response['text']);
       } else {
         $('#help-icon-status').attr('class', 'card-widget__icon_disabled');
-        $('#help-icon').attr('title', response['text']);
+        $('#help-icon').attr('data-original-title', response['text']);
       }
     },
     error: function(response) {
