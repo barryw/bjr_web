@@ -1,5 +1,3 @@
-include Pagy::Frontend
-
 module ApplicationHelper
   include ActionView::Helpers::DateHelper
 
@@ -36,6 +34,13 @@ module ApplicationHelper
   #
   def bool_icon(val)
     val ? '<span class="card-widget__icon2"><i class="icon-check text-success"></i></span>'.html_safe : '<span class="card-widget__icon2"><i class="icon-close text-danger"></i></span>'.html_safe
+  end
+
+  #
+  # Try to coerce a value to a bool
+  #
+  def bool_val(val)
+    [true, 'true', '1', 1, 'on'].include? val
   end
 
   #

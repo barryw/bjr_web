@@ -5,6 +5,7 @@ en:
     timezone: Timezone
     close: Close
     job_table:
+      id: ID
       name: Name
       cron: Schedule
       command: Command

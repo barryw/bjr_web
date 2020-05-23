@@ -3,8 +3,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title"><%= t('.title') %></h4>
-            <%= render partial: 'job_list' %>
+          <%= react_component('BJRJobDataTable', { title: t('.title') }) %>
         </div>
       </div>
     </div>

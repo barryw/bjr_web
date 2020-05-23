@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include ErrorHandler
-  include Pagy::Backend
 
   helper_method :current_user
   before_action :ensure_session

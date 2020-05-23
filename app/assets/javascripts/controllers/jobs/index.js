@@ -170,6 +170,7 @@ function initJobTable()
     columns: [
       { width: '1.5%' },
       { data: 'edit', width: '1.5%' },
+      { data: 'id', width: '1.5%' },
       { data: 'name', width: '10%' },
       { data: 'cron' },
       { data: 'command' },

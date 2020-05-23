@@ -34,3 +34,4 @@
 //= require js/styleSwitcher
 //= require_tree ./controllers
 //= require js/bjr_common
+//= require js/bjr_help

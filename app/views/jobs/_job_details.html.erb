@@ -138,16 +138,104 @@ $(function () {
 })
 
 $("#periods :input").change(function() {
-  console.log(this);
+  if(this.id == 'minutely') {
+    selectMinutelyCron();
+  } else if(this.id == 'hourly') {
+    selectHourlyCron();
+  } else if(this.id == 'daily') {
+    selectDailyCron();
+  } else if(this.id == 'weekly') {
+
+  } else if(this.id == 'monthly') {
+
+  } else if(this.id == 'yearly') {
+
+  } else if(this.id == 'custom') {
+    selectCustomCron();
+  }
 });
+
+function getCronElementsFromJob()
+{
+  var cron = '<%= @job.cron %>';
+  return cron.split(' ');
+}
+
+function getCronElementsFromControls()
+{
+  cron = [];
+  cron.push($('#job_cron_minute').val());
+  cron.push($('#job_cron_hour').val());
+  cron.push($('#job_cron_day').val());
+  cron.push($('#job_cron_month').val());
+  cron.push($('#job_cron_week').val());
+
+  return cron;
+}
+
+function setCronControls(cron) {
+  $('#job_cron_minute').val(cron[0]);
+  $('#job_cron_hour').val(cron[1]);
+  $('#job_cron_day').val(cron[2]);
+  $('#job_cron_month').val(cron[3]);
+  $('#job_cron_week').val(cron[4]);
+}
+
+function populateCronFields()
+{
+  var cron = getCronElementsFromJob();
+  setCronControls(cron);
+
+  if(cron[2] == '*' && cron[3] == '*' && cron[4] == '*') {
+    if(cron[0] == '*/60' || (cron[0] != '*' && cron[1] == '*'))
+    {
+      $('#hourly').closest('.btn').button('toggle');
+      selectHourlyCron();
+    }
+  }
+}
 
 function selectMinutelyCron()
 {
+  cron = ['*', '*', '*', '*', '*'];
+  setCronControls(cron);
   $('#job_cron_minute').prop('disabled', true);
   $('#job_cron_hour').prop('disabled', true);
   $('#job_cron_day').prop('disabled', true);
   $('#job_cron_month').prop('disabled', true);
   $('#job_cron_week').prop('disabled', true);
+}
+
+function selectHourlyCron()
+{
+  cron = ['0', '*', '*', '*', '*'];
+  setCronControls(cron);
+  $('#job_cron_minute').prop('disabled', false);
+  $('#job_cron_hour').prop('disabled', true);
+  $('#job_cron_day').prop('disabled', true);
+  $('#job_cron_month').prop('disabled', true);
+  $('#job_cron_week').prop('disabled', true);
+}
+
+function selectDailyCron()
+{
+  $('#job_cron_minute').prop('disabled', false);
+  $('#job_cron_hour').prop('disabled', false);
+  $('#job_cron_day').prop('disabled', true);
+  $('#job_cron_month').prop('disabled', true);
+  $('#job_cron_week').prop('disabled', true);
+}
+
+function selectCustomCron()
+{
+  cron = getCronElementsFromJob();
+  setCronControls(cron);
+
+  $('#job_cron_minute').prop('disabled', false);
+  $('#job_cron_hour').prop('disabled', false);
+  $('#job_cron_day').prop('disabled', false);
+  $('#job_cron_month').prop('disabled', false);
+  $('#job_cron_week').prop('disabled', false);
 }
 
 /*
@@ -164,6 +252,7 @@ $(document).ready(function() {
   });
 
   selectMinutelyCron();
+  populateCronFields();
 
   // Patch: In my case when selecting an option, the input (with typeahead) added the suggested text twice)
   $('#job_tags').on('itemAdded', function(event) {

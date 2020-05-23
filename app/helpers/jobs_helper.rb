@@ -11,9 +11,8 @@ module JobsHelper
     ui_jobs = []
     jobs.object.each do |job|
       ui_jobs << { id: job.id, edit: job_edit_link(job), name: job.name, cron: cron_to_english(job.cron, job.timezone), command: job.command,
-                   timezone: job.timezone, success: bool_icon(job.success), enabled: bool_icon(job.enabled),
-                   running: bool_icon(job.running), last_run: last_run(job), next_run: next_run(job), created_at: user_tz(job.created_at),
-                   updated_at: user_tz(job.updated_at), success_callback: job.success_callback,
+                   timezone: job.timezone, success: job.success, enabled: job.enabled, running: job.running, last_run: last_run(job),
+                   next_run: next_run(job), created_at: user_tz(job.created_at), updated_at: user_tz(job.updated_at), success_callback: job.success_callback,
                    failure_callback: job.failure_callback, tags: job.tags.join(',') }
     end
 

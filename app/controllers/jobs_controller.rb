@@ -6,27 +6,17 @@ class JobsController < ApplicationController
   before_action :timezones, only: [:new, :edit]
   before_action :params_to_job, only: [:create, :update]
 
-  #
-  # This feeds jobs to the job data table. The data table can send us down
-  # things like paging information, and searching information which we then
-  # need to pass to the BJR server.
-  #
   def jobs
-    start = params[:start].to_i || 0
-    length = params[:length].to_i
-    draw = params[:draw].to_i
-    search = params[:search][:value]
+    page = params[:page]
+    per_page = params[:per_page]
+    #search = params[:search][:value]
 
-    page = (start / length) + 1
+    search_params = parse_search('')
 
-    search_params = parse_search(search)
-
-    jobs, status_code, headers = @api.jobs(page, length, search_params)
+    jobs, status_code, headers = @api.jobs(page, per_page, search_params)
     total_jobs = headers['Total'].to_i
 
-    payload = { recordsTotal: total_jobs, draw: draw, recordsFiltered: total_jobs, data: jobs_to_uijobs(jobs) }
-
-    render json: payload, status: status_code
+    render json: { total: total_jobs, data: jobs_to_uijobs(jobs) }, status: status_code
   end
 
   #
@@ -51,6 +41,7 @@ class JobsController < ApplicationController
   #
   def create
     @api.create_job(@job)
+    head :created
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
     @error = { message: error['message'], title: 'Failed to create job' }
@@ -92,7 +83,7 @@ class JobsController < ApplicationController
   # Delete a single job
   #
   def destroy
-    msg, status_code, headers = @api.delete_job(params[:id])
+    @api.delete_job(params[:id])
     head :no_content
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
@@ -104,7 +95,7 @@ class JobsController < ApplicationController
   #
   def run_now
     msg, status_code, headers = @api.run_job(params[:id])
-    head :no_content
+    head :accepted
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
     @error = { message: error['message'], title: "Failed to run job #{params[:id]}" }
