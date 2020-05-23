@@ -73,7 +73,7 @@ class JobsController < ApplicationController
   # Update a job
   #
   def update
-    @api.update_job(@job)
+    render json: @api.update_job(@job), status: :ok
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
     @error = { message: error['message'], title: "Failed to update job #{@job.id}" }
@@ -83,8 +83,7 @@ class JobsController < ApplicationController
   # Delete a single job
   #
   def destroy
-    @api.delete_job(params[:id])
-    head :no_content
+    render json: @api.delete_job(params[:id]), status: :no_content
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
     @error = { message: error['message'], title: "Failed to delete job #{params[:id]}" }
