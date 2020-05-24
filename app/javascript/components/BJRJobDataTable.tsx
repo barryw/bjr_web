@@ -20,6 +20,7 @@ import BooleanCell from './BooleanCell';
 import LastRunCell from './LastRunCell';
 import NextRunCell from './NextRunCell';
 import DateTimeCell from './DateTimeCell';
+import SimpleBackdrop from './SimpleBackdrop';
 
 import React from 'react';
 import axios from 'axios';
@@ -87,7 +88,8 @@ export default class BJRJobDataTable extends React.Component {
       page: 1,
       title: props.title,
       selectedRows: [],
-      toggleClearedRows: false
+      toggleClearedRows: false,
+      enablebackdrop: false
     };
   }
 
@@ -161,6 +163,7 @@ export default class BJRJobDataTable extends React.Component {
     rows.forEach(function(item, index) {
       requests.push(axios.post(`/jobs/${item}/run_now.json`));
     });
+    self.backdrop(true);
     Promise.all(requests)
     .then((values) => {
       if(values.length > 10) {
@@ -170,8 +173,8 @@ export default class BJRJobDataTable extends React.Component {
           toastr.success(item.data.message);
         });
       }
-      self.setState({ toggledClearRows: !this.state.toggledClearRows});
-      self.refresh();
+      self.clearSelectedAndRefresh();
+      self.backdrop(false);
     })
     .catch((error) => {
       console.log(error);
@@ -188,6 +191,7 @@ export default class BJRJobDataTable extends React.Component {
     rows.forEach(function(item, index) {
       requests.push(axios.patch(`/jobs/${item}.json?job[enabled]=${endis}`));
     });
+    self.backdrop(true);
     Promise.all(requests)
     .then((values) => {
       if(values.length > 10) {
@@ -197,8 +201,8 @@ export default class BJRJobDataTable extends React.Component {
           toastr.success(item.data.message);
         });
       }
-      self.setState({ toggledClearRows: !this.state.toggledClearRows})
-      self.refresh();
+      self.clearSelectedAndRefresh();
+      self.backdrop(false);
     })
     .catch((error) => {
       console.log(error);
@@ -224,17 +228,34 @@ export default class BJRJobDataTable extends React.Component {
         rows.forEach(function(item, index) {
           requests.push(axios.delete(`/jobs/${item}`));
         });
+        self.backdrop(true);
         Promise.all(requests)
         .then((values) => {
           toastr.success(values.length + ' jobs wehere deleted successfully.');
-          self.setState({ toggledClearRows: !this.state.toggledClearRows})
-          self.refresh();
+          self.clearSelectedAndRefresh();
+          self.endis(false);
         })
         .catch((error) => {
           console.log(error);
         })
       }
     });
+  }
+
+  backdrop(endis: boolean) {
+    const { selectedRows } = this.state;
+    const rows = selectedRows.map(r => r.id);
+    if(rows.length > 10 && endis)
+    {
+      this.setState({enablebackdrop: true});
+    }
+    if(!endis)
+      this.setState({enablebackdrop: false});
+  }
+
+  clearSelectedAndRefresh() {
+    this.setState({ toggledClearRows: !this.state.toggledClearRows})
+    this.refresh();
   }
 
   configureAxios() {
@@ -244,30 +265,33 @@ export default class BJRJobDataTable extends React.Component {
   }
 
   render() {
-    const { title, loading, data, totalRows } = this.state;
+    const { enablebackdrop, title, loading, data, totalRows } = this.state;
 
     return (
-      <DataTable
-        title={title}
-        columns={columns}
-        data={data}
-        striped
-        highlightOnHover
-        selectableRows
-        sortIcon={sortIcon}
-        progressPending={loading}
-        pagination
-        paginationServer
-        paginationTotalRows={totalRows}
-        onChangeRowsPerPage={this.handlePerRowsChange}
-        onChangePage={this.handlePageChange}
-        onSelectedRowsChange={this.handleChange}
-        contextActions={[runAction(this.runAll), enableAction(this.enableAll), disableAction(this.disableAll), deleteAction(this.deleteAll)]}
-        contextMessage={ {singular: 'job', plural: 'jobs', message: 'selected'} }
-        selectableRowDisabled={row => row.running}
-        clearSelectedRows={this.state.toggledClearRows}
-        paginationRowsPerPageOptions={[10,20,50,100]}
-      />
+      <div>
+        <SimpleBackdrop open={enablebackdrop}/>
+        <DataTable
+          title={title}
+          columns={columns}
+          data={data}
+          striped
+          highlightOnHover
+          selectableRows
+          sortIcon={sortIcon}
+          progressPending={loading}
+          pagination
+          paginationServer
+          paginationTotalRows={totalRows}
+          onChangeRowsPerPage={this.handlePerRowsChange}
+          onChangePage={this.handlePageChange}
+          onSelectedRowsChange={this.handleChange}
+          contextActions={[runAction(this.runAll), enableAction(this.enableAll), disableAction(this.disableAll), deleteAction(this.deleteAll)]}
+          contextMessage={ {singular: 'job', plural: 'jobs', message: 'selected'} }
+          selectableRowDisabled={row => row.running}
+          clearSelectedRows={this.state.toggledClearRows}
+          paginationRowsPerPageOptions={[10,20,50,100]}
+        />
+      </div>
     )
   }
 };
