@@ -6,12 +6,20 @@ import Zoom from '@material-ui/core/Zoom';
 import Delete from '@material-ui/icons/Delete';
 import TimerOff from '@material-ui/icons/TimerOff';
 import Timer from '@material-ui/icons/Timer';
+import PlaylistPlay from '@material-ui/icons/PlaylistPlay';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import { formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns';
 import differenceBy from 'lodash/differenceBy';
 import memoize from 'memoize-one';
 
 import EditJobCell from './EditJobCell';
+import BooleanCell from './BooleanCell';
+import LastRunCell from './LastRunCell';
+import NextRunCell from './NextRunCell';
+import DateTimeCell from './DateTimeCell';
 
 import React from 'react';
 import axios from 'axios';
@@ -40,6 +48,14 @@ const disableAction = memoize(disableHandler => (
   </Tooltip>
 ));
 
+const runAction = memoize(runHandler => (
+  <Tooltip key="run" TransitionComponent={Zoom} title="Run selected jobs now">
+    <IconButton color="primary" onClick={runHandler}>
+      <PlaylistPlay />
+    </IconButton>
+  </Tooltip>
+));
+
 const sortIcon = <ArrowDownward />;
 
 const columns = [
@@ -49,21 +65,13 @@ const columns = [
   { name: 'Cron', selector: 'cron', sortable: false, wrap: true },
   { name: 'Command', selector: 'command', sortable: true, wrap: true },
   { name: 'Timezone', selector: 'timezone', sortable: true },
-  { name: 'Success', selector: 'success', sortable: true, center: true, width: "50px",
-    cell: row => <span className="card-widget__icon2"><i className={`icon-${row.success ? 'check' : 'close'} text-${row.success ? 'success' : 'danger'}`}></i></span>
-  },
-  { name: 'Enabled', selector: 'enabled', sortable: true, center: true, width: "50px",
-    cell: row => <span className="card-widget__icon2"><i className={`icon-${row.enabled ? 'check' : 'close'} text-${row.enabled ? 'success' : 'danger'}`}></i></span>
-  },
-  { name: 'Running', selector: 'running', sortable: true, center: true, width: "50px",
-    cell: row => <span className="card-widget__icon2"><i className={`icon-${row.running ? 'check' : 'close'} text-${row.running ? 'success' : 'danger'}`}></i></span>
-  },
-  { name: 'Last Run', selector: 'last_run', sortable: true, format: row => row.running ? 'running' : formatDistanceToNow(Date.parse(row.last_run)) + ' ago' },
-  { name: 'Next Run', selector: 'next_run', sortable: true,
-    cell: row => row.running ? <div className="spinner-border spinner-border-sm"></div> : (row.enabled ? (new Date() > Date.parse(row.next_run) ? 'soon' : 'in ' + formatDistanceToNow(Date.parse(row.next_run))) : 'never')
-  },
-  { name: 'Created', selector: 'created_at', sortable: true, format: row => formatDistanceToNow(Date.parse(row.created_at)) + ' ago' },
-  { name: 'Updated', selector: 'updated_at', sortable: true, format: row => formatDistanceToNow(Date.parse(row.updated_at)) + ' ago' }
+  { name: 'Success', selector: 'success', sortable: true, center: true, width: "50px", cell: row => <BooleanCell boolval={row.success}/> },
+  { name: 'Enabled', selector: 'enabled', sortable: true, center: true, width: "50px", cell: row => <BooleanCell boolval={row.enabled}/> },
+  { name: 'Running', selector: 'running', sortable: true, center: true, width: "50px", cell: row => <BooleanCell boolval={row.running}/> },
+  { name: 'Last Run', selector: 'last_run', sortable: true, cell: row => <LastRunCell row={row}/> },
+  { name: 'Next Run', selector: 'next_run', sortable: true, cell: row => <NextRunCell row={row}/> },
+  { name: 'Created', selector: 'created_at', sortable: true, cell: row => <DateTimeCell datetime={row.created_at}/> },
+  { name: 'Updated', selector: 'updated_at', sortable: true, cell: row => <DateTimeCell datetime={row.updated_at}/> }
 ];
 
 export default class BJRJobDataTable extends React.Component {
@@ -79,7 +87,7 @@ export default class BJRJobDataTable extends React.Component {
       page: 1,
       title: props.title,
       selectedRows: [],
-      toggleCleared: false
+      toggleClearedRows: false
     };
   }
 
@@ -109,10 +117,7 @@ export default class BJRJobDataTable extends React.Component {
   }
 
   async fetchJobData(page: number, perPage: number) {
-    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    axios.defaults.headers.common['X-CSRF-Token'] = token
-    axios.defaults.headers.common['Accept'] = 'application/json'
-
+    this.configureAxios();
     const response = await axios.get(
       "/job_list", {
         params: {
@@ -128,10 +133,14 @@ export default class BJRJobDataTable extends React.Component {
       perPage: perPage,
       page: page
     })
-  }
+  };
 
   handleChange = state => {
     this.setState({ selectedRows: state.selectedRows });
+  };
+
+  handleClearRows = () => {
+    this.setState({ toggledClearRows: !this.state.toggledClearRows})
   };
 
   enableAll = () => {
@@ -142,12 +151,40 @@ export default class BJRJobDataTable extends React.Component {
     this.enableDisableAll(0);
   }
 
+  runAll = () => {
+    const { selectedRows } = this.state;
+    const rows = selectedRows.map(r => r.id);
+    var self = this;
+
+    let requests = [];
+    this.configureAxios();
+    rows.forEach(function(item, index) {
+      requests.push(axios.post(`/jobs/${item}/run_now.json`));
+    });
+    Promise.all(requests)
+    .then((values) => {
+      if(values.length > 10) {
+        toastr.success(values.length + ' jobs were scheduled to run now.');
+      } else {
+        values.forEach(function(item, index) {
+          toastr.success(item.data.message);
+        });
+      }
+      self.setState({ toggledClearRows: !this.state.toggledClearRows});
+      self.refresh();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
   enableDisableAll = (endis: number) => {
     const { selectedRows } = this.state;
     const rows = selectedRows.map(r => r.id);
     var self = this;
 
     let requests = [];
+    this.configureAxios();
     rows.forEach(function(item, index) {
       requests.push(axios.patch(`/jobs/${item}.json?job[enabled]=${endis}`));
     });
@@ -160,7 +197,7 @@ export default class BJRJobDataTable extends React.Component {
           toastr.success(item.data.message);
         });
       }
-      self.setState(state => ({ toggleCleared: !state.toggleCleared, data: differenceBy(state.data, state.selectedRows, 'id') }));
+      self.setState({ toggledClearRows: !this.state.toggledClearRows})
       self.refresh();
     })
     .catch((error) => {
@@ -183,13 +220,14 @@ export default class BJRJobDataTable extends React.Component {
     }).then((result) => {
       if(result.value) {
         let requests = [];
+        this.configureAxios();
         rows.forEach(function(item, index) {
           requests.push(axios.delete(`/jobs/${item}`));
         });
         Promise.all(requests)
         .then((values) => {
           toastr.success(values.length + ' jobs wehere deleted successfully.');
-          self.setState(state => ({ toggleCleared: !state.toggleCleared, data: differenceBy(state.data, state.selectedRows, 'id') }));
+          self.setState({ toggledClearRows: !this.state.toggledClearRows})
           self.refresh();
         })
         .catch((error) => {
@@ -197,6 +235,12 @@ export default class BJRJobDataTable extends React.Component {
         })
       }
     });
+  }
+
+  configureAxios() {
+    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    axios.defaults.headers.common['X-CSRF-Token'] = token
+    axios.defaults.headers.common['Accept'] = 'application/json'
   }
 
   render() {
@@ -218,9 +262,10 @@ export default class BJRJobDataTable extends React.Component {
         onChangeRowsPerPage={this.handlePerRowsChange}
         onChangePage={this.handlePageChange}
         onSelectedRowsChange={this.handleChange}
-        contextActions={[enableAction(this.enableAll), disableAction(this.disableAll), deleteAction(this.deleteAll)]}
+        contextActions={[runAction(this.runAll), enableAction(this.enableAll), disableAction(this.disableAll), deleteAction(this.deleteAll)]}
         contextMessage={ {singular: 'job', plural: 'jobs', message: 'selected'} }
         selectableRowDisabled={row => row.running}
+        clearSelectedRows={this.state.toggledClearRows}
         paginationRowsPerPageOptions={[10,20,50,100]}
       />
     )

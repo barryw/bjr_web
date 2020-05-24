@@ -151,7 +151,7 @@ function updateCharts()
 {
   Rails.ajax({
     type: "GET",
-    url: "/todays_stats",
+    url: "/todays_stats.json",
     success: function(response) {
       var jobsEnabled = document.getElementById("jobsEnabled");
       jobsEnabled.innerText = response['enabled_jobs'] + ' / ' + response['total_jobs'];
@@ -169,7 +169,7 @@ function updateCharts()
 
   Rails.ajax({
     type: "GET",
-    url: "/job_stats",
+    url: "/job_stats.json",
     success: function(response) {
       runtimesByMinuteChart.data.labels = response['minute']['labels'];
       runtimesByMinuteChart.data.datasets = response['minute']['runtimes']['datasets'];
