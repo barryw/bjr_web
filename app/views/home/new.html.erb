@@ -64,16 +64,14 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title"><%= t('.recent_title') %></h4>
-                    <%= render partial: 'job_list', locals: { jobs: @recent_jobs, table_id: 'recent_jobs' } %>
+                    <%= react_component('BJRJobDataTable', { title: t('.recent_title'), full: false, source: '/recent_jobs', pagination: false }) %>
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title"><%= t('.upcoming_title') %></h4>
-                    <%= render partial: 'job_list', locals: { jobs: @upcoming_jobs, table_id: 'upcoming_jobs' } %>
+                    <%= react_component('BJRJobDataTable', { title: t('.upcoming_title'), full: false, source: '/upcoming_jobs', pagination: false }) %>
                 </div>
             </div>
         </div>

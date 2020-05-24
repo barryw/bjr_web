@@ -3,5 +3,4 @@
 <% else %>
   $('#modal-window').modal('hide');
   toastr.success('Updated Job <%= @job.id %>');
-  jobsTable.ajax.reload();
 <% end %>

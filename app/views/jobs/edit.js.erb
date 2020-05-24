@@ -1,4 +1,2 @@
-deselectJobById(<%= @job.id %>);
-
 $('#modal-window').find('.modal-content').html('<%= j render partial: 'job_details', locals: { job: @job } %>');
 $('#modal-window').modal('show');

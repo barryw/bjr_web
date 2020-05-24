@@ -7,14 +7,14 @@ class HomeController < ApplicationController
     api = ApiClient.new(current_user)
     recent_jobs = api.recent_jobs(5)
 
-    render json: jobs_to_uijobs(recent_jobs)
+    render json: { total: 5, data: jobs_to_uijobs(recent_jobs) }, status: :ok
   end
 
   def upcoming_jobs
     api = ApiClient.new(current_user)
     upcoming_jobs = api.upcoming_jobs(5)
 
-    render json: jobs_to_uijobs(upcoming_jobs)
+    render json: { total: 5, data: jobs_to_uijobs(upcoming_jobs) }, status: :ok
   end
 
   def todays_stats

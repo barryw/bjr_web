@@ -59,11 +59,27 @@ const runAction = memoize(runHandler => (
 
 const sortIcon = <ArrowDownward />;
 
-const columns = [
+/*
+This is used for the recent and upcoming jobs
+*/
+const columnsMin = [
+  { name: 'Name', selector: 'name' },
+  { name: 'Schedule', selector: 'cron' },
+  { name: 'Command', selector: 'command', wrap: true },
+  { name: 'Timezone', selector: 'timezone' },
+  { name: 'Success', selector: 'success', center: true, width: '50px', cell: row => <BooleanCell boolval={row.success}/> },
+  { name: 'Last Run', selector: 'last_run', cell: row => <LastRunCell row={row}/> },
+  { name: 'Next Run', selector: 'next_run', cell: row => <NextRunCell row={row}/> }
+];
+
+/*
+This is used for the full job listing
+*/
+const columnsMax = [
   { selector: 'edit', sortable: false, width: "50px", cell: row => <EditJobCell id={row.id} /> },
   { name: 'ID', selector: 'id', sortable: true, width: "75px" },
   { name: 'Name', selector: 'name', sortable: true },
-  { name: 'Cron', selector: 'cron', sortable: false, wrap: true },
+  { name: 'Schedule', selector: 'cron', sortable: false, wrap: true },
   { name: 'Command', selector: 'command', sortable: true, wrap: true },
   { name: 'Timezone', selector: 'timezone', sortable: true },
   { name: 'Success', selector: 'success', sortable: true, center: true, width: "50px", cell: row => <BooleanCell boolval={row.success}/> },
@@ -89,7 +105,10 @@ export default class BJRJobDataTable extends React.Component {
       title: props.title,
       selectedRows: [],
       toggleClearedRows: false,
-      enablebackdrop: false
+      enablebackdrop: false,
+      displayFull: props.full,
+      source: props.source,
+      pagination: props.pagination
     };
   }
 
@@ -120,8 +139,9 @@ export default class BJRJobDataTable extends React.Component {
 
   async fetchJobData(page: number, perPage: number) {
     this.configureAxios();
+    const { source } = this.state;
     const response = await axios.get(
-      "/job_list", {
+      source, {
         params: {
           page: page,
           per_page: perPage
@@ -153,62 +173,36 @@ export default class BJRJobDataTable extends React.Component {
     this.enableDisableAll(0);
   }
 
+  /*
+  Run all of the selected job
+  */
   runAll = () => {
     const { selectedRows } = this.state;
     const rows = selectedRows.map(r => r.id);
-    var self = this;
 
     let requests = [];
-    this.configureAxios();
     rows.forEach(function(item, index) {
       requests.push(axios.post(`/jobs/${item}/run_now.json`));
     });
-    self.backdrop(true);
-    Promise.all(requests)
-    .then((values) => {
-      if(values.length > 10) {
-        toastr.success(values.length + ' jobs were scheduled to run now.');
-      } else {
-        values.forEach(function(item, index) {
-          toastr.success(item.data.message);
-        });
-      }
-      self.clearSelectedAndRefresh();
-      self.backdrop(false);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+    this.executeRequests(requests, 'jobs were updated successfully', 'jobs failed to be updated');
   }
 
+  /*
+  Enable or disable all of the selected jobs
+  */
   enableDisableAll = (endis: number) => {
     const { selectedRows } = this.state;
     const rows = selectedRows.map(r => r.id);
-    var self = this;
-
     let requests = [];
-    this.configureAxios();
     rows.forEach(function(item, index) {
       requests.push(axios.patch(`/jobs/${item}.json?job[enabled]=${endis}`));
     });
-    self.backdrop(true);
-    Promise.all(requests)
-    .then((values) => {
-      if(values.length > 10) {
-        toastr.success(values.length + ' jobs were updated successfully.');
-      } else {
-        values.forEach(function(item, index) {
-          toastr.success(item.data.message);
-        });
-      }
-      self.clearSelectedAndRefresh();
-      self.backdrop(false);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    this.executeRequests(requests, 'jobs were updated successfully', 'jobs failed to be updated');
   }
 
+  /*
+  Delete the selected jobs. Will pop up a dialog first to confirm
+  */
   deleteAll = () => {
     const { selectedRows } = this.state;
     const rows = selectedRows.map(r => r.id);
@@ -224,24 +218,37 @@ export default class BJRJobDataTable extends React.Component {
     }).then((result) => {
       if(result.value) {
         let requests = [];
-        this.configureAxios();
         rows.forEach(function(item, index) {
           requests.push(axios.delete(`/jobs/${item}`));
         });
-        self.backdrop(true);
-        Promise.all(requests)
-        .then((values) => {
-          toastr.success(values.length + ' jobs wehere deleted successfully.');
-          self.clearSelectedAndRefresh();
-          self.endis(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+        self.executeRequests(requests, 'jobs were deleted successfully', 'jobs failed to be deleted');
       }
     });
   }
 
+  /*
+  Execute a group of requests
+  */
+  executeRequests = (requests, successMessage, failureMessage) => {
+    this.configureAxios();
+    this.backdrop(true);
+
+    Promise.all(requests)
+    .then((values) => {
+      toastr.success(values.length + ' ' + successMessage);
+    })
+    .catch((error) => {
+      toastr.error(error.length + ' ' + failureMessage);
+    })
+    .finally(() => {
+      this.clearSelectedAndRefresh();
+      this.backdrop(false);
+    })
+  }
+
+  /*
+  Enable or disable the backdrop for long-running operations
+  */
   backdrop(endis: boolean) {
     const { selectedRows } = this.state;
     const rows = selectedRows.map(r => r.id);
@@ -253,11 +260,17 @@ export default class BJRJobDataTable extends React.Component {
       this.setState({enablebackdrop: false});
   }
 
+  /*
+  Clear the selected items and refresh the table
+  */
   clearSelectedAndRefresh() {
     this.setState({ toggledClearRows: !this.state.toggledClearRows})
     this.refresh();
   }
 
+  /*
+  Configure Axios to pass along our CSRF token
+  */
   configureAxios() {
     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     axios.defaults.headers.common['X-CSRF-Token'] = token
@@ -265,21 +278,21 @@ export default class BJRJobDataTable extends React.Component {
   }
 
   render() {
-    const { enablebackdrop, title, loading, data, totalRows } = this.state;
+    const { displayFull, enablebackdrop, title, loading, data, totalRows } = this.state;
 
     return (
       <div>
         <SimpleBackdrop open={enablebackdrop}/>
         <DataTable
           title={title}
-          columns={columns}
+          columns={displayFull ? columnsMax : columnsMin}
           data={data}
           striped
           highlightOnHover
-          selectableRows
+          selectableRows={displayFull ? true : false}
           sortIcon={sortIcon}
           progressPending={loading}
-          pagination
+          pagination={displayFull ? true : false}
           paginationServer
           paginationTotalRows={totalRows}
           onChangeRowsPerPage={this.handlePerRowsChange}

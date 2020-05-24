@@ -10,9 +10,6 @@ var runsByDayChart;
 var runtimesByWeekChart;
 var runsByWeekChart;
 
-var upcomingTable;
-var recentTable;
-
 function initHomeNew()
 {
   $.extend( $.fn.dataTable.defaults, {
@@ -23,62 +20,12 @@ function initHomeNew()
 
   initCharts();
   updateCharts();
-  initJobTables();
-
-  setInterval(() => {
-    updateJobTables();
-  }, 10000);
 
   setInterval(() => {
     updateCharts();
   }, 60000);
 }
 
-function initJobTables()
-{
-  upcomingTable = $('#upcoming_jobs').DataTable({
-    ajax: {
-      url: '/upcoming_jobs',
-      dataSrc: '',
-      error: function(response) {
-        redirectHomeOnError();
-      }
-    },
-    columns: [
-      {data: 'name'},
-      {data: 'cron'},
-      {data: 'command'},
-      {data: 'timezone'},
-      {data: 'success'},
-      {data: 'last_run'},
-      {data: 'next_run'}
-    ]
-  });
-  recentTable = $('#recent_jobs').DataTable({
-    ajax: {
-      url: '/recent_jobs',
-      dataSrc: '',
-      error: function(response) {
-        redirectHomeOnError();
-      }
-    },
-    columns: [
-      {data: 'name'},
-      {data: 'cron'},
-      {data: 'command'},
-      {data: 'timezone'},
-      {data: 'success'},
-      {data: 'last_run', defaultContent: null},
-      {data: 'next_run'}
-    ]
-  });
-}
-
-function updateJobTables()
-{
-  upcomingTable.ajax.reload();
-  recentTable.ajax.reload();
-}
 
 function initCharts()
 {
