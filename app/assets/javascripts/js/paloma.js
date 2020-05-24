@@ -16,18 +16,3 @@ Paloma.controller('Home', {
     initHomeNew();
   }
 });
-
-/*
-Javascript for Jobs controller actions
-*/
-Paloma.controller('Jobs', {
-  index: function() {
-    initJobsIndex();
-  },
-  edit: function() {
-    initJobsEdit();
-  },
-  new: function() {
-    initJobsNew();
-  }
-});

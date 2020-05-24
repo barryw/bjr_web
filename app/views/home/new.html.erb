@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <%= render partial: 'status_bar' %>
+    <%= react_component('StatusBar', { subtitles: [t('.jobs_enabled'), t('.jobs_ran_today'), t('.jobs_failed_today'), t('.average_runtime_today')] }) %>
     <div class="row">
         <div class="col-lg-3">
             <div class="card">

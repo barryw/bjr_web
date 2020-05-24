@@ -151,24 +151,6 @@ function updateCharts()
 {
   Rails.ajax({
     type: "GET",
-    url: "/todays_stats.json",
-    success: function(response) {
-      var jobsEnabled = document.getElementById("jobsEnabled");
-      jobsEnabled.innerText = response['enabled_jobs'] + ' / ' + response['total_jobs'];
-      var jobsRan = document.getElementById("jobsRan");
-      jobsRan.innerText = response['run_jobs'];
-      var jobsFailed = document.getElementById("jobsFailed");
-      jobsFailed.innerText = response['failed_jobs'];
-      var avgRuntime = document.getElementById("avgRuntime");
-      avgRuntime.innerText = response['avg_job_runtime'].toFixed(3) + ' seconds';
-    },
-    error: function(response) {
-      redirectHomeOnError();
-    }
-  });
-
-  Rails.ajax({
-    type: "GET",
     url: "/job_stats.json",
     success: function(response) {
       runtimesByMinuteChart.data.labels = response['minute']['labels'];

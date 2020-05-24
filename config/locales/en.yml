@@ -44,6 +44,10 @@ en:
     new:
       recent_title: Recently Run Jobs
       upcoming_title: Upcoming Jobs
+      jobs_enabled: "Jobs Enabled / Total Jobs"
+      jobs_ran_today: Job Runs Today
+      jobs_failed_today: Jobs Failed Today
+      average_runtime_today: Average Runtime Today
     runs_charts:
       runs: Job Runs
       failed: Failed Jobs
@@ -59,11 +63,6 @@ en:
       ylabel: Seconds
       title: "Job Runtimes by %{period}"
   application:
-    status_bar:
-      jobs_enabled: "Jobs Enabled / Total Jobs"
-      jobs_ran_today: Job Runs Today
-      jobs_failed_today: Jobs Failed Today
-      average_runtime_today: Average Runtime Today
     sidebar:
       dashboard: Dashboard
       jobs: Jobs
