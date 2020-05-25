@@ -1,19 +1,15 @@
+import React from 'react';
+import axios from 'axios';
+import memoize from 'memoize-one';
+
 import DataTable from 'react-data-table-component';
-import Checkbox from '@mataerial-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/ToolTip';
-import Zoom from '@material-ui/core/Zoom';
+
 import Delete from '@material-ui/icons/Delete';
 import TimerOff from '@material-ui/icons/TimerOff';
 import Timer from '@material-ui/icons/Timer';
 import PlaylistPlay from '@material-ui/icons/PlaylistPlay';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import { formatDistanceToNow } from 'date-fns';
-import differenceBy from 'lodash/differenceBy';
-import memoize from 'memoize-one';
 
 import EditJobCell from './EditJobCell';
 import BooleanCell from './BooleanCell';
@@ -21,40 +17,38 @@ import LastRunCell from './LastRunCell';
 import NextRunCell from './NextRunCell';
 import DateTimeCell from './DateTimeCell';
 import SimpleBackdrop from './SimpleBackdrop';
-
-import React from 'react';
-import axios from 'axios';
+import BootstrapTooltip from './BootstrapTooltip';
 
 const deleteAction = memoize(deleteHandler => (
-  <Tooltip key="delete" TransitionComponent={Zoom} title="Delete selected jobs">
+  <BootstrapTooltip key="delete" title="Delete selected jobs">
     <IconButton color="secondary" onClick={deleteHandler}>
       <Delete />
     </IconButton>
-  </Tooltip>
+  </BootstrapTooltip>
 ));
 
 const enableAction = memoize(enableHandler => (
-  <Tooltip key="enable" TransitionComponent={Zoom} title="Enable selected jobs">
+  <BootstrapTooltip key="enable" title="Enable selected jobs">
     <IconButton color="secondary" onClick={enableHandler}>
       <Timer />
     </IconButton>
-  </Tooltip>
+  </BootstrapTooltip>
 ));
 
 const disableAction = memoize(disableHandler => (
-  <Tooltip key="disable" TransitionComponent={Zoom} title="Disable selected jobs">
+  <BootstrapTooltip key="disable" title="Disable selected jobs">
     <IconButton color="secondary" onClick={disableHandler}>
       <TimerOff />
     </IconButton>
-  </Tooltip>
+  </BootstrapTooltip>
 ));
 
 const runAction = memoize(runHandler => (
-  <Tooltip key="run" TransitionComponent={Zoom} title="Run selected jobs now">
+  <BootstrapTooltip key="run" title="Run selected jobs now">
     <IconButton color="primary" onClick={runHandler}>
       <PlaylistPlay />
     </IconButton>
-  </Tooltip>
+  </BootstrapTooltip>
 ));
 
 const sortIcon = <ArrowDownward />;

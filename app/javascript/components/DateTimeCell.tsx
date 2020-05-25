@@ -4,5 +4,6 @@ import { formatDistanceToNow } from 'date-fns';
 
 export default function DateTimeCell(props)
 {
-  return formatDistanceToNow(Date.parse(props.datetime)) + ' ago'
+  const date = formatDistanceToNow(Date.parse(props.datetime)) + ' ago';
+  return <div>{date}</div>;
 }

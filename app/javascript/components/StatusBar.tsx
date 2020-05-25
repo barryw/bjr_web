@@ -47,12 +47,15 @@ export default class StatusBar extends React.Component {
   }
 
   render() {
+    const job_count = `${this.state.enabled_jobs} / ${this.state.total_jobs}`;
+    const avg_runtime = `${this.state.avg_job_runtime.toFixed(2)} seconds`;
+
     return (
       <div className="row">
-        <StatusBarWidget icon="clock" gradient="gradient-3" value={`${this.state.enabled_jobs} / ${this.state.total_jobs}`} subtitle={this.state.subtitles[0]} />
+        <StatusBarWidget icon="clock" gradient="gradient-3" value={job_count} subtitle={this.state.subtitles[0]} />
         <StatusBarWidget icon="like" gradient="gradient-4" value={this.state.run_jobs} subtitle={this.state.subtitles[1]} />
         <StatusBarWidget icon="dislike" gradient="gradient-green" value={this.state.failed_jobs} subtitle={this.state.subtitles[2]} />
-        <StatusBarWidget icon="speedometer" gradient="gradient-red" value={`${this.state.avg_job_runtime.toFixed(2)} seconds`} subtitle={this.state.subtitles[3]} />
+        <StatusBarWidget icon="speedometer" gradient="gradient-red" value={avg_runtime} subtitle={this.state.subtitles[3]} />
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 
 const useStylesBootstrap = makeStyles((theme) => ({
   arrow: {
@@ -14,5 +15,5 @@ const useStylesBootstrap = makeStyles((theme) => ({
 export default function BootstrapTooltip(props) {
   const classes = useStylesBootstrap();
 
-  return <Tooltip arrow classes={classes} {...props} />;
+  return <Tooltip arrow TransitionComponent={Zoom} classes={classes} {...props} />;
 }
