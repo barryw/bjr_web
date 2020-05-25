@@ -12,12 +12,6 @@ var runsByWeekChart;
 
 function initHomeNew()
 {
-  $.extend( $.fn.dataTable.defaults, {
-    searching: false,
-    ordering: false,
-    paging: false
-  });
-
   initCharts();
   updateCharts();
 

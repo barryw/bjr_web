@@ -16,9 +16,6 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require rails-ujs
-//= require js/datatables.min
-//= require js/datatables.select.min
-//= require js/datatables.checkboxes.min
 //= require js/sweetalert2.min
 //= require Chart.bundle.min
 //= require js.cookie
@@ -34,4 +31,3 @@
 //= require js/styleSwitcher
 //= require_tree ./controllers
 //= require js/bjr_common
-//= require js/bjr_help
