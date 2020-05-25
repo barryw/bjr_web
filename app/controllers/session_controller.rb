@@ -1,4 +1,6 @@
 class SessionController < ApplicationController
+  include ApplicationHelper
+
   layout "sign_in"
 
   skip_before_action :verify_authenticity_token
@@ -6,6 +8,17 @@ class SessionController < ApplicationController
 
   def new
     dashboard if current_user
+
+    @login_disabled = false
+    api = ApiClient.new
+    @web_version = web_version
+    @server_version = server_version
+  rescue
+    logger.error "Error connecting to BJR Server: #{$!}"
+    logger.error "$BJR_API_HOST environment variable is set to '#{ENV.fetch('BJR_API_HOST', nil)}'. Make sure that this is set correctly."
+    flash.alert = I18n.t('session.errors.no_server')
+    @server_version = I18n.t('session.errors.server_version_unknown')
+    @login_disabled = true
   end
 
   def create

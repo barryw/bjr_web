@@ -20,6 +20,9 @@ module ApplicationHelper
   def server_version
     api = ApiClient.new
     api.server_version.object
+  rescue
+    flash.alert = 'BJR Web is not configured properly or there is a problem communicating with the BJR Server.'
+    '(unknown)'
   end
 
   #

@@ -26,8 +26,9 @@ en:
   session:
     errors:
       invalid_login: "Invalid login: %{error}"
-      server_version_unknown: Unknown
+      server_version_unknown: (unknown)
       server_connection_failed: "Failed to communicate with BJR server: %{error}"
+      no_server: BJR Web is not configured properly or there is a problem communicating with the BJR Server. View the BJR Web and Server logs for more details.
     new:
       title: BJR Web Login
       username: Username
@@ -44,10 +45,14 @@ en:
     new:
       recent_title: Recently Run Jobs
       upcoming_title: Upcoming Jobs
-      jobs_enabled: "Jobs Enabled / Total Jobs"
-      jobs_ran_today: Job Runs Today
-      jobs_failed_today: Jobs Failed Today
-      average_runtime_today: Average Runtime Today
+      today_jobs: "Jobs Enabled / Total Jobs"
+      today_jobs_tooltip: "This shows the current enabled and total jobs for your account. Enabled jobs will run according to their schedule, while disabled jobs don't. If you re-enable a disabled job, it will not run any scheduled runs that it missed while it was disabled."
+      today_job_runs: "Jobs Failed / Jobs Run"
+      today_job_runs_tooltip: "This shows the total number of failed and executed job runs since midnight in your timezone. A job can run multiple times a day if its schedule permits, so this number could be higher than the number of enabled jobs."
+      today_job_lag: "Min / Max / Average Job Lag"
+      today_job_lag_tooltip: "This is the min/max/average job lag, which is the time between when a job is scheduled to run and when it actually does run. An average lag that trends upward could be a sign that you need to scale your worker pods/nodes."
+      today_runtimes: "Min / Max / Average Runtime"
+      today_runtimes_tooltip: "This is the min/max/average runtime across all job runs. An average runtime that trends upwards could indicate that your worker pods/nodes are over-worked."
     runs_charts:
       runs: Job Runs
       failed: Failed Jobs

@@ -3,6 +3,11 @@ class HomeController < ApplicationController
   include ApplicationHelper
   include JobsHelper
 
+  def new
+    @today_stats_subtitles = [t('.today_jobs'), t('.today_job_runs'), t('.today_job_lag'), t('.today_runtimes')]
+    @today_stats_tooltips = [t('.today_jobs_tooltip'), t('.today_job_runs_tooltip'), t('.today_job_lag_tooltip'), t('.today_runtimes_tooltip')]
+  end
+
   def recent_jobs
     api = ApiClient.new(current_user)
     recent_jobs = api.recent_jobs(5)
@@ -21,7 +26,7 @@ class HomeController < ApplicationController
     api = ApiClient.new(current_user)
     stats = api.todays_stats.object
 
-    render json: stats
+    render json: stats, status: :ok
   end
 
   def job_stats
@@ -43,6 +48,6 @@ class HomeController < ApplicationController
       }
     end
 
-    render json: data
+    render json: data, status: :ok
   end
 end
