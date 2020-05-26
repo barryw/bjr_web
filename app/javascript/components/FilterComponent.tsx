@@ -6,7 +6,7 @@ import PubSub from 'pubsub-js';
 const TextField = styled.input`
   height: 32px;
   width: 200px;
-  border-radius: 3px;
+  border-radius: 1px;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border-top-right-radius: 0;
@@ -24,10 +24,9 @@ const ClearButton = styled(Button)`
   border-bottom-left-radius: 0;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  height: 34px;
+  height: 32px;
   width: 32px;
   text-align: center;
-  display: flex;
   align-items: center;
   justify-content: center;
 `;
@@ -60,10 +59,10 @@ export default class FilterComponent extends React.Component {
 
   render() {
     return (
-      <>
-        <h5>Search Jobs</h5><TextField id="search" type="text" value={this.state.value} placeholder="Filter By Name" onChange={this.onFilter} />
+      <span>
+        <TextField id="search" type="text" value={this.state.value} placeholder="Filter By Name" onChange={this.onFilter} />
         <ClearButton type="button" onClick={this.onClear}>X</ClearButton>
-      </>
+      </span>
     )
   }
 }
