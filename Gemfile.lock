@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/barryw/bjr.git
-  revision: 2d42d6e5fd04561aaf249c078d15d0acdcfa4a2a
+  revision: f6cd415082226092afe850031547a7066ac46e13
   glob: sdks/ruby/bjr4r.gemspec
   specs:
-    bjr4r (1.5.5)
+    bjr4r (1.5.6)
       json (~> 2.1, >= 2.1.0)
       typhoeus (~> 1.0, >= 1.0.1)
 

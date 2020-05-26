@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import PubSub from 'pubsub-js';
 
+import HelpIcon from './HelpIcon';
+
 const TextField = styled.input`
   height: 32px;
   width: 200px;
@@ -60,6 +62,7 @@ export default class FilterComponent extends React.Component {
   render() {
     return (
       <span>
+        <HelpIcon tooltip="You can search specific fields by prefixing your search with 'name:', 'tags:', 'timezone:' or 'command:'. You can also search based on the state of a job using 'running', 'stopped', 'enabled', 'disabled', 'succeeded' or 'failed'."/>&nbsp;&nbsp;
         <TextField id="search" type="text" value={this.state.value} placeholder="Filter By Name" onChange={this.onFilter} />
         <ClearButton type="button" onClick={this.onClear}>X</ClearButton>
       </span>
