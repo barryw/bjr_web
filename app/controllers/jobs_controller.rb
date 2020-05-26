@@ -9,9 +9,9 @@ class JobsController < ApplicationController
   def jobs
     page = params[:page]
     per_page = params[:per_page]
-    #search = params[:search][:value]
+    search = params[:search] || ''
 
-    search_params = parse_search('')
+    search_params = parse_search(search)
 
     jobs, status_code, headers = @api.jobs(page, per_page, search_params)
     total_jobs = headers['Total'].to_i

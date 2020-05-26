@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import memoize from 'memoize-one';
+import PubSub from 'pubsub-js';
 
 import DataTable from 'react-data-table-component';
 import IconButton from '@material-ui/core/IconButton';
@@ -102,8 +103,11 @@ export default class BJRJobDataTable extends React.Component {
       enablebackdrop: false,
       displayFull: props.full,
       source: props.source,
-      pagination: props.pagination
+      pagination: props.pagination,
+      search: null
     };
+
+    PubSub.subscribe('SearchingJobs', this.listen);
   }
 
   async componentDidMount() {
@@ -116,6 +120,18 @@ export default class BJRJobDataTable extends React.Component {
   componentWillUnmount() {
     clearInterval(this.intervalID);
   }
+
+  listen = (msg, data) => {
+    switch(msg)
+    {
+      case "SearchingJobs":
+        this.setState({search: data});
+        this.refresh();
+        break;
+      default:
+        break;
+    }
+  };
 
   handlePageChange = async page => {
     const { perPage } = this.state;
@@ -133,12 +149,13 @@ export default class BJRJobDataTable extends React.Component {
 
   async fetchJobData(page: number, perPage: number) {
     this.configureAxios();
-    const { source } = this.state;
+    const { search, source } = this.state;
     const response = await axios.get(
       source, {
         params: {
           page: page,
-          per_page: perPage
+          per_page: perPage,
+          search: search
         }
       }
     );
