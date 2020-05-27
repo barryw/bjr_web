@@ -12,7 +12,6 @@
 //
 //= require turbolinks
 //= require js/common.min
-//= require jquery-ui
 //= require popper
 //= require bootstrap-sprockets
 //= require rails-ujs
