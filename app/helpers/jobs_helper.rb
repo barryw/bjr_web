@@ -32,7 +32,7 @@ module JobsHelper
   # Convert our cryptic cron expressions into plain english for display in the job table
   #
   def cron_to_english(cron, timezone)
-    Cronex::ExpressionDescriptor.new(cron, {}, I18n.locale, timezone).description
+    Cronex::ExpressionDescriptor.new(cron, locale: I18n.locale, timezone: timezone).description
   rescue
     ''
   end
