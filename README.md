@@ -15,3 +15,6 @@ This is the web UI component of the BJR server (https://github.com/barryw/bjr). 
 
 
 ![BJR Web Dashboard](dashboard-image.png)
+
+
+![BJR Web Job List](job-listing-image.png)
