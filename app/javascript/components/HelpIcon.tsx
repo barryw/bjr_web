@@ -1,15 +1,32 @@
 import React from 'react';
+import axios from 'axios';
 import PubSub from 'pubsub-js';
 import BootstrapTooltip from './BootstrapTooltip';
 
+import { configureAxios } from './AjaxUtils';
+
 export default class HelpIcon extends React.Component {
+  token;
+
   constructor(props) {
     super(props);
     this.state = {
       enabled: false
     };
 
-    PubSub.subscribe('HelpEnabled', this.listen);
+    this.token = PubSub.subscribe('HelpEnabled', this.listen);
+  }
+
+  componentWillMount() {
+    configureAxios();
+    axios.get('/help')
+    .then((response) => {
+      this.setState({enabled: response.data.enabled})
+    });
+  }
+
+  componentWillUnmount() {
+    PubSub.unsubscribe(this.token);
   }
 
   listen = (msg, data) => {

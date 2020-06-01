@@ -4,6 +4,9 @@ en:
     versions: Server v%{server_version} / Web v%{web_version}
     timezone: Timezone
     close: Close
+    save: Save Changes
+    test: Test
+    selected: selected
     job_table:
       id: ID
       name: Name
@@ -36,7 +39,40 @@ en:
       sign_in: Sign In
       signed_out: You have been signed out.
   jobs:
+    singular: job
+    plural: jobs
+    select_timezone: Select Timezone...
+    cron_buttons:
+      minutely: Minutely
+      hourly: Hourly
+      daily: Daily
+      weekly: Weekly
+      monthly: Monthly
+      yearly: Yearly
+      custom: Custom
+    tooltips:
+      name: The name you give your job must be unique, but can contain spaces, letters, numbers and symbols.
+      command: The command your job will execute when it fires. If you don't specify a shebang line, your command will be executed with bash.
+      success_callback: If specified, this URL will receive a POST request upon successful job completion containing details about the job's run.
+      failure_callback: If specified, this URL will receive a POST request upon job failure containing details about the job's run.
+      tags: Use tags to organize your jobs and make them easily searchable. The tag text box supports lookahead so that you can easily reuse your existing tags.
+      cron: Using this button group, you can easily set up your job's schedule. If your schedule is more complex, select 'Custom' and use the boxes below to specify your job's schedule.
+      cron_instructions: Pick a predefined schedule or select 'Custom' to define your own.
+      timezone: Specify the timezone to run the job in. This only matters for jobs with an hourly component. The default for new jobs will be the timezone reported by your browser.
+    validation:
+      name: Name is required
+      command: Command is required
+      timezone: Timezone is required
+    delete:
+      title: Delete Selected Jobs
+      confirm: Are you sure you want to delete the selected jobs? This cannot be reversed.
+      cancel_button: Cancel
+      confirm_button: Delete Jobs
+    update:
+      success: Updated Job ID %{id}
+      failed: "Failed to update Job ID %{id}: %{error}"
     job_details:
+      header: "Job Name : %{name}"
       update_job: Update Job
       create_job: Create Job
     index:
@@ -71,6 +107,7 @@ en:
     sidebar:
       dashboard: Dashboard
       jobs: Jobs
+      folders: Smart Folders
     footer:
       bjr_html: <b>BJR Server</b> and <b>BJR Web</b> Copyright &copy; 2020 Barry Walker. All Rights Reserved.
       theme_html: Theme is Designed, Developed and Copyright &copy; 2018 <a href="https://themeforest.net/user/quixlab">Quixlab</a>

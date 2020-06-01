@@ -8,6 +8,11 @@ class HomeController < ApplicationController
     @today_stats_tooltips = [t('.today_jobs_tooltip'), t('.today_job_runs_tooltip'), t('.today_job_lag_tooltip'), t('.today_runtimes_tooltip')]
   end
 
+  def timezones
+    api = ApiClient.new(current_user)
+    render json: api.timezones.object, status: :ok
+  end
+
   def recent_jobs
     api = ApiClient.new(current_user)
     recent_jobs = api.recent_jobs(5)

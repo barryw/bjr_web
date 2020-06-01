@@ -76,7 +76,7 @@ class JobsController < ApplicationController
     render json: @api.update_job(@job), status: :ok
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
-    @error = { message: error['message'], title: "Failed to update job #{@job.id}" }
+    render json: { message: error['message'], title: "Failed to update job #{@job.id}" }, status: error["status_code"]
   end
 
   #
@@ -125,7 +125,7 @@ class JobsController < ApplicationController
     @job.command = params[:job][:command] unless params[:job][:command].blank?
     @job.timezone = params[:job][:timezone] unless params[:job][:timezone].blank?
     @job.enabled = params[:job][:enabled] unless params[:job][:enabled].blank?
-    @job.tags = params[:job][:tags] unless params[:job][:tags].blank?
+    @job.tags = params[:job][:tags]
     @job.success_callback = params[:job][:success_callback] unless params[:job][:success_callback].blank?
     @job.failure_callback = params[:job][:failure_callback] unless params[:job][:failure_callback].blank?
   end

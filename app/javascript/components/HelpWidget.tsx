@@ -4,6 +4,8 @@ import PubSub from 'pubsub-js';
 
 import BootstrapTooltip from './BootstrapTooltip'
 
+import { configureAxios } from './AjaxUtils';
+
 export default class HelpWidget extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +22,7 @@ export default class HelpWidget extends React.Component {
   }
 
   getHelpStatus() {
+    configureAxios();
     axios.get('/help')
     .then((response) => {
       PubSub.publish('HelpEnabled', response.data.enabled);
@@ -28,20 +31,11 @@ export default class HelpWidget extends React.Component {
   }
 
   setHelpStatus() {
-    this.configureAxios();
+    configureAxios();
     axios.post(`/help?enabled=${this.state.enabled ? '0' : '1'}`)
     .then((response) => {
       this.getHelpStatus();
     });
-  }
-
-  /*
-  Configure Axios to pass along our CSRF token
-  */
-  configureAxios() {
-    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    axios.defaults.headers.common['X-CSRF-Token'] = token
-    axios.defaults.headers.common['Accept'] = 'application/json'
   }
 
   render() {

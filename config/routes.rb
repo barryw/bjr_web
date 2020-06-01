@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   get 'dashboard', to: 'home#new', as: 'dashboard'
 
+  resources :folders, only: [:create, :update, :get, :index, :destroy]
+  get 'folders/:id/jobs', to: 'folders#jobs', as: 'folder_jobs'
+
   resources :jobs
   get 'job_list', to: 'jobs#jobs', as: 'job_list'
   post 'jobs/:id/run_now', to: 'jobs#run_now', as: 'run_now'
@@ -25,6 +28,9 @@ Rails.application.routes.draw do
   get 'todays_stats', to: 'home#todays_stats', as: 'todays_stats'
   get 'upcoming_jobs', to: 'home#upcoming_jobs', as: 'upcoming_jobs'
   get 'recent_jobs', to: 'home#recent_jobs', as: 'recent_jobs'
+
+  # Get the timezones that the BJR server understands
+  get 'timezones', to: 'home#timezones', as: 'timezones'
 
   # Health check
   get 'health', to: 'health#index', as: 'health'

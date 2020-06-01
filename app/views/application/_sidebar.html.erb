@@ -1,17 +1,21 @@
 <div class="nk-sidebar">
-    <div class="nk-nav-scroll">
-        <ul class="metismenu" id="menu">
-            <li class="nav-label"><%= t('common.versions', server_version: server_version, web_version: web_version) %></li>
-            <li>
-                <%= link_to dashboard_url, method: :get, 'aria-expanded': false do %>
-                    <i class="icon-chart menu-icon"></i><span class="nav-text"><%= t('.dashboard') %></span>
-                <% end %>
-            </li>
-            <li>
-                <%= link_to jobs_url, method: :get, 'aria-expanded': false do%>
-                    <i class="icon-list menu-icon"></i><span class="nav-text"><%= t('.jobs') %></span>
-                <% end %>
-            </li>
-        </ul>
-    </div>
+  <div class="nk-nav-scroll">
+    <ul class="metismenu" id="menu">
+      <li class="nav-label"><%= t('common.versions', server_version: server_version, web_version: web_version) %></li>
+      <li>
+        <%= link_to dashboard_url, method: :get, 'aria-expanded': false do %>
+          <i class="icon-chart menu-icon"></i><span class="nav-text"><%= t('.dashboard') %></span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to jobs_url, method: :get, 'aria-expanded': false do %>
+          <i class="icon-list menu-icon"></i><span class="nav-text"><%= t('.jobs') %></span>
+        <% end %>
+      </li>
+      <li class="nav-label"><%= t('.folders') %></li>
+      <li class="mega-menu mega-menu-sm">
+        <%= react_component('FolderCollection') %>
+      </li>
+    </ul>
+  </div>
 </div>

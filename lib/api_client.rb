@@ -33,6 +33,19 @@ class ApiClient
   end
 
   #
+  # Get the list of folders for a user
+  #
+  def folders
+    api = folder_api
+    api.get_folders
+  end
+
+  def folder(id)
+    api = folder_api
+    api.get_folder(id)
+  end
+
+  #
   # Get all tags associated with this user
   #
   def tags
@@ -184,5 +197,9 @@ class ApiClient
 
   def static_api
     BJR::StaticApi.new(@client)
+  end
+
+  def folder_api
+    BJR::FoldersApi.new(@client)
   end
 end

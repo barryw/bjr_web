@@ -3,6 +3,8 @@ import axios from 'axios';
 import memoize from 'memoize-one';
 import PubSub from 'pubsub-js';
 
+import Modal from 'react-bootstrap/Modal';
+
 import DataTable from 'react-data-table-component';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -14,11 +16,17 @@ import ArrowDownward from '@material-ui/icons/ArrowDownward';
 
 import EditJobCell from './EditJobCell';
 import BooleanCell from './BooleanCell';
+import TriStateCell from './TriStateCell';
 import LastRunCell from './LastRunCell';
 import NextRunCell from './NextRunCell';
 import DateTimeCell from './DateTimeCell';
 import SimpleBackdrop from './SimpleBackdrop';
 import BootstrapTooltip from './BootstrapTooltip';
+import JobEditorComponent from './JobEditorComponent';
+import ConfirmationDialog from './ConfirmationDialog';
+
+import { configureAxios } from './AjaxUtils';
+import { setAsyncState } from './ReactUtils';
 
 const deleteAction = memoize(deleteHandler => (
   <BootstrapTooltip key="delete" title="Delete selected jobs">
@@ -54,40 +62,44 @@ const runAction = memoize(runHandler => (
 
 const sortIcon = <ArrowDownward />;
 
+const i18n = require("i18n-js");
+
 /*
 This is used for the recent and upcoming jobs
 */
 const columnsMin = [
-  { name: 'Name', selector: 'name' },
-  { name: 'Schedule', selector: 'cron' },
-  { name: 'Command', selector: 'command', wrap: true },
-  { name: 'Timezone', selector: 'timezone' },
-  { name: 'Success', selector: 'success', center: true, width: '50px', cell: row => <BooleanCell boolval={row.success}/> },
-  { name: 'Last Run', selector: 'last_run', cell: row => <LastRunCell row={row}/> },
-  { name: 'Next Run', selector: 'next_run', cell: row => <NextRunCell row={row}/> }
+  { name: I18n.t("common.job_table.name"), selector: 'name' },
+  { name: I18n.t("common.job_table.cron"), selector: 'cron' },
+  { name: I18n.t("common.job_table.command"), selector: 'command', wrap: true },
+  { name: I18n.t("common.job_table.timezone"), selector: 'timezone' },
+  { name: I18n.t("common.job_table.succeeded"), selector: 'success', center: true, width: '50px', cell: row => <BooleanCell boolval={row.success}/> },
+  { name: I18n.t("common.job_table.last_run"), selector: 'last_run', cell: row => <LastRunCell row={row}/> },
+  { name: I18n.t("common.job_table.next_run"), selector: 'next_run', cell: row => <NextRunCell row={row}/> }
 ];
 
 /*
 This is used for the full job listing
 */
 const columnsMax = [
-  { selector: 'edit', sortable: false, width: "50px", cell: row => <EditJobCell id={row.id} /> },
+  { selector: 'edit', sortable: false, width: "50px", ignoreRowClick: true, cell: row => <EditJobCell id={row.id} /> },
   { name: 'ID', selector: 'id', sortable: true, width: "75px" },
-  { name: 'Name', selector: 'name', sortable: true },
-  { name: 'Schedule', selector: 'cron', sortable: false, wrap: true },
-  { name: 'Command', selector: 'command', sortable: true, wrap: true },
-  { name: 'Timezone', selector: 'timezone', sortable: true },
-  { name: 'Success', selector: 'success', sortable: true, center: true, width: "50px", cell: row => <BooleanCell boolval={row.success}/> },
-  { name: 'Enabled', selector: 'enabled', sortable: true, center: true, width: "50px", cell: row => <BooleanCell boolval={row.enabled}/> },
-  { name: 'Running', selector: 'running', sortable: true, center: true, width: "50px", cell: row => <BooleanCell boolval={row.running}/> },
-  { name: 'Last Run', selector: 'last_run', sortable: true, cell: row => <LastRunCell row={row}/> },
-  { name: 'Next Run', selector: 'next_run', sortable: true, cell: row => <NextRunCell row={row}/> },
-  { name: 'Created', selector: 'created_at', sortable: true, cell: row => <DateTimeCell datetime={row.created_at}/> },
-  { name: 'Updated', selector: 'updated_at', sortable: true, cell: row => <DateTimeCell datetime={row.updated_at}/> }
+  { name: I18n.t("common.job_table.name"), selector: 'name', sortable: true },
+  { name: I18n.t("common.job_table.cron"), selector: 'cron', sortable: false, wrap: true },
+  { name: I18n.t("common.job_table.command"), selector: 'command', sortable: true, wrap: true },
+  { name: I18n.t("common.job_table.timezone"), selector: 'timezone', sortable: true },
+  { name: I18n.t("common.job_table.succeeded"), selector: 'success', sortable: true, center: true, width: "60px",
+    cell: row => <TriStateCell value={row.last_run == '' ? 0 : (row.success ? 1 : -1)}/> },
+  { name: I18n.t("common.job_table.enabled"), selector: 'enabled', sortable: true, center: true, width: "60px", cell: row => <BooleanCell boolval={row.enabled}/> },
+  { name: I18n.t("common.job_table.running"), selector: 'running', sortable: true, center: true, width: "60px", cell: row => <BooleanCell boolval={row.running}/> },
+  { name: I18n.t("common.job_table.last_run"), selector: 'last_run', sortable: true, cell: row => <LastRunCell row={row}/> },
+  { name: I18n.t("common.job_table.next_run"), selector: 'next_run', sortable: true, cell: row => <NextRunCell row={row}/> },
+  { name: I18n.t("common.job_table.created_at"), selector: 'created_at', sortable: true, cell: row => <DateTimeCell datetime={row.created_at}/> },
+  { name: I18n.t("common.job_table.updated_at"), selector: 'updated_at', sortable: true, cell: row => <DateTimeCell datetime={row.updated_at}/> }
 ];
 
 export default class BJRJobDataTable extends React.Component {
   intervalID;
+  token;
 
   constructor(props) {
     super(props);
@@ -104,10 +116,13 @@ export default class BJRJobDataTable extends React.Component {
       displayFull: props.full,
       source: props.source,
       pagination: props.pagination,
-      search: null
+      search: null,
+      showModal: false,
+      showDeleteModal: false,
+      editJob: null
     };
 
-    PubSub.subscribe('SearchingJobs', this.listen);
+    this.token = PubSub.subscribe('SearchingJobs', this.listen);
   }
 
   async componentDidMount() {
@@ -119,6 +134,7 @@ export default class BJRJobDataTable extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.intervalID);
+    PubSub.unsubscribe(this.token);
   }
 
   listen = (msg, data) => {
@@ -142,13 +158,14 @@ export default class BJRJobDataTable extends React.Component {
     await this.fetchJobData(page, perPage);
   }
 
-  refresh() {
+  async refresh() {
     const { perPage, page } = this.state;
-    this.fetchJobData(page, perPage);
+    await this.fetchJobData(page, perPage);
+    PubSub.publish('JobsUpdated', null);
   }
 
   async fetchJobData(page: number, perPage: number) {
-    this.configureAxios();
+    configureAxios();
     const { search, source } = this.state;
     const response = await axios.get(
       source, {
@@ -215,33 +232,31 @@ export default class BJRJobDataTable extends React.Component {
   Delete the selected jobs. Will pop up a dialog first to confirm
   */
   deleteAll = () => {
+    this.setState({showDeleteModal: true});
+  }
+
+  cancelDelete = () => {
+    this.setState({showDeleteModal: false});
+  }
+
+  confirmDelete = () => {
+    this.setState({showDeleteModal: false});
     const { selectedRows } = this.state;
     const rows = selectedRows.map(r => r.id);
     var self = this;
 
-    Swal.fire({
-      title: 'Delete Selected Jobs?',
-      text: 'Are you sure you want to delete the selected jobs? This cannot be reversed.',
-      type: 'warning',
-      showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Delete Jobs'
-    }).then((result) => {
-      if(result.value) {
-        let requests = [];
-        rows.forEach(function(item, index) {
-          requests.push(axios.delete(`/jobs/${item}`));
-        });
-        self.executeRequests(requests, 'jobs were deleted successfully', 'jobs failed to be deleted');
-      }
+    let requests = [];
+    rows.forEach(function(item, index) {
+      requests.push(axios.delete(`/jobs/${item}`));
     });
+    self.executeRequests(requests, 'jobs were deleted successfully', 'jobs failed to be deleted');
   }
 
   /*
   Execute a group of requests
   */
   executeRequests = (requests, successMessage, failureMessage) => {
-    this.configureAxios();
+    configureAxios();
     this.backdrop(true);
 
     Promise.all(requests)
@@ -253,6 +268,7 @@ export default class BJRJobDataTable extends React.Component {
     })
     .finally(() => {
       this.clearSelectedAndRefresh();
+      PubSub.publish('JobsUpdated', true);
       this.backdrop(false);
     })
   }
@@ -280,20 +296,27 @@ export default class BJRJobDataTable extends React.Component {
   }
 
   /*
-  Configure Axios to pass along our CSRF token
+  When a row is double clicked, open the job edit modal
   */
-  configureAxios() {
-    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    axios.defaults.headers.common['X-CSRF-Token'] = token
-    axios.defaults.headers.common['Accept'] = 'application/json'
+  editJob = (e) => {
+    this.setState({showModal: true, editJob: e});
+  }
+
+  /*
+  Tell the 'edit job' modal to close
+  */
+  modalClose = () => {
+    setAsyncState(this, {showModal: false})
+    .then(() => {
+      this.refresh();
+    });
   }
 
   render() {
-    const { displayFull, enablebackdrop, title, loading, data, totalRows } = this.state;
+    const { editJob, showDeleteModal, showModal, displayFull, enablebackdrop, title, loading, data, totalRows } = this.state;
 
     return (
       <div>
-        <SimpleBackdrop open={enablebackdrop}/>
         <DataTable
           title={title}
           columns={displayFull ? columnsMax : columnsMin}
@@ -309,12 +332,22 @@ export default class BJRJobDataTable extends React.Component {
           onChangeRowsPerPage={this.handlePerRowsChange}
           onChangePage={this.handlePageChange}
           onSelectedRowsChange={this.handleChange}
+          onRowDoubleClicked={this.editJob}
           contextActions={[runAction(this.runAll), enableAction(this.enableAll), disableAction(this.disableAll), deleteAction(this.deleteAll)]}
-          contextMessage={ {singular: 'job', plural: 'jobs', message: 'selected'} }
+          contextMessage={ {singular: I18n.t('jobs.singular'), plural: I18n.t('jobs.plural'), message: I18n.t('common.selected')} }
           selectableRowDisabled={row => row.running}
           clearSelectedRows={this.state.toggledClearRows}
           paginationRowsPerPageOptions={[10,20,50,100]}
         />
+        <Modal show={showDeleteModal} onHide={this.cancelDelete} size="sm" centered>
+          <ConfirmationDialog title={I18n.t('jobs.delete.title')} body={I18n.t('jobs.delete.confirm')}
+                              cancelText={I18n.t('jobs.delete.cancel_button')} confirmText={I18n.t('jobs.delete.confirm_button')}
+                              handleCancel={this.cancelDelete} handleConfirm={this.confirmDelete} />
+        </Modal>
+        <Modal show={showModal} onHide={this.modalClose} size="lg" centered>
+          <JobEditorComponent job={editJob} onClose={this.modalClose}/>
+        </Modal>
+        <SimpleBackdrop open={enablebackdrop}/>
       </div>
     )
   }

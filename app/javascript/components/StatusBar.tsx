@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import StatusBarWidget from './StatusBarWidget'
+import { configureAxios } from './AjaxUtils';
 
 export default class StatusBar extends React.Component {
   intervalID;
@@ -32,7 +33,7 @@ export default class StatusBar extends React.Component {
   }
 
   async refresh() {
-    this.configureAxios();
+    configureAxios();
     const response = await axios.get("/todays_stats.json");
 
     this.setState({
@@ -49,15 +50,9 @@ export default class StatusBar extends React.Component {
     });
   }
 
-  configureAxios() {
-    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    axios.defaults.headers.common['X-CSRF-Token'] = token
-    axios.defaults.headers.common['Accept'] = 'application/json'
-  }
-
   render() {
     const job_count = `${this.state.enabled_jobs} / ${this.state.total_jobs}`;
-    const job_runs = `${this.state.failed_jobs} / ${this.state.run_jobs}`;
+    const job_runs = `${this.state.failed_jobs} / ${this.state.run_jobs} (${(this.state.failed_jobs / this.state.run_jobs * 100).toFixed(2)}% failure)`;
     const job_lag = `${this.state.min_job_lag}s / ${this.state.max_job_lag}s / ${this.state.avg_job_lag.toFixed(2)}s`;
     const runtimes = `${this.state.min_job_runtime.toFixed(2)}s / ${this.state.max_job_runtime.toFixed(2)}s / ${this.state.avg_job_runtime.toFixed(2)}s`;
 

@@ -5,6 +5,8 @@ import PubSub from 'pubsub-js';
 
 import HelpIcon from './HelpIcon';
 
+import { setAsyncState } from './ReactUtils';
+
 const TextField = styled.input`
   height: 32px;
   width: 200px;
@@ -41,9 +43,6 @@ export default class FilterComponent extends React.Component {
     };
   }
 
-  setAsyncState = (newState) =>
-    new Promise((resolve) => this.setState(newState, resolve));
-
   onFilter = (e) => {
     this.setValue(e.target.value);
   };
@@ -53,7 +52,7 @@ export default class FilterComponent extends React.Component {
   };
 
   setValue = (value: string) => {
-    this.setAsyncState({value: value})
+    setAsyncState(this, {value: value})
     .then(() => {
       PubSub.publish('SearchingJobs', this.state.value);
     });
@@ -61,11 +60,11 @@ export default class FilterComponent extends React.Component {
 
   render() {
     return (
-      <span>
+      <React.Fragment>
         <HelpIcon tooltip="You can search specific fields by prefixing your search with 'name:', 'tags:', 'timezone:' or 'command:'. You can also search based on the state of a job using 'running', 'stopped', 'enabled', 'disabled', 'succeeded' or 'failed'."/>&nbsp;&nbsp;
         <TextField id="search" type="text" value={this.state.value} placeholder="Filter By Name" onChange={this.onFilter} />
         <ClearButton type="button" onClick={this.onClear}>X</ClearButton>
-      </span>
+      </React.Fragment>
     )
   }
 }
