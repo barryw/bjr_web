@@ -41,7 +41,40 @@ en:
   jobs:
     singular: job
     plural: jobs
+    schedule_description: This job will run %{description} in the %{timezone} timezone.
     select_timezone: Select Timezone...
+    days:
+      sunday: Sun
+      monday: Mon
+      tuesday: Tue
+      wednesday: Wed
+      thursday: Thu
+      friday: Fri
+      saturday: Sat
+    months:
+      january: Jan
+      february: Feb
+      march: Mar
+      april: Apr
+      may: May
+      june: Jun
+      july: Jul
+      august: Aug
+      september: Sep
+      october: Oct
+      november: Nov
+      december: Dec
+    cron_fields:
+      minute: Minute
+      minute_tooltip: "The minute in which the job should run. If '*' is specified, will run every minute within the ranges specified by the other fields. You can also specify an interval with the '/' syntax. (eg. '*/5' would run every 5 minutes). Valid values are 0-59."
+      hour: Hour
+      hour_tooltip: "The hour in which the job should run. If '*' is specified, will run every hour within the ranges specified by the other fields. You can also specify an interval with the '/' syntax. (eg. '*/12' would run every 12 hours). Valid values are 0-23."
+      day_of_month: DOM
+      day_of_month_tooltip: "The day of the month in which the job should run. If '*' is specified, will run every day within the ranges specified by the other fields. Valid values are 1-31."
+      month: Month
+      month_tooltip: "The month in which the job should run. If '*' is specified, will run every month within the ranges specified by the other fields. Valid values are 1-12."
+      day_of_week: DOW
+      day_of_week_tooltip: "The day of week in which the job should run. If '*' is specified, will run every week day within the ranges specified by other fields. Valid values are 0-6 with 0 being Sunday."
     cron_buttons:
       minutely: Minutely
       hourly: Hourly
@@ -68,7 +101,14 @@ en:
       confirm: Are you sure you want to delete the selected jobs? This cannot be reversed.
       cancel_button: Cancel
       confirm_button: Delete Jobs
+      success_batch: Jobs were deleted successfully
+      failed_batch: Some jobs failed to be deleted
+    run:
+      success_batch: Jobs were triggered to be run successfully
+      failed_batch: Some jobs failed to be triggered to run
     update:
+      success_batch: Jobs were updated successfully
+      failed_batch: Some jobs failed to be updated
       success: Updated Job ID %{id}
       failed: "Failed to update Job ID %{id}: %{error}"
     job_details:

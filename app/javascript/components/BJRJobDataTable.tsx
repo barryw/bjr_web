@@ -24,6 +24,7 @@ import SimpleBackdrop from './SimpleBackdrop';
 import BootstrapTooltip from './BootstrapTooltip';
 import JobEditorComponent from './JobEditorComponent';
 import ConfirmationDialog from './ConfirmationDialog';
+import CronDisplayCell from './CronDisplayCell';
 
 import { configureAxios } from './AjaxUtils';
 import { setAsyncState } from './ReactUtils';
@@ -69,7 +70,7 @@ This is used for the recent and upcoming jobs
 */
 const columnsMin = [
   { name: I18n.t("common.job_table.name"), selector: 'name' },
-  { name: I18n.t("common.job_table.cron"), selector: 'cron' },
+  { name: I18n.t("common.job_table.cron"), selector: 'cron', wrap: true, cell: row => <CronDisplayCell cron={row.cron} timezone={row.timezone} /> },
   { name: I18n.t("common.job_table.command"), selector: 'command', wrap: true },
   { name: I18n.t("common.job_table.timezone"), selector: 'timezone' },
   { name: I18n.t("common.job_table.succeeded"), selector: 'success', center: true, width: '50px', cell: row => <BooleanCell boolval={row.success}/> },
@@ -84,7 +85,7 @@ const columnsMax = [
   { selector: 'edit', sortable: false, width: "50px", ignoreRowClick: true, cell: row => <EditJobCell id={row.id} /> },
   { name: 'ID', selector: 'id', sortable: true, width: "75px" },
   { name: I18n.t("common.job_table.name"), selector: 'name', sortable: true },
-  { name: I18n.t("common.job_table.cron"), selector: 'cron', sortable: false, wrap: true },
+  { name: I18n.t("common.job_table.cron"), selector: 'cron', sortable: false, wrap: true, cell: row => <CronDisplayCell cron={row.cron} timezone={row.timezone} /> },
   { name: I18n.t("common.job_table.command"), selector: 'command', sortable: true, wrap: true },
   { name: I18n.t("common.job_table.timezone"), selector: 'timezone', sortable: true },
   { name: I18n.t("common.job_table.succeeded"), selector: 'success', sortable: true, center: true, width: "60px",
@@ -212,7 +213,7 @@ export default class BJRJobDataTable extends React.Component {
     rows.forEach(function(item, index) {
       requests.push(axios.post(`/jobs/${item}/run_now.json`));
     });
-    this.executeRequests(requests, 'jobs were updated successfully', 'jobs failed to be updated');
+    this.executeRequests(requests, I18n.t('jobs.run.success_batch'), I18n.t('jobs.run.failed_batch'));
   }
 
   /*
@@ -225,7 +226,7 @@ export default class BJRJobDataTable extends React.Component {
     rows.forEach(function(item, index) {
       requests.push(axios.patch(`/jobs/${item}.json?job[enabled]=${endis}`));
     });
-    this.executeRequests(requests, 'jobs were updated successfully', 'jobs failed to be updated');
+    this.executeRequests(requests, I18n.t('jobs.update.success_batch'), I18n.t('jobs.update.failed_batch'));
   }
 
   /*
@@ -249,7 +250,7 @@ export default class BJRJobDataTable extends React.Component {
     rows.forEach(function(item, index) {
       requests.push(axios.delete(`/jobs/${item}`));
     });
-    self.executeRequests(requests, 'jobs were deleted successfully', 'jobs failed to be deleted');
+    self.executeRequests(requests, I18n.t('jobs.delete.success_batch'), I18n.t('jobs.delete.failed_batch'));
   }
 
   /*

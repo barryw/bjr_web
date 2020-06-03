@@ -1,23 +1,19 @@
 import React from 'react';
 import axios from 'axios';
+import { Formik, ErrorMessage } from 'formik';
+import TimezonePicker from 'react-bootstrap-timezone-picker';
+import './timezone_picker.css';
 
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-
-import { Formik, ErrorMessage } from 'formik';
 
 import HelpIcon from './HelpIcon';
 import TagsInputComponent from './TagsInputComponent';
+import CronEditorComponent from './CronEditorComponent';
 
 import { configureAxios } from './AjaxUtils';
-
-import TimezonePicker from 'react-bootstrap-timezone-picker';
-import './timezone_picker.css';
 
 export default class JobEditorComponent extends React.Component {
   constructor(props) {
@@ -183,18 +179,7 @@ export default class JobEditorComponent extends React.Component {
                   </Form.Group>
                   <Form.Row>
                     <Form.Group as={Col} md="7" controlId="formGroupSchedule">
-                      <Form.Label>{I18n.t('jobs.tooltips.cron_instructions')}</Form.Label>&nbsp;&nbsp;<HelpIcon tooltip={I18n.t('jobs.tooltips.cron')} />
-                      <ButtonToolbar aria-label={I18n.t('jobs.tooltips.cron_instructions')}>
-                        <ToggleButtonGroup size="sm" type="radio" name="schedules" className="mr-2" aria-label="Predefined Schedules" toggle>
-                          <ToggleButton type="radio" value="1">{I18n.t('jobs.cron_buttons.minutely')}</ToggleButton>
-                          <ToggleButton type="radio" value="2">{I18n.t('jobs.cron_buttons.hourly')}</ToggleButton>
-                          <ToggleButton type="radio" value="3">{I18n.t('jobs.cron_buttons.daily')}</ToggleButton>
-                          <ToggleButton type="radio" value="4">{I18n.t('jobs.cron_buttons.weekly')}</ToggleButton>
-                          <ToggleButton type="radio" value="5">{I18n.t('jobs.cron_buttons.monthly')}</ToggleButton>
-                          <ToggleButton type="radio" value="6">{I18n.t('jobs.cron_buttons.yearly')}</ToggleButton>
-                          <ToggleButton type="radio" value="7">{I18n.t('jobs.cron_buttons.custom')}</ToggleButton>
-                        </ToggleButtonGroup>
-                      </ButtonToolbar>
+                      <CronEditorComponent cron={values.cron} timezone={values.timezone} onChange={e => setFieldValue('cron', e)} onBlur={handleBlur} />
                     </Form.Group>
                     <Form.Group as={Col} md="5" controlId="formGroupTimezone">
                       <Form.Label>{I18n.t('common.job_table.timezone')}</Form.Label>&nbsp;&nbsp;<HelpIcon tooltip={I18n.t('jobs.tooltips.timezone')} />
