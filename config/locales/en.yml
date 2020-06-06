@@ -99,6 +99,10 @@ en:
       name: Name is required
       command: Command is required
       timezone: Timezone is required
+    enable:
+      title: Enable Selected Jobs
+    disable:
+      title: Disable Selected Jobs
     delete:
       title: Delete Selected Jobs
       confirm: Are you sure you want to delete the selected jobs? This cannot be reversed.
@@ -107,6 +111,7 @@ en:
       success_batch: Jobs were deleted successfully
       failed_batch: Some jobs failed to be deleted
     run:
+      title: Run Selected Jobs Now
       success_batch: Jobs were triggered to be run successfully
       failed_batch: Some jobs failed to be triggered to run
     update:

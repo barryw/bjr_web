@@ -1,6 +1,0 @@
-<% if @error %>
-  toastr.error('<%= @error[:message] %>', '<%= @error[:title] %>');
-<% else %>
-  $('#modal-window').modal('hide');
-  toastr.success('Updated Job <%= @job.id %>');
-<% end %>

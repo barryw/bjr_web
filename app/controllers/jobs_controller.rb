@@ -30,14 +30,6 @@ class JobsController < ApplicationController
   end
 
   #
-  # Render the 'create job' modal
-  #
-  def new
-    @job = Job.new
-    @job.timezone = Time.zone.name
-  end
-
-  #
   # Send the new job details to the BJR server
   #
   def create
@@ -45,29 +37,7 @@ class JobsController < ApplicationController
     head :created
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
-    @error = { message: error['message'], title: 'Failed to create job' }
-  end
-
-  #
-  # Fetch a single job for editing
-  #
-  def edit
-    obj, status_code, headers = @api.job(params[:id])
-    job = obj.object
-
-    # TODO: This shit doesn't belong here
-    j = Job.new
-    j.id = job.id
-    j.name = job.name
-    j.cron = job.cron
-    j.command = job.command
-    j.enabled = job.enabled
-    j.tags = job.tags.join(',')
-    j.timezone = job.timezone
-    j.success_callback = job.success_callback
-    j.failure_callback = job.failure_callback
-
-    @job = j
+    render json: { message: error['message'], title: 'Failed to create job' }, status: error['status_code']
   end
 
   #
@@ -77,7 +47,7 @@ class JobsController < ApplicationController
     render json: @api.update_job(@job), status: :ok
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
-    render json: { message: error['message'], title: "Failed to update job #{@job.id}" }, status: error["status_code"]
+    render json: { message: error['message'], title: "Failed to update job #{@job.id}" }, status: error['status_code']
   end
 
   #
@@ -87,7 +57,7 @@ class JobsController < ApplicationController
     render json: @api.delete_job(params[:id]), status: :no_content
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
-    @error = { message: error['message'], title: "Failed to delete job #{params[:id]}" }
+    render json: { message: error['message'], title: "Failed to delete job #{params[:id]}" }, status: error['status_code']
   end
 
   #
@@ -98,7 +68,7 @@ class JobsController < ApplicationController
     head :accepted
   rescue BJR::ApiError => ae
     error = JSON.parse(ae.response_body)
-    @error = { message: error['message'], title: "Failed to run job #{params[:id]}" }
+    render json: { message: error['message'], title: "Failed to run job #{params[:id]}" }, status: error['status_code']
   end
 
   #
