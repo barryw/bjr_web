@@ -96,6 +96,7 @@ en:
       cron_instructions: Pick a predefined schedule or select 'Custom' to define your own.
       timezone: Specify the timezone to run the job in. This only matters for jobs with an hourly component. The default for new jobs will be the timezone reported by your browser.
       edit_job: Click to edit the job's details. You can also double click the row to edit the job.
+      filter_jobs: "You can search specific fields by prefixing your search with 'name:', 'tags:', 'timezone:' or 'command:'. You can also search based on the state of a job using 'running', 'stopped', 'enabled', 'disabled', 'succeeded' or 'failed'. For more information, see https://github.com/barryw/bjr#job-search-expressions"
     validation:
       name: Name is required
       command: Command is required
