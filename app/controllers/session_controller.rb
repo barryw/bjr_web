@@ -24,11 +24,11 @@ class SessionController < ApplicationController
   def create
     api = ApiClient.new
     auth = api.authenticate(params[:username], params[:password])
-
-    login(I18n.t('welcome.errors.invalid_login', error: auth.message)) and return if auth.is_error
-
     session[:token] = auth.auth_token
     dashboard
+  rescue BJR::ApiError => ae
+    message = JSON.parse(ae.response_body)
+    login(I18n.t('session.errors.invalid_login', error: message['message']))
   end
 
   def destroy

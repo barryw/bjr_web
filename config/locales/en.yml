@@ -30,7 +30,7 @@ en:
       soon: soon
   session:
     errors:
-      invalid_login: "Invalid login: %{error}"
+      invalid_login: "Login failed : %{error}"
       server_version_unknown: (unknown)
       server_connection_failed: "Failed to communicate with BJR server: %{error}"
       no_server: BJR Web is not configured properly or there is a problem communicating with the BJR Server. View the BJR Web and Server logs for more details.
