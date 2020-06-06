@@ -22,13 +22,13 @@ export default class TagsInputComponent extends Component {
   }
 
   componentDidMount() {
-    var tags = [];
-    var suggestions = [];
+    let tags = [];
+    let suggestions = [];
 
     if(this.props.tags !== '')
     {
       tags = this.props.tags.split(",").map(tag => {
-        var container = {};
+        let container = {};
         container['id'] = tag;
         container['text'] = tag;
         return container;
@@ -38,11 +38,11 @@ export default class TagsInputComponent extends Component {
     configureAxios();
     axios.get(`/tags`)
     .then((response) => {
-      var sug = response.data;
+      let sug = response.data;
       if(sug !== '')
       {
         suggestions = sug.map(tmp => {
-          var container = {};
+          let container = {};
           container['id'] = tmp;
           container['text'] = tmp;
           return container;
@@ -55,7 +55,7 @@ export default class TagsInputComponent extends Component {
   handleDelete(i) {
     setAsyncState(this, {tags: this.state.tags.filter((tag, index) => index !== i)})
     .then(() => {
-      var tag_string = this.tagsToString();
+      let tag_string = this.tagsToString();
       this.props.onChange(tag_string);
     });
   }
@@ -64,7 +64,7 @@ export default class TagsInputComponent extends Component {
     const { tags } = this.state;
     setAsyncState(this, {tags: [...tags, tag]})
     .then(() => {
-      var tag_string = this.tagsToString();
+      let tag_string = this.tagsToString();
       this.props.onChange(tag_string);
     });
   }
@@ -82,12 +82,12 @@ export default class TagsInputComponent extends Component {
 
   tagsToString = () => {
     const { tags } = this.state;
-    var tagArray = [];
+    let tagArray = [];
     Object.keys(tags).forEach(function(key) {
-      var item = tags[key];
+      let item = tags[key];
       tagArray.push(item.text);
     });
-    var tagString = tagArray.join(",");
+    let tagString = tagArray.join(",");
     return tagString;
   }
 

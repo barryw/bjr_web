@@ -38,6 +38,9 @@ export default class JobEditorComponent extends React.Component {
     onClose();
   }
 
+  /*
+  Persist the job values back to the BJR server
+  */
   handleSave = async (values, { setSubmitting }) => {
     const { onClose } = this.state;
 

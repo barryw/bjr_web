@@ -244,7 +244,7 @@ export default class BJRJobDataTable extends React.Component {
     this.setState({showDeleteModal: false});
     const { selectedRows } = this.state;
     const rows = selectedRows.map(r => r.id);
-    var self = this;
+    let self = this;
 
     let requests = [];
     rows.forEach(function(item, index) {

@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function TriStateCell(props)
 {
-  var icon = '';
-  var color = '';
+  let icon = '';
+  let color = '';
 
   switch(props.value) {
     case -1:
