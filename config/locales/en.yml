@@ -42,6 +42,7 @@ en:
     singular: job
     plural: jobs
     schedule_description: This job will run %{description} in the %{timezone} timezone.
+    invalid_cron_expression: "'%{cron}' is an invalid cron expression."
     select_timezone: Select Timezone...
     days:
       sunday: Sun

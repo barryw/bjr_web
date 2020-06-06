@@ -183,13 +183,7 @@ export default class JobEditorComponent extends React.Component {
                     </Form.Group>
                     <Form.Group as={Col} md="5" controlId="formGroupTimezone">
                       <Form.Label>{I18n.t('common.job_table.timezone')}</Form.Label>&nbsp;&nbsp;<HelpIcon tooltip={I18n.t('jobs.tooltips.timezone')} />
-                      <TimezonePicker
-                        absolute      = {true}
-                        placeholder   = {I18n.t('jobs.select_timezone')}
-                        onChange      = {e => setFieldValue('timezone', e)}
-                        value         = {values.timezone}
-                        timezones     = {this.state.timezones}
-                      />
+                      <TimezonePicker absolute={true} placeholder={I18n.t('jobs.select_timezone')} onChange={e => setFieldValue('timezone', e)} value={values.timezone} timezones={this.state.timezones}/>
                       <ErrorMessage name="timezone" component="div" className="text-danger" />
                     </Form.Group>
                   </Form.Row>

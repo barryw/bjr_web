@@ -108,7 +108,7 @@ class JobsController < ApplicationController
     cron = params[:cron]
     timezone = params[:timezone]
 
-    description = cron_to_english(cron, timezone)
+    description = cron_to_english(cron)
     render json: { expression: cron, timezone: timezone, description: description }
   end
 

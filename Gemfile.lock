@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/barryw/bjr.git
-  revision: 4efef80656d204defd7069d7d210818ea2789926
+  revision: c437e3736b78b279b3561ade93773f6cb35c87db
   glob: sdks/ruby/bjr4r.gemspec
   specs:
-    bjr4r (1.9.0)
+    bjr4r (2.1.0)
       json (~> 2.1, >= 2.1.0)
       typhoeus (~> 1.0, >= 1.0.1)
 
@@ -89,7 +89,7 @@ GEM
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
     concurrent-ruby (1.1.6)
-    connection_pool (2.2.2)
+    connection_pool (2.2.3)
     crass (1.0.6)
     cronex (0.10.0)
       tzinfo
@@ -110,7 +110,7 @@ GEM
     httparty (0.18.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.8.2)
+    i18n (1.8.3)
       concurrent-ruby (~> 1.0)
     i18n-js (3.7.0)
       i18n (>= 0.6.6)
@@ -236,7 +236,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    sassc (2.3.0)
+    sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
       railties (>= 4.0.0)
@@ -296,7 +296,7 @@ GEM
       semantic_range (>= 2.3.0)
     websocket-driver (0.7.2)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.4)
+    websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
