@@ -7,6 +7,8 @@ en:
     save: Save Changes
     test: Test
     selected: selected
+    help_enabled: Context-sensitive help is enabled. Click to disable.
+    help_disabled: Context-sensitive help is disabled. Click to enable.
     job_table:
       id: ID
       name: Name

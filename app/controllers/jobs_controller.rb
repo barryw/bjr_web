@@ -6,14 +6,15 @@ class JobsController < ApplicationController
   before_action :timezones, only: [:new, :edit]
   before_action :params_to_job, only: [:create, :update]
 
+  #
+  # Retrieve a paginated list of jobs to display in the table
+  #
   def jobs
     page = params[:page]
     per_page = params[:per_page]
     search = params[:search] || ''
 
-    search_params = parse_search(search)
-
-    jobs, status_code, headers = @api.jobs(page, per_page, search_params)
+    jobs, status_code, headers = @api.jobs(page, per_page, search)
     total_jobs = headers['Total'].to_i
 
     render json: { total: total_jobs, data: jobs_to_uijobs(jobs) }, status: status_code

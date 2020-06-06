@@ -22,8 +22,8 @@ class HelpController < ApplicationController
   private
 
   def status_text
-    @text = 'Context-sensitive help is enabled. Click to disable.' if @enabled
-    @text = 'Context-sensitive help is disabled. Click to enable.' unless @enabled
+    @text = I18n.t('common.help_enabled') if @enabled
+    @text = I18n.t('common.help_disabled') unless @enabled
   end
 
   def help_enabled
