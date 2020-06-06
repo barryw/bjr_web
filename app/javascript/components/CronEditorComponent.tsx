@@ -180,7 +180,6 @@ export default class CronEditorComponent extends React.Component {
     cronArray.push(dowVal);
 
     let cron = cronArray.join(' ');
-    console.log('Cron = ' + cron);
 
     setAsyncState(this, { cron: cron })
     .then(() => {
@@ -252,8 +251,6 @@ export default class CronEditorComponent extends React.Component {
         newState['monthsVal'] = monthsVal.match(number) ? monthsVal : '1';
       }
     }
-
-    console.log(newState);
 
     setAsyncState(this, newState)
     .then(() => {
