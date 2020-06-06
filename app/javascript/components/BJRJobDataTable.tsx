@@ -67,7 +67,8 @@ const i18n = require("i18n-js");
 
 export default class BJRJobDataTable extends React.Component {
   intervalID;
-  token;
+  searchToken;
+  refreshToken;
 
   constructor(props) {
     super(props);
@@ -90,7 +91,8 @@ export default class BJRJobDataTable extends React.Component {
       editJob: null
     };
 
-    this.token = PubSub.subscribe('SearchingJobs', this.listen);
+    this.searchToken = PubSub.subscribe('SearchingJobs', this.listen);
+    this.refreshToken = PubSub.subscribe('RefreshJobs', this.listen);
 
     /*
     This is used for the recent and upcoming jobs
@@ -135,7 +137,8 @@ export default class BJRJobDataTable extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.intervalID);
-    PubSub.unsubscribe(this.token);
+    PubSub.unsubscribe(this.searchToken);
+    PubSub.unsubscribe(this.refreshToken);
   }
 
   listen = (msg, data) => {
@@ -145,6 +148,8 @@ export default class BJRJobDataTable extends React.Component {
         this.setState({search: data});
         this.refresh();
         break;
+      case "RefreshJobs":
+      this.refresh();
       default:
         break;
     }
@@ -346,7 +351,7 @@ export default class BJRJobDataTable extends React.Component {
                               handleCancel={this.cancelDelete} handleConfirm={this.confirmDelete} />
         </Modal>
         <Modal show={showEditModal} onHide={this.closeEditJob} size="lg" centered>
-          <JobEditorComponent job={editJob} onClose={this.closeEditJob}/>
+          <JobEditorComponent job={editJob} onClose={this.closeEditJob} completeButton={I18n.t('jobs.job_details.update_job')} cancelButton={I18n.t('common.close')}/>
         </Modal>
         <SimpleBackdrop open={enablebackdrop}/>
       </div>

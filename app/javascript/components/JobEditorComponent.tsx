@@ -22,7 +22,9 @@ export default class JobEditorComponent extends React.Component {
       job: props.job,
       onClose: props.onClose,
       timezones: {},
-      cronDescription: null
+      cronDescription: null,
+      cancelButton: props.cancelButton,
+      completeButton: props.completeButton
     };
   }
 
@@ -46,25 +48,33 @@ export default class JobEditorComponent extends React.Component {
     const { onClose } = this.state;
 
     configureAxios();
-    try {
-      if(values.id == null) {
-        this.newJob(values);
-      } else {
-        await this.updateJob(values);
+    if(values.id === null) {
+      delete values.id;
+      try {
+        await this.newJob(values);
+        toastr.success(I18n.t('jobs.create.success', {name: values.name}));
+        onClose();
+      } catch(error) {
+        toastr.error(I18n.t('jobs.create.failed', {name: values.name, error: error}));
+      } finally {
+        setSubmitting(false);
       }
-      toastr.success(I18n.t('jobs.update.success', {id: values.id}));
-      onClose();
-    } catch(err)
-    {
-      toastr.error(I18n.t('jobs.update.failed', {id: values.id, error: err}));
-    } finally {
-      setSubmitting(false);
+    } else {
+      try {
+        await this.updateJob(values);
+        toastr.success(I18n.t('jobs.update.success', {id: values.id}));
+        onClose();
+      } catch(error) {
+        toastr.error(I18n.t('jobs.update.failed', {id: values.id, error: error}));
+      } finally {
+        setSubmitting(false);
+      }
     }
   }
 
   newJob = async (values) => {
     try {
-      response = await axis.post(`/jobs`, null, {
+      response = await axios.post(`/jobs`, null, {
         data: values
       });
     } catch(error) {
@@ -120,7 +130,7 @@ export default class JobEditorComponent extends React.Component {
   }
 
   render() {
-    const { job, cronDescription } = this.state;
+    const { job, cronDescription, completeButton, cancelButton } = this.state;
 
     return (
       <React.Fragment>
@@ -224,10 +234,10 @@ export default class JobEditorComponent extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={this.handleClose}>
-                    {I18n.t('common.close')}
+                    {cancelButton}
                   </Button>
                   <Button variant="primary" type="submit" disabled={isSubmitting} >
-                    {I18n.t('common.save')}
+                    {completeButton}
                   </Button>
                 </Modal.Footer>
               </form>

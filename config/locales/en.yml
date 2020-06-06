@@ -120,6 +120,9 @@ en:
       failed_batch: Some jobs failed to be updated
       success: Updated Job ID %{id}
       failed: "Failed to update Job ID %{id}: %{error}"
+    create:
+      success: Created Job named %{name}
+      failed: "Failed to create Job named %{name}: %{error}"
     job_details:
       header: "Job Name : %{name}"
       update_job: Update Job
