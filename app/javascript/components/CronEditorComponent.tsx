@@ -42,7 +42,6 @@ export default class CronEditorComponent extends React.Component {
     this.state = {
       cron: props.cron,
       timezone: props.timezone,
-      description: null,
       selectedSchedule: 'custom',
       minuteDisabled: false,
       hourDisabled: false,
@@ -65,44 +64,6 @@ export default class CronEditorComponent extends React.Component {
 
   componentDidMount() {
     this.setSelectedScheduleFromCron();
-  }
-
-  /*
-  This will get called when the timezone changes. It allows us to tailor the schedule for the selected TZ
-  */
-  componentDidUpdate(prevProps, prevState)
-  {
-    if(prevProps.timezone != this.props.timezone)
-    {
-      setAsyncState(this, {timezone: this.props.timezone})
-      .then(() => {
-        this.fetchEnglishCron();
-      });
-    }
-  }
-
-  /*
-  I couldn't find a js library that could do this, so I delegate it to the server. Rails has a gem that can take a cron
-  expression and send back a verbal translation of it, and it's a pretty quick round-trip.
-  */
-  fetchEnglishCron = () => {
-    const { cron, timezone } = this.state;
-    configureAxios();
-    axios.get(`/parse_cron`, {
-      params: {
-        cron: cron,
-        timezone: timezone
-      }
-    })
-    .then((response) => {
-      let cronEnglish = response.data.description;
-      let description = I18n.t('jobs.invalid_cron_expression', {cron: cron});
-      if(cronEnglish != '')
-      {
-        description = I18n.t('jobs.schedule_description', {description: cronEnglish.toLowerCase(), timezone: timezone})
-      }
-      this.setState({description: description});
-    });
   }
 
   /*
@@ -183,7 +144,6 @@ export default class CronEditorComponent extends React.Component {
 
     setAsyncState(this, { cron: cron })
     .then(() => {
-      this.fetchEnglishCron();
       onChange(this.state.cron);
     });
   }
@@ -292,7 +252,7 @@ export default class CronEditorComponent extends React.Component {
 
   render() {
     const { minutesVal, hoursVal, domVal, monthsVal, dowVal, minutesAsSelect, hoursAsSelect, domAsSelect, monthAsSelect, dowAsSelect,
-            minuteDisabled, hourDisabled, domDisabled, monthDisabled, dowDisabled, description, timezone, selectedSchedule } = this.state;
+            minuteDisabled, hourDisabled, domDisabled, monthDisabled, dowDisabled, timezone, selectedSchedule } = this.state;
 
     return (
       <React.Fragment>
@@ -350,7 +310,6 @@ export default class CronEditorComponent extends React.Component {
             )}
           </Form.Group>
         </Form.Row>
-        <Form.Label>{description}</Form.Label>
       </React.Fragment>
     );
   }

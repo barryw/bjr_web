@@ -21,7 +21,8 @@ export default class JobEditorComponent extends React.Component {
     this.state = {
       job: props.job,
       onClose: props.onClose,
-      timezones: {}
+      timezones: {},
+      cronDescription: null
     };
   }
 
@@ -83,6 +84,33 @@ export default class JobEditorComponent extends React.Component {
     }
   }
 
+  /*
+  I couldn't find a js library that could do this, so I delegate it to the server. Rails has a gem that can take a cron
+  expression and send back a verbal translation of it, and it's a pretty quick round-trip.
+  */
+  fetchEnglishCron = (cron, timezone, updateFunction) => {
+    configureAxios();
+    axios.get(`/parse_cron`, {
+      params: {
+        cron: cron,
+        timezone: timezone
+      }
+    })
+    .then((response) => {
+      let cronEnglish = response.data.description;
+      let description = I18n.t('jobs.invalid_cron_expression', {cron: cron});
+      if(cronEnglish != '')
+      {
+        description = I18n.t('jobs.schedule_description', {description: cronEnglish.toLowerCase(), timezone: timezone})
+      }
+      this.setState({cronDescription: description});
+
+      // Call back to Formik to update its model
+      updateFunction('cron', cron);
+      updateFunction('timezone', timezone);
+    });
+  }
+
   testFailureCallback = () => {
 
   }
@@ -92,16 +120,16 @@ export default class JobEditorComponent extends React.Component {
   }
 
   render() {
+    const { job, cronDescription } = this.state;
+
     return (
       <React.Fragment>
         <Modal.Header closeButton>
-          <Modal.Title>{I18n.t('jobs.job_details.header', { name: this.state.job.name })}</Modal.Title>
+          <Modal.Title>{I18n.t('jobs.job_details.header', { name: job.name })}</Modal.Title>
         </Modal.Header>
           <Formik
-            initialValues={{ id: this.state.job.id, name: this.state.job.name, command: this.state.job.command,
-              success_callback: this.state.job.success_callback, failure_callback: this.state.job.failure_callback,
-              tags: this.state.job.tags, cron: this.state.job.cron, enabled: this.state.job.enabled,
-              timezone: this.state.job.timezone }}
+            initialValues={{ id: job.id, name: job.name, command: job.command, success_callback: job.success_callback,
+              failure_callback: job.failure_callback, tags: job.tags, cron: job.cron, enabled: job.enabled, timezone: job.timezone }}
             validate={values => {
               const errors = {};
               if (!values.name) {
@@ -182,13 +210,16 @@ export default class JobEditorComponent extends React.Component {
                   </Form.Group>
                   <Form.Row>
                     <Form.Group as={Col} md="7" controlId="formGroupSchedule">
-                      <CronEditorComponent cron={values.cron} timezone={values.timezone} onChange={e => setFieldValue('cron', e)} onBlur={handleBlur} />
+                      <CronEditorComponent cron={values.cron} timezone={values.timezone} onChange={e => this.fetchEnglishCron(e, values.timezone, setFieldValue)} onBlur={handleBlur} />
                     </Form.Group>
                     <Form.Group as={Col} md="5" controlId="formGroupTimezone">
                       <Form.Label>{I18n.t('common.job_table.timezone')}</Form.Label>&nbsp;&nbsp;<HelpIcon tooltip={I18n.t('jobs.tooltips.timezone')} />
-                      <TimezonePicker absolute={true} placeholder={I18n.t('jobs.select_timezone')} onChange={e => setFieldValue('timezone', e)} value={values.timezone} timezones={this.state.timezones}/>
+                      <TimezonePicker absolute={true} placeholder={I18n.t('jobs.select_timezone')} onChange={e => this.fetchEnglishCron(values.cron, e, setFieldValue)} value={values.timezone} timezones={this.state.timezones}/>
                       <ErrorMessage name="timezone" component="div" className="text-danger" />
                     </Form.Group>
+                  </Form.Row>
+                  <Form.Row>
+                    <Form.Label md="12">{cronDescription}</Form.Label>
                   </Form.Row>
                 </Modal.Body>
                 <Modal.Footer>
