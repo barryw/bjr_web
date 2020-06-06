@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import { Formik, ErrorMessage } from 'formik';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
-import './timezone_picker.css';
 
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';

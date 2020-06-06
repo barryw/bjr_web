@@ -3,8 +3,6 @@ import axios from 'axios';
 import { render } from 'react-dom';
 import { WithContext as ReactTags } from 'react-tag-input';
 
-import './reactTags.css';
-
 import { configureAxios } from './AjaxUtils';
 import { setAsyncState } from './ReactUtils';
 
