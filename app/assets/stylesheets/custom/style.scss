@@ -8177,19 +8177,39 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       color: #464a53; }
       .nk-sidebar .metismenu > li > a {
         transition: none; }
+      .nk-sidebar .metismenu > div > li > a {
+        transition: none; }
       .nk-sidebar .metismenu > li:hover i, .nk-sidebar .metismenu > li:focus i, .nk-sidebar .metismenu > li.active i {
+        color: #464a53 !important; }
+      .nk-sidebar .metismenu > div > li:hover i, .nk-sidebar .metismenu > div > li:focus i, .nk-sidebar .metismenu > div > li.active i {
         color: #464a53 !important; }
       .nk-sidebar .metismenu > li:hover span, .nk-sidebar .metismenu > li:focus span, .nk-sidebar .metismenu > li.active span {
         color: #464a53; }
+      .nk-sidebar .metismenu > div > li:hover span, .nk-sidebar .metismenu > div > li:focus span, .nk-sidebar .metismenu > div > li.active span {
+        color: #464a53; }
       .nk-sidebar .metismenu > li:hover > a {
+        background: #F3F1FA;
+        color: #7571f9; }
+      .nk-sidebar .metismenu > div > li:hover > a {
         background: #F3F1FA;
         color: #7571f9; }
       .nk-sidebar .metismenu > li.active > a {
         background: #F3F1FA;
         color: #464a53; }
+      .nk-sidebar .metismenu > div > li.active > a {
+        background: #F3F1FA;
+        color: #464a53; }
       .nk-sidebar .metismenu > li.active ul a {
         color: #464a53; }
+      .nk-sidebar .metismenu > div > li.active ul a {
+        color: #464a53; }
       .nk-sidebar .metismenu > li a > i {
+        font-size: 0.95rem;
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 0.4375rem 0 0;
+        color: #464a53; }
+      .nk-sidebar .metismenu > div > li a > i {
         font-size: 0.95rem;
         display: inline-block;
         vertical-align: middle;
@@ -8402,10 +8422,18 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       top: auto; }
     [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nk-sidebar .metismenu > li:hover > a {
       width: 15.625rem; }
+    [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nk-sidebar .metismenu > div > li:hover > a {
+      width: 15.625rem; }
       [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nk-sidebar .metismenu > li:hover > a .nav-text {
         display: inline-block;
         padding-left: 1.6875rem; }
+      [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nk-sidebar .metismenu > div > li:hover > a .nav-text {
+        display: inline-block;
+        padding-left: 1.6875rem; }
         [direction="rtl"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nk-sidebar .metismenu > li:hover > a .nav-text {
+          padding-left: auto;
+          padding-right: 1.6875rem; }
+        [direction="rtl"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nk-sidebar .metismenu > div > li:hover > a .nav-text {
           padding-left: auto;
           padding-right: 1.6875rem; }
     [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .nk-sidebar .metismenu > li:hover > ul {
@@ -8538,7 +8566,13 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     [data-sidebar-style="mini"][data-layout="vertical"] .nk-sidebar .metismenu > li:hover > a .nav-text {
       display: inline-block;
       padding-left: 1.6875rem; }
+    [data-sidebar-style="mini"][data-layout="vertical"] .nk-sidebar .metismenu > div > li:hover > a .nav-text {
+      display: inline-block;
+      padding-left: 1.6875rem; }
       [direction="rtl"][data-sidebar-style="mini"][data-layout="vertical"] .nk-sidebar .metismenu > li:hover > a .nav-text {
+        padding-left: auto;
+        padding-right: 1.6875rem; }
+      [direction="rtl"][data-sidebar-style="mini"][data-layout="vertical"] .nk-sidebar .metismenu > div > li:hover > a .nav-text {
         padding-left: auto;
         padding-right: 1.6875rem; }
   [data-sidebar-style="mini"][data-layout="vertical"] .nk-sidebar .metismenu > li:hover > ul {
@@ -8976,6 +9010,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   [data-sidebar-style="mini"][data-layout="horizontal"] .metismenu > li:hover a {
     width: auto; }
     [data-sidebar-style="mini"][data-layout="horizontal"] .metismenu > li:hover a .nav-text {
+      display: none; }
+    [data-sidebar-style="mini"][data-layout="horizontal"] .metismenu > div > li:hover a .nav-text {
       display: none; }
   [data-header-position="fixed"][data-layout="horizontal"][data-sidebar-position="fixed"][data-sidebar-style="compact"] .content-body {
     padding-top: 8.75rem; } }

@@ -47,12 +47,14 @@ export default class FolderCollection extends React.Component {
   }
 
   render() {
+    const { folders } = this.state;
+
     return (
-      <ul>
-        {this.state.folders == null ? null : this.state.folders.map((item, index) => (
+      <React.Fragment>
+        {folders == null ? null : folders.map((item, index) => (
           <Folder key={item.id} name={item.name} expression={item.expression} count={item.job_count} />
         ))}
-      </ul>
+      </React.Fragment>
     );
   }
 }

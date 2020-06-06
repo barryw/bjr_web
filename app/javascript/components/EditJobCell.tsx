@@ -1,4 +1,5 @@
 import React from 'react';
+import HelpIcon from './HelpIcon';
 
 export default class EditJobCell extends React.Component {
   constructor(props) {
@@ -16,7 +17,9 @@ export default class EditJobCell extends React.Component {
 
   render() {
     return (
-      <a onClick={this.handleClick}><i className="icon-note"></i></a>
+      <React.Fragment>
+        <a onClick={this.handleClick}><i className="icon-note"></i></a>&nbsp;&nbsp;<HelpIcon tooltip={I18n.t('jobs.tooltips.edit_job')} />
+      </React.Fragment>
     )
   }
 }

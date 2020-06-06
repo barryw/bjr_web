@@ -95,6 +95,7 @@ en:
       cron: Using this button group, you can easily set up your job's schedule. If your schedule is more complex, select 'Custom' and use the boxes below to specify your job's schedule.
       cron_instructions: Pick a predefined schedule or select 'Custom' to define your own.
       timezone: Specify the timezone to run the job in. This only matters for jobs with an hourly component. The default for new jobs will be the timezone reported by your browser.
+      edit_job: Click to edit the job's details. You can also double click the row to edit the job.
     validation:
       name: Name is required
       command: Command is required

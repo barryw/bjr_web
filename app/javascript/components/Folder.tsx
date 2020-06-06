@@ -6,7 +6,12 @@ export default function Folder(props) {
 
   return (
     <li>
-      <a><i className="icon-folder menu-icon"></i>{props.name}&nbsp;&nbsp;<Badge variant="light">{props.count}</Badge></a>
+      <a aria-expanded="false">
+        <i className="icon-folder menu-icon"></i>
+        <span className="nav-text">
+          {props.name}&nbsp;&nbsp;<Badge variant="light">{props.count}</Badge>
+        </span>
+      </a>
     </li>
   );
 }
