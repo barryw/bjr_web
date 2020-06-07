@@ -61,6 +61,18 @@ class JobsController < ApplicationController
   end
 
   #
+  # Retrieve runs for a job
+  #
+  def runs
+    data, status, headers = @api.job_runs(params[:id], params[:page], params[:per_page])
+    total_runs = headers['Total'].to_i
+    render json: { total: total_runs, data: data.object }, status: :ok
+  rescue BJR::ApiError => ae
+    error = JSON.parse(ae.response_body)
+    render json: { message: error['message'], title: "Failed to retrieve job runs for job ID #{params[:id]}" }, status: error['status_code']
+  end
+
+  #
   # Schedule a single job to run now
   #
   def run_now

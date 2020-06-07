@@ -99,6 +99,18 @@ class ApiClient
   end
 
   #
+  # Retrieve job runs for a job
+  #
+  def job_runs(id, page=nil, per_page=25)
+    api = job_api
+    opts = {}
+    opts[:page] = page unless page.nil?
+    opts[:per_page] = per_page
+
+    api.get_job_runs_with_http_info(id, opts)
+  end
+
+  #
   # Trigger a job to run now
   #
   def run_job(id)

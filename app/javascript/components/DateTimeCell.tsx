@@ -1,9 +1,14 @@
 import React from 'react';
 
-import { formatDistanceToNow } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 export default function DateTimeCell(props)
 {
-  const date = formatDistanceToNow(Date.parse(props.datetime)) + ' ago';
-  return <div>{date}</div>;
+  if(props.date == null) {
+    return <div>{props.emptyVal}</div>;
+  } else {
+    const iso = parseISO(props.date);
+    const date = format(iso, 'yyyy-MM-dd hh:mm:ss bbbb')
+    return <div>{date}</div>;
+  }
 }

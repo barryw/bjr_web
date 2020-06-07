@@ -9,6 +9,16 @@ en:
     selected: selected
     help_enabled: Context-sensitive help is enabled. Click to disable.
     help_disabled: Context-sensitive help is disabled. Click to enable.
+    runs_table:
+      start_time: Start Time
+      scheduled_start_time: Scheduled Start Time
+      end_time: End Time
+      duration: Duration
+      job_lag: Job Lag
+      triggered_manually: Triggered Manually?
+      return_code: Return Code
+      success: Success
+      error_message: Error Message
     job_table:
       id: ID
       name: Name
@@ -40,6 +50,8 @@ en:
       password: Password
       sign_in: Sign In
       signed_out: You have been signed out.
+  runs:
+    manually_triggered: Manually triggered
   jobs:
     singular: job
     plural: jobs

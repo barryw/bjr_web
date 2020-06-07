@@ -19,12 +19,13 @@ import BooleanCell from './BooleanCell';
 import TriStateCell from './TriStateCell';
 import LastRunCell from './LastRunCell';
 import NextRunCell from './NextRunCell';
-import DateTimeCell from './DateTimeCell';
+import DateTimeDistanceCell from './DateTimeDistanceCell';
 import SimpleBackdrop from './SimpleBackdrop';
 import BootstrapTooltip from './BootstrapTooltip';
 import JobEditorComponent from './JobEditorComponent';
 import ConfirmationDialog from './ConfirmationDialog';
 import CronDisplayCell from './CronDisplayCell';
+import JobRunsComponent from './JobRunsComponent';
 
 import { configureAxios } from './AjaxUtils';
 import { setAsyncState } from './ReactUtils';
@@ -123,8 +124,8 @@ export default class BJRJobDataTable extends React.Component {
       { name: I18n.t("common.job_table.running"), selector: 'running', sortable: true, center: true, width: "60px", cell: row => <BooleanCell boolval={row.running}/> },
       { name: I18n.t("common.job_table.last_run"), selector: 'last_run', sortable: true, cell: row => <LastRunCell row={row}/> },
       { name: I18n.t("common.job_table.next_run"), selector: 'next_run', sortable: true, cell: row => <NextRunCell row={row}/> },
-      { name: I18n.t("common.job_table.created_at"), selector: 'created_at', sortable: true, cell: row => <DateTimeCell datetime={row.created_at}/> },
-      { name: I18n.t("common.job_table.updated_at"), selector: 'updated_at', sortable: true, cell: row => <DateTimeCell datetime={row.updated_at}/> }
+      { name: I18n.t("common.job_table.created_at"), selector: 'created_at', sortable: true, cell: row => <DateTimeDistanceCell datetime={row.created_at}/> },
+      { name: I18n.t("common.job_table.updated_at"), selector: 'updated_at', sortable: true, cell: row => <DateTimeDistanceCell datetime={row.updated_at}/> }
     ];
   }
 
@@ -322,7 +323,7 @@ export default class BJRJobDataTable extends React.Component {
     const { editJob, showDeleteModal, showEditModal, displayFull, enablebackdrop, title, loading, data, totalRows } = this.state;
 
     return (
-      <div>
+      <React.Fragment>
         <DataTable
           title={title}
           columns={displayFull ? this.columnsMax : this.columnsMin}
@@ -335,6 +336,8 @@ export default class BJRJobDataTable extends React.Component {
           pagination={displayFull ? true : false}
           paginationServer
           paginationTotalRows={totalRows}
+          expandableRows
+          expandableRowsComponent={<JobRunsComponent />}
           onChangeRowsPerPage={this.handlePerRowsChange}
           onChangePage={this.handlePageChange}
           onSelectedRowsChange={this.handleChange}
@@ -354,7 +357,7 @@ export default class BJRJobDataTable extends React.Component {
           <JobEditorComponent job={editJob} onClose={this.closeEditJob} completeButton={I18n.t('jobs.job_details.update_job')} cancelButton={I18n.t('common.close')}/>
         </Modal>
         <SimpleBackdrop open={enablebackdrop}/>
-      </div>
+      </React.Fragment>
     )
   }
 };

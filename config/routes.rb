@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   resources :jobs
   get 'job_list', to: 'jobs#jobs', as: 'job_list'
+  get 'jobs/:id/runs', to: 'jobs#runs', as: 'job_runs'
   post 'jobs/:id/run_now', to: 'jobs#run_now', as: 'run_now'
   get 'tags', to: 'jobs#tags', as: 'tags'
   get 'parse_cron', to: 'jobs#parse_cron', as: 'parse_cron'
