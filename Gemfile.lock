@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/barryw/bjr.git
-  revision: 1d68ba6a5103906be529075bd64b978a9608d497
+  revision: 76c3a4fd0b71587d6f94fbcbed75b0c0208f49f2
   glob: sdks/ruby/bjr4r.gemspec
   specs:
-    bjr4r (2.3.3)
+    bjr4r (2.4.0)
       json (~> 2.1, >= 2.1.0)
       typhoeus (~> 1.0, >= 1.0.1)
 
@@ -205,7 +205,7 @@ GEM
     redis-session-store (0.11.1)
       actionpack (>= 3)
       redis (>= 3, < 5)
-    regexp_parser (1.7.0)
+    regexp_parser (1.7.1)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)

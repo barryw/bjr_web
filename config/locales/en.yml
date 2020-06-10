@@ -52,12 +52,15 @@ en:
       signed_out: You have been signed out.
   runs:
     manually_triggered: Manually triggered
+    title: Job Runs for '%{name}' (ID %{id})
   jobs:
     singular: job
     plural: jobs
     schedule_description: This job will run %{description} in the %{timezone} timezone.
     invalid_cron_expression: "'%{cron}' is an invalid cron expression."
     select_timezone: Select Timezone...
+    no_jobs: There are no jobs defined. Click the 'Create Job' button to create one.
+    no_job_runs: There are no runs associated with this job.
     days:
       sunday: Sun
       monday: Mon

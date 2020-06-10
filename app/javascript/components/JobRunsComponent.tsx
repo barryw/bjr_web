@@ -17,7 +17,7 @@ export default class JobRunsComponent extends React.Component {
     this.state = {
       data: props.data,
       runs: [],
-      title: 'Job Runs for ' + props.data.name + ' (' + props.data.id + ')',
+      title: I18n.t('runs.title', {name: props.data.name, id: props.data.id}),
       totalRows: 0,
       perPage: 10,
       page: 1
@@ -101,6 +101,7 @@ export default class JobRunsComponent extends React.Component {
           paginationTotalRows={totalRows}
           onChangeRowsPerPage={this.handlePerRowsChange}
           onChangePage={this.handlePageChange}
+          noDataComponent={<div>{I18n.t('jobs.no_job_runs')}</div>}
         />
       </React.Fragment>
     );

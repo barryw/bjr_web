@@ -26,6 +26,7 @@ import JobEditorComponent from './JobEditorComponent';
 import ConfirmationDialog from './ConfirmationDialog';
 import CronDisplayCell from './CronDisplayCell';
 import JobRunsComponent from './JobRunsComponent';
+import TrendIndicator from './TrendIndicator';
 
 import { configureAxios } from './AjaxUtils';
 import { setAsyncState } from './ReactUtils';
@@ -125,7 +126,11 @@ export default class BJRJobDataTable extends React.Component {
       { name: I18n.t("common.job_table.last_run"), selector: 'last_run', sortable: true, cell: row => <LastRunCell row={row}/> },
       { name: I18n.t("common.job_table.next_run"), selector: 'next_run', sortable: true, cell: row => <NextRunCell row={row}/> },
       { name: I18n.t("common.job_table.created_at"), selector: 'created_at', sortable: true, cell: row => <DateTimeDistanceCell datetime={row.created_at}/> },
-      { name: I18n.t("common.job_table.updated_at"), selector: 'updated_at', sortable: true, cell: row => <DateTimeDistanceCell datetime={row.updated_at}/> }
+      { name: I18n.t("common.job_table.updated_at"), selector: 'updated_at', sortable: true, cell: row => <DateTimeDistanceCell datetime={row.updated_at}/> },
+      { name: "Average Duration", selector: 'avg_run_duration', sortable: true,
+        cell: row => <div>{row.avg_run_duration}&nbsp;&nbsp;<TrendIndicator trend={row.avg_run_duration_trend}/></div> },
+      { name: "Average Lag", selector: 'avg_run_lag', sortable: true,
+        cell: row => <div>{row.avg_run_lag}&nbsp;&nbsp;<TrendIndicator trend={row.avg_run_lag_trend}/></div> }
     ];
   }
 
@@ -336,6 +341,7 @@ export default class BJRJobDataTable extends React.Component {
           pagination={displayFull ? true : false}
           paginationServer
           paginationTotalRows={totalRows}
+          paginationComponentOptions={{rowsPerPageText: 'Jobs per page: ', rangeSeparatorText: 'of', noRowsPerPage: false, selectAllRowsItem: false, selectAllRowsItemText: 'All'}}
           expandableRows
           expandableRowsComponent={<JobRunsComponent />}
           onChangeRowsPerPage={this.handlePerRowsChange}
@@ -347,6 +353,7 @@ export default class BJRJobDataTable extends React.Component {
           selectableRowDisabled={row => row.running}
           clearSelectedRows={this.state.toggledClearRows}
           paginationRowsPerPageOptions={[10,20,50,100]}
+          noDataComponent={<div>{I18n.t('jobs.no_jobs')}</div>}
         />
         <Modal show={showDeleteModal} onHide={this.cancelDelete} size="sm" centered>
           <ConfirmationDialog title={I18n.t('jobs.delete.title')} body={I18n.t('jobs.delete.confirm')}

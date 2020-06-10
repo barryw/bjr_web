@@ -13,7 +13,8 @@ module JobsHelper
       ui_jobs << { id: job.id, name: job.name, cron: job.cron, command: job.command,
                    timezone: job.timezone, success: job.success, enabled: job.enabled, running: job.running, last_run: job.last_run,
                    next_run: job.next_run, created_at: job.created_at, updated_at: job.updated_at, success_callback: job.success_callback,
-                   failure_callback: job.failure_callback, tags: job.tags.join(',') }
+                   failure_callback: job.failure_callback, tags: job.tags.join(','), avg_run_duration: job.avg_run_duration,
+                   avg_run_lag: job.avg_run_lag, avg_run_duration_trend: job.avg_run_duration_trend, avg_run_lag_trend: job.avg_run_lag_trend }
     end
 
     ui_jobs
