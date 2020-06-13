@@ -52,7 +52,7 @@ export default class FolderCollection extends React.Component {
     return (
       <React.Fragment>
         {folders == null ? null : folders.map((item, index) => (
-          <Folder key={item.id} name={item.name} expression={item.expression} count={item.job_count} />
+          <Folder key={item.id} id={item.id} name={item.name} expression={item.expression} count={item.job_count} />
         ))}
       </React.Fragment>
     );

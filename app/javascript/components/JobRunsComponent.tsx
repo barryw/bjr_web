@@ -6,6 +6,7 @@ import DataTable from 'react-data-table-component';
 import { differenceInSeconds, parseISO } from 'date-fns';
 
 import BooleanCell from './BooleanCell';
+import TriStateCell from './TriStateCell';
 import DateTimeCell from './DateTimeCell';
 import { configureAxios } from './AjaxUtils';
 
@@ -28,11 +29,11 @@ export default class JobRunsComponent extends React.Component {
       { name: I18n.t('common.runs_table.scheduled_start_time'), sortable: true, selector: 'scheduled_start_time',
         cell: row => <DateTimeCell date={row.scheduled_start_time} emptyVal={I18n.t('runs.manually_triggered')} /> },
       { name: I18n.t('common.runs_table.end_time'), sortable: true, selector: 'end_time', cell: row => <DateTimeCell date={row.end_time}/> },
-      { name: I18n.t('common.runs_table.duration'), sortable: true, cell: row => <div>{differenceInSeconds(parseISO(row.end_time), parseISO(row.start_time))} s</div> },
-      { name: I18n.t('common.runs_table.job_lag'), sortable: true, selector: 'schedule_diff_in_seconds', cell: row => <div>{row.schedule_diff_in_seconds} s</div> },
+      { name: I18n.t('common.runs_table.duration'), sortable: true, cell: row => row.end_time == null ? <div className="spinner-border spinner-border-sm"></div> : <div>{differenceInSeconds(parseISO(row.end_time), parseISO(row.start_time))} s</div> },
+      { name: I18n.t('common.runs_table.job_lag'), sortable: true, selector: 'schedule_diff_in_seconds', cell: row => <div>{row.is_manual ? '-' : row.schedule_diff_in_seconds} s</div> },
       { name: I18n.t('common.runs_table.triggered_manually'), selector: 'is_manual', center: true, cell: row => <BooleanCell boolval={row.is_manual}/> },
       { name: I18n.t('common.runs_table.return_code'), selector: 'return_code' },
-      { name: I18n.t('common.runs_table.success'), selector: 'success', center: true, cell: row => <BooleanCell boolval={row.success}/> },
+      { name: I18n.t('common.runs_table.success'), selector: 'success', center: true, cell: row => <TriStateCell value={row.end_time == null ? 0 : (row.success ? 1 : -1)}/> },
       { name: I18n.t('common.runs_table.error_message'), selector: 'error_message' }
     ];
   }

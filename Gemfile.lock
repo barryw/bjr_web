@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/barryw/bjr.git
-  revision: 76c3a4fd0b71587d6f94fbcbed75b0c0208f49f2
+  revision: ce3f4a1bb2bf8a0d81fd3d5155377609d53483e9
   glob: sdks/ruby/bjr4r.gemspec
   specs:
-    bjr4r (2.4.0)
+    bjr4r (2.4.1)
       json (~> 2.1, >= 2.1.0)
       typhoeus (~> 1.0, >= 1.0.1)
 
@@ -104,10 +104,10 @@ GEM
     factory_bot_rails (5.2.0)
       factory_bot (~> 5.2.0)
       railties (>= 4.2.0)
-    ffi (1.13.0)
+    ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    httparty (0.18.0)
+    httparty (0.18.1)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     i18n (1.8.3)
@@ -201,7 +201,7 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
-    redis (4.1.4)
+    redis (4.2.1)
     redis-session-store (0.11.1)
       actionpack (>= 3)
       redis (>= 3, < 5)

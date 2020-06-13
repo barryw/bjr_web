@@ -128,9 +128,9 @@ export default class BJRJobDataTable extends React.Component {
       { name: I18n.t("common.job_table.created_at"), selector: 'created_at', sortable: true, cell: row => <DateTimeDistanceCell datetime={row.created_at}/> },
       { name: I18n.t("common.job_table.updated_at"), selector: 'updated_at', sortable: true, cell: row => <DateTimeDistanceCell datetime={row.updated_at}/> },
       { name: "Average Duration", selector: 'avg_run_duration', sortable: true,
-        cell: row => <div>{row.avg_run_duration}&nbsp;&nbsp;<TrendIndicator trend={row.avg_run_duration_trend}/></div> },
+        cell: row => <div>{row.avg_run_duration} s&nbsp;&nbsp;<TrendIndicator trend={row.avg_run_duration_trend}/></div> },
       { name: "Average Lag", selector: 'avg_run_lag', sortable: true,
-        cell: row => <div>{row.avg_run_lag}&nbsp;&nbsp;<TrendIndicator trend={row.avg_run_lag_trend}/></div> }
+        cell: row => <div>{row.avg_run_lag} s&nbsp;&nbsp;<TrendIndicator trend={row.avg_run_lag_trend}/></div> }
     ];
   }
 
