@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { configureAxios } from './AjaxUtils';
-import { setAsyncState } from './ReactUtils';
+
+import { configureAxios } from '../AjaxUtils';
+import { setAsyncState } from '../ReactUtils';
 
 export default class CronDisplayCell extends React.Component {
   constructor(props) {

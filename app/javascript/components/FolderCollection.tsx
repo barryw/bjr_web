@@ -1,8 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+
+import Collapse from 'react-bootstrap/Collapse';
+
 import BootstrapTooltip from './BootstrapTooltip';
 import Folder from './Folder';
-import Collapse from 'react-bootstrap/Collapse';
 
 import { configureAxios } from './AjaxUtils';
 

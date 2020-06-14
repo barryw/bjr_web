@@ -2,13 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import PubSub from 'pubsub-js';
 
+import Modal from 'react-bootstrap/Modal';
+
 import DataTable from 'react-data-table-component';
 import { differenceInSeconds, parseISO } from 'date-fns';
 
-import BooleanCell from './BooleanCell';
-import TriStateCell from './TriStateCell';
-import DateTimeCell from './DateTimeCell';
 import { configureAxios } from './AjaxUtils';
+
+import BooleanCell from './cells/BooleanCell';
+import TriStateCell from './cells/TriStateCell';
+import DateTimeCell from './cells/DateTimeCell';
+import EditCell from './cells/EditCell';
+
+import ViewRunComponent from './ViewRunComponent';
 
 export default class JobRunsComponent extends React.Component {
   refreshToken;
@@ -21,10 +27,13 @@ export default class JobRunsComponent extends React.Component {
       title: I18n.t('runs.title', {name: props.data.name, id: props.data.id}),
       totalRows: 0,
       perPage: 10,
-      page: 1
+      page: 1,
+      showViewModal: false,
+      viewRun: null
     };
 
     this.columns = [
+      { sortable: false, width: "50px", ignoreRowClick: true, cell: row => <EditCell row={row} tooltip={I18n.t('runs.tooltips.view_run')} clickHandler={this.viewRun} /> },
       { name: I18n.t('common.runs_table.start_time'), sortable: true, selector: 'start_time', cell: row => <DateTimeCell date={row.start_time}/> },
       { name: I18n.t('common.runs_table.scheduled_start_time'), sortable: true, selector: 'scheduled_start_time',
         cell: row => <DateTimeCell date={row.scheduled_start_time} emptyVal={I18n.t('runs.manually_triggered')} /> },
@@ -75,6 +84,20 @@ export default class JobRunsComponent extends React.Component {
     this.setState({runs: response.data.data, totalRows: response.data.total});
   }
 
+  /*
+  Pop up the modal to show the job run details, which includes STDOUT and STDERR
+  */
+  viewRun = (e) => {
+    this.setState({viewRun: e, showViewModal: true});
+  }
+
+  /*
+  Close the "view run details" modal
+  */
+  closeViewRun = () => {
+    this.setState({showViewModal: false});
+  }
+
   handlePageChange = async page => {
     this.setState({page: page});
     const { perPage } = this.state;
@@ -87,7 +110,7 @@ export default class JobRunsComponent extends React.Component {
   }
 
   render() {
-    const { runs, title, totalRows } = this.state;
+    const { runs, title, totalRows, showViewModal, viewRun } = this.state;
 
     return (
       <React.Fragment>
@@ -102,8 +125,12 @@ export default class JobRunsComponent extends React.Component {
           paginationTotalRows={totalRows}
           onChangeRowsPerPage={this.handlePerRowsChange}
           onChangePage={this.handlePageChange}
+          onRowDoubleClicked={this.viewRun}
           noDataComponent={<div>{I18n.t('jobs.no_job_runs')}</div>}
         />
+        <Modal show={showViewModal} onHide={this.closeViewRun} size="lg" centered>
+          <ViewRunComponent title={I18n.t('runs.run_title')} run={viewRun} onClose={this.closeViewRun} cancelButton={I18n.t('common.close')}/>
+        </Modal>
       </React.Fragment>
     );
   }

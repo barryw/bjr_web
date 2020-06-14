@@ -19,6 +19,8 @@ en:
       return_code: Return Code
       success: Success
       error_message: Error Message
+      stderr: STDERR
+      stdout: STDOUT
     job_table:
       id: ID
       name: Name
@@ -53,6 +55,11 @@ en:
   runs:
     manually_triggered: Manually triggered
     title: Job Runs for '%{name}' (ID %{id})
+    run_title: Job Run
+    tooltips:
+      view_run: Click to view the job run's details. You can also double click the row to view the run.
+      stderr: The captured STDERR output for the job run.
+      stdout: The captured STDOUT output for the job run.
   jobs:
     singular: job
     plural: jobs

@@ -6,25 +6,26 @@ import PubSub from 'pubsub-js';
 import Modal from 'react-bootstrap/Modal';
 
 import DataTable from 'react-data-table-component';
-import IconButton from '@material-ui/core/IconButton';
 
+import IconButton from '@material-ui/core/IconButton';
 import Delete from '@material-ui/icons/Delete';
 import TimerOff from '@material-ui/icons/TimerOff';
 import Timer from '@material-ui/icons/Timer';
 import PlaylistPlay from '@material-ui/icons/PlaylistPlay';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 
-import EditJobCell from './EditJobCell';
-import BooleanCell from './BooleanCell';
-import TriStateCell from './TriStateCell';
-import LastRunCell from './LastRunCell';
-import NextRunCell from './NextRunCell';
-import DateTimeDistanceCell from './DateTimeDistanceCell';
+import BooleanCell from './cells/BooleanCell';
+import CronDisplayCell from './cells/CronDisplayCell';
+import DateTimeDistanceCell from './cells/DateTimeDistanceCell';
+import EditCell from './cells/EditCell';
+import LastRunCell from './cells/LastRunCell';
+import NextRunCell from './cells/NextRunCell';
+import TriStateCell from './cells/TriStateCell';
+
 import SimpleBackdrop from './SimpleBackdrop';
 import BootstrapTooltip from './BootstrapTooltip';
 import JobEditorComponent from './JobEditorComponent';
 import ConfirmationDialog from './ConfirmationDialog';
-import CronDisplayCell from './CronDisplayCell';
 import JobRunsComponent from './JobRunsComponent';
 import TrendIndicator from './TrendIndicator';
 
@@ -113,7 +114,7 @@ export default class BJRJobDataTable extends React.Component {
     This is used for the full job listing
     */
     this.columnsMax = [
-      { selector: 'edit', sortable: false, width: "50px", ignoreRowClick: true, cell: row => <EditJobCell row={row} clickHandler={this.editJob} /> },
+      { selector: 'edit', sortable: false, width: "50px", ignoreRowClick: true, cell: row => <EditCell row={row} tooltip={I18n.t('jobs.tooltips.edit_job')} clickHandler={this.editJob} /> },
       { name: 'ID', selector: 'id', sortable: true, width: "75px" },
       { name: I18n.t("common.job_table.name"), selector: 'name', sortable: true },
       { name: I18n.t("common.job_table.cron"), selector: 'cron', sortable: false, wrap: true, cell: row => <CronDisplayCell cron={row.cron} timezone={row.timezone} /> },
