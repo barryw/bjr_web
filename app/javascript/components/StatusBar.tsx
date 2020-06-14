@@ -51,17 +51,28 @@ export default class StatusBar extends React.Component {
   }
 
   render() {
+    const failPct = this.state.run_jobs == 0 ? 0.0 : (this.state.failed_jobs / this.state.run_jobs * 100).toFixed(2);
     const job_count = `${this.state.enabled_jobs} / ${this.state.total_jobs}`;
-    const job_runs = `${this.state.failed_jobs} / ${this.state.run_jobs} (${(this.state.failed_jobs / this.state.run_jobs * 100).toFixed(2)}% failure)`;
+    const job_runs = `${this.state.failed_jobs} / ${this.state.run_jobs} (${failPct}% failure)`;
     const job_lag = `${this.state.min_job_lag}s / ${this.state.max_job_lag}s / ${this.state.avg_job_lag.toFixed(2)}s`;
     const runtimes = `${this.state.min_job_runtime.toFixed(2)}s / ${this.state.max_job_runtime.toFixed(2)}s / ${this.state.avg_job_runtime.toFixed(2)}s`;
 
     return (
       <div className="row">
-        <StatusBarWidget icon="clock" gradient="gradient-3" value={job_count} subtitle={this.props.subtitles[0]} tooltip={this.props.tooltips[0]} />
-        <StatusBarWidget icon="control-play" gradient="gradient-4" value={job_runs} subtitle={this.props.subtitles[1]} tooltip={this.props.tooltips[1]} />
-        <StatusBarWidget icon="hourglass" gradient="gradient-green" value={job_lag} subtitle={this.props.subtitles[2]} tooltip={this.props.tooltips[2]} />
-        <StatusBarWidget icon="speedometer" gradient="gradient-red" value={runtimes} subtitle={this.props.subtitles[3]} tooltip={this.props.tooltips[3]} />
+        <div className="col-lg-12">
+          <div className="card">
+            <div className="card-body">
+              <h4 className="card-title">{I18n.t('home.new.todays_stats')}</h4>
+              <h6 className="card-subtitle mb-2 text-muted">{I18n.t('home.new.todays_stats_sub')}</h6>
+              <div className="row">
+                <StatusBarWidget icon="clock" gradient="gradient-3" value={job_count} subtitle={this.props.subtitles[0]} tooltip={this.props.tooltips[0]} />
+                <StatusBarWidget icon="control-play" gradient="gradient-4" value={job_runs} subtitle={this.props.subtitles[1]} tooltip={this.props.tooltips[1]} />
+                <StatusBarWidget icon="hourglass" gradient="gradient-green" value={job_lag} subtitle={this.props.subtitles[2]} tooltip={this.props.tooltips[2]} />
+                <StatusBarWidget icon="speedometer" gradient="gradient-red" value={runtimes} subtitle={this.props.subtitles[3]} tooltip={this.props.tooltips[3]} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

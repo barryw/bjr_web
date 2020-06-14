@@ -12,15 +12,18 @@ module HomeHelper
   def run_datasets(stats)
     datasets = { runs: { data: [], label: I18n.t('home.runs_charts.runs'),
                         backgroundColor: "transparent", borderColor: '#7571F9', borderWidth: 0.5, pointStyle: 'circle',
-                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#7571F9', pointHoverRadius: 6
+                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#7571F9', pointHoverRadius: 6,
+                        maintainAspectRatio: false
                        },
                  failed: { data: [], label: I18n.t('home.runs_charts.failed'),
                         backgroundColor: "transparent", borderColor: '#4d7cff', borderWidth: 0.5, pointStyle: 'circle',
-                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#4d7cff', pointHoverRadius: 6
+                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#4d7cff', pointHoverRadius: 6,
+                        maintainAspectRatio: false
                          },
                  job_count: { data: [], label: I18n.t('home.runs_charts.job_count'),
                         backgroundColor: "transparent", borderColor: '#173e43', borderWidth: 0.5, pointStyle: 'circle',
-                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#173e43', pointHoverRadius: 6
+                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#173e43', pointHoverRadius: 6,
+                        maintainAspectRatio: false
                             }
                }
     stats.each do |stat|
@@ -35,15 +38,18 @@ module HomeHelper
   def runtime_datasets(stats)
     datasets = { avg: { data: [], label: I18n.t('home.runtime_charts.avg_runtime'),
                         backgroundColor: "transparent", borderColor: '#7571F9', borderWidth: 0.5, pointStyle: 'circle',
-                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#7571F9', pointHoverRadius: 6
+                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#7571F9', pointHoverRadius: 6,
+                        maintainAspectRatio: false
                       },
                  min: { data: [], label: I18n.t('home.runtime_charts.min_runtime'),
                         backgroundColor: "transparent", borderColor: '#4d7cff', borderWidth: 0.5, pointStyle: 'circle',
-                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#4d7cff', pointHoverRadius: 6
+                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#4d7cff', pointHoverRadius: 6,
+                        maintainAspectRatio: false
                       },
                  max: { data: [], label: I18n.t('home.runtime_charts.max_runtime'),
                         backgroundColor: "transparent", borderColor: '#173e43', borderWidth: 0.5, pointStyle: 'circle',
-                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#173e43', pointHoverRadius: 6
+                        pointRadius: 5, pointBorderColor: 'transparent', pointBackgroundColor: '#173e43', pointHoverRadius: 6,
+                        maintainAspectRatio: false
                       }
                }
 

@@ -154,6 +154,8 @@ en:
       title: All System Jobs
   home:
     new:
+      todays_stats: Today's Stats
+      todays_stats_sub: This status bar will give you a good sense of how your BJR server and workers are performing. The background color will indicate whether the stat is healthy or not.
       recent_title: Recently Run Jobs
       upcoming_title: Upcoming Jobs
       today_jobs: "Jobs Enabled / Total Jobs"

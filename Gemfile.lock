@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/barryw/bjr.git
-  revision: ce3f4a1bb2bf8a0d81fd3d5155377609d53483e9
+  revision: 2d19a91ce028a244e216b4a44cc59b62dcf46dfa
   glob: sdks/ruby/bjr4r.gemspec
   specs:
     bjr4r (2.4.1)
@@ -82,8 +82,6 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    chartjs-ror (3.6.4)
-      rails (>= 3.1)
     childprocess (3.0.0)
     chromedriver-helper (2.1.1)
       archive-zip (~> 0.10)
@@ -154,7 +152,6 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
-    paloma (6.0.0)
     popper_js (1.16.0)
     public_suffix (4.0.5)
     puma (3.12.6)
@@ -310,7 +307,6 @@ DEPENDENCIES
   browser-timezone-rails
   byebug
   capybara (>= 2.15)
-  chartjs-ror
   chromedriver-helper
   cronex
   factory_bot_rails
@@ -322,7 +318,6 @@ DEPENDENCIES
   jwt
   listen (>= 3.0.5, < 3.2)
   mini_racer
-  paloma (~> 6.0.0)
   puma (~> 3.11)
   rack-cors
   rails (~> 5.2.4, >= 5.2.4.2)
