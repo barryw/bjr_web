@@ -33,7 +33,7 @@ export default class JobRunsComponent extends React.Component {
     };
 
     this.columns = [
-      { sortable: false, width: "50px", ignoreRowClick: true, cell: row => <EditCell row={row} tooltip={I18n.t('runs.tooltips.view_run')} clickHandler={this.viewRun} /> },
+      { sortable: false, width: "50px", ignoreRowClick: true, cell: row => <EditCell row={row} icon="icon-magnifier" tooltip={I18n.t('runs.tooltips.view_run')} clickHandler={this.viewRun} /> },
       { name: I18n.t('common.runs_table.start_time'), sortable: true, selector: 'start_time', cell: row => <DateTimeCell date={row.start_time}/> },
       { name: I18n.t('common.runs_table.scheduled_start_time'), sortable: true, selector: 'scheduled_start_time',
         cell: row => <DateTimeCell date={row.scheduled_start_time} emptyVal={I18n.t('runs.manually_triggered')} /> },

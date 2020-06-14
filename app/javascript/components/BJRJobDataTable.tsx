@@ -114,7 +114,7 @@ export default class BJRJobDataTable extends React.Component {
     This is used for the full job listing
     */
     this.columnsMax = [
-      { selector: 'edit', sortable: false, width: "50px", ignoreRowClick: true, cell: row => <EditCell row={row} tooltip={I18n.t('jobs.tooltips.edit_job')} clickHandler={this.editJob} /> },
+      { selector: 'edit', sortable: false, width: "50px", ignoreRowClick: true, cell: row => <EditCell row={row} icon="icon-note" tooltip={I18n.t('jobs.tooltips.edit_job')} clickHandler={this.editJob} /> },
       { name: 'ID', selector: 'id', sortable: true, width: "75px" },
       { name: I18n.t("common.job_table.name"), selector: 'name', sortable: true },
       { name: I18n.t("common.job_table.cron"), selector: 'cron', sortable: false, wrap: true, cell: row => <CronDisplayCell cron={row.cron} timezone={row.timezone} /> },

@@ -9,6 +9,9 @@ en:
     selected: selected
     help_enabled: Context-sensitive help is enabled. Click to disable.
     help_disabled: Context-sensitive help is disabled. Click to enable.
+    errors:
+      misconfigured: BJR Web is not configured properly or there is a problem communicating with the BJR Server.
+      unknown_version: unknown
     runs_table:
       start_time: Start Time
       scheduled_start_time: Scheduled Start Time

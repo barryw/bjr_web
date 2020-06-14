@@ -8,6 +8,9 @@ class HomeController < ApplicationController
     @today_stats_tooltips = [t('.today_jobs_tooltip'), t('.today_job_runs_tooltip'), t('.today_job_lag_tooltip'), t('.today_runtimes_tooltip')]
   end
 
+  #
+  # Return all of the timezones that the BJR server understands.
+  #
   def timezones
     api = ApiClient.new(current_user)
     render json: api.timezones.object, status: :ok

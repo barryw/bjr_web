@@ -2,27 +2,14 @@ module ApplicationHelper
   include ActionView::Helpers::DateHelper
 
   #
-  # Return a datetime in the user's timezone
-  #
-  def user_tz(datetime)
-    return '' if datetime.blank?
-
-    if datetime > DateTime.now
-      return "in #{distance_of_time_in_words(DateTime.now, datetime)}"
-    else
-      return "#{distance_of_time_in_words(DateTime.now, datetime)} ago"
-    end
-  end
-
-  #
   # Return the BJR server version
   #
   def server_version
     api = ApiClient.new
     api.server_version.object
   rescue
-    flash.alert = 'BJR Web is not configured properly or there is a problem communicating with the BJR Server.'
-    '(unknown)'
+    flash.alert = I18n.t('common.errors.misconfigured')
+    "(#{I18n.t('common.errors.unknown_version')})"
   end
 
   #

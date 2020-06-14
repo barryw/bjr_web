@@ -8,7 +8,8 @@ export default class EditCell extends React.Component {
     this.state = {
       row: props.row,
       tooltip: props.tooltip,
-      clickHandler: props.clickHandler
+      clickHandler: props.clickHandler,
+      icon: props.icon
     };
   }
 
@@ -18,11 +19,11 @@ export default class EditCell extends React.Component {
   }
 
   render() {
-    const { tooltip } = this.state;
+    const { tooltip, icon } = this.state;
 
     return (
       <React.Fragment>
-        <a onClick={this.handleClick}><i className="icon-note"></i></a>&nbsp;&nbsp;<HelpIcon tooltip={tooltip} />
+        <a onClick={this.handleClick}><i className={icon}></i></a>&nbsp;&nbsp;<HelpIcon tooltip={tooltip} />
       </React.Fragment>
     )
   }
