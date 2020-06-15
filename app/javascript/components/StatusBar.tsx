@@ -4,6 +4,10 @@ import axios from 'axios';
 import StatusBarWidget from './StatusBarWidget'
 import { configureAxios } from './AjaxUtils';
 
+const improving = 'gradient-improving';
+const degrading = 'gradient-degrading';
+const normal = 'gradient-normal';
+
 export default class StatusBar extends React.Component {
   intervalID;
 
@@ -12,12 +16,16 @@ export default class StatusBar extends React.Component {
     this.state = {
       enabled_jobs: 0,
       total_jobs: 0,
+      total_jobs_trend: 0,
       run_jobs: 0,
       failed_jobs: 0,
+      failed_jobs_trend: 0,
       avg_job_runtime: 0.0,
+      avg_job_runtime_trend: 0.0,
       min_job_runtime: 0.0,
       max_job_runtime: 0.0,
       avg_job_lag: 0.0,
+      avg_job_lag_trend: 0.0,
       min_job_lag: 0.0,
       max_job_lag: 0.0
     };
@@ -41,21 +49,40 @@ export default class StatusBar extends React.Component {
       total_jobs: response.data['total_jobs'],
       run_jobs: response.data['run_jobs'],
       failed_jobs: response.data['failed_jobs'],
+      failed_jobs_trend: response.data['failed_jobs_trend'],
       avg_job_runtime: response.data['avg_job_runtime'],
+      avg_job_runtime_trend: response.data['avg_job_runtime_trend'],
       min_job_runtime: response.data['min_job_runtime'],
       max_job_runtime: response.data['max_job_runtime'],
       avg_job_lag: response.data['avg_job_lag'],
+      avg_job_lag_trend: response.data['avg_job_lag_trend'],
       min_job_lag: response.data['min_job_lag'],
       max_job_lag: response.data['max_job_lag']
     });
   }
 
+  getBackgroundColor = (value) => {
+    if(value > 0.001)
+      return degrading;
+    if(value <= 0.001 && value > -0.001)
+      return normal;
+    return improving;
+  }
+
   render() {
-    const failPct = this.state.run_jobs == 0 ? 0.0 : (this.state.failed_jobs / this.state.run_jobs * 100).toFixed(2);
-    const job_count = `${this.state.enabled_jobs} / ${this.state.total_jobs}`;
-    const job_runs = `${this.state.failed_jobs} / ${this.state.run_jobs} (${failPct}% failure)`;
-    const job_lag = `${this.state.min_job_lag}s / ${this.state.max_job_lag}s / ${this.state.avg_job_lag.toFixed(2)}s`;
-    const runtimes = `${this.state.min_job_runtime.toFixed(2)}s / ${this.state.max_job_runtime.toFixed(2)}s / ${this.state.avg_job_runtime.toFixed(2)}s`;
+    const { enabled_jobs, total_jobs, failed_jobs, run_jobs, min_job_lag, max_job_lag, avg_job_lag,
+            min_job_runtime, max_job_runtime, avg_job_runtime, failed_jobs_trend, avg_job_runtime_trend,
+            avg_job_lag_trend, total_jobs_trend } = this.state;
+
+    const failPct = run_jobs == 0 ? 0.0 : (failed_jobs / run_jobs * 100).toFixed(2);
+    const job_count = `${enabled_jobs} / ${total_jobs}`;
+    const job_runs = `${failed_jobs} / ${run_jobs} (${failPct}% failure)`;
+    const job_lag = `${min_job_lag}s / ${max_job_lag}s / ${avg_job_lag.toFixed(2)}s`;
+    const runtimes = `${min_job_runtime.toFixed(2)}s / ${max_job_runtime.toFixed(2)}s / ${avg_job_runtime.toFixed(2)}s`;
+
+    const failedJobsColor = this.getBackgroundColor(failed_jobs_trend);
+    const jobRuntimeColor = this.getBackgroundColor(avg_job_runtime_trend);
+    const jobLagColor = this.getBackgroundColor(avg_job_lag_trend);
 
     return (
       <div className="row">
@@ -65,10 +92,10 @@ export default class StatusBar extends React.Component {
               <h4 className="card-title">{I18n.t('home.new.todays_stats')}</h4>
               <h6 className="card-subtitle mb-2 text-muted">{I18n.t('home.new.todays_stats_sub')}</h6>
               <div className="row">
-                <StatusBarWidget icon="clock" gradient="gradient-3" value={job_count} subtitle={this.props.subtitles[0]} tooltip={this.props.tooltips[0]} />
-                <StatusBarWidget icon="control-play" gradient="gradient-4" value={job_runs} subtitle={this.props.subtitles[1]} tooltip={this.props.tooltips[1]} />
-                <StatusBarWidget icon="hourglass" gradient="gradient-green" value={job_lag} subtitle={this.props.subtitles[2]} tooltip={this.props.tooltips[2]} />
-                <StatusBarWidget icon="speedometer" gradient="gradient-red" value={runtimes} subtitle={this.props.subtitles[3]} tooltip={this.props.tooltips[3]} />
+                <StatusBarWidget trend={total_jobs_trend} icon="clock" gradient="gradient-4" value={job_count} subtitle={this.props.subtitles[0]} tooltip={this.props.tooltips[0]} />
+                <StatusBarWidget trend={failed_jobs_trend} icon="control-play" gradient={failedJobsColor} value={job_runs} subtitle={this.props.subtitles[1]} tooltip={this.props.tooltips[1]} />
+                <StatusBarWidget trend={avg_job_lag_trend} icon="hourglass" gradient={jobLagColor} value={job_lag} subtitle={this.props.subtitles[2]} tooltip={this.props.tooltips[2]} />
+                <StatusBarWidget trend={avg_job_runtime_trend} icon="speedometer" gradient={jobRuntimeColor} value={runtimes} subtitle={this.props.subtitles[3]} tooltip={this.props.tooltips[3]} />
               </div>
             </div>
           </div>

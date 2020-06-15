@@ -46,6 +46,18 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   background-image: linear-gradient(135deg, #000000 10%, #009900 100%);
 }
 
+.gradient-improving {
+  background-image: linear-gradient(135deg, #000000, #009900);
+}
+
+.gradient-degrading {
+  background-image: linear-gradient(135deg, #000000, #990000);
+}
+
+.gradient-normal {
+  background-image: linear-gradient(135deg, #009900 50%, #009900 50%);
+}
+
 .gradient-red {
   background-image: linear-gradient(135deg, #000000 10%, #990000 100%);
 }
