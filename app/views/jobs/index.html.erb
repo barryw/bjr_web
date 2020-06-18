@@ -7,9 +7,9 @@
             <%= react_component('CreateJobButton', { timezone: Time.zone.tzinfo.name }) %>
           </div>
           <div class="float-right">
-            <%= react_component('FilterComponent') %>
+            <%= react_component('FilterComponent', { expression: @expression }) %>
           </div>
-          <%= react_component('BJRJobDataTable', { title: t('.title'), full: true, source: '/job_list', pagination: true }) %>
+          <%= react_component('BJRJobDataTable', { title: t('.title'), full: true, source: '/job_list', pagination: true, folder_selected: !@folder_id.nil? }) %>
         </div>
       </div>
     </div>

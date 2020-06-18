@@ -6,6 +6,14 @@ class JobsController < ApplicationController
   before_action :timezones, only: [:new, :edit]
   before_action :params_to_job, only: [:create, :update]
 
+  def index
+    if(params[:folder_id])
+      folder = @api.folder(params[:folder_id]).object
+      @expression = folder.expression unless folder.nil?
+      @folder_id = folder.id unless folder.nil?
+    end
+  end
+
   #
   # Retrieve a paginated list of jobs to display in the table
   #
@@ -13,8 +21,9 @@ class JobsController < ApplicationController
     page = params[:page]
     per_page = params[:per_page]
     search = params[:search] || ''
+    folder = params[:folder_id]
 
-    jobs, status_code, headers = @api.jobs(page, per_page, search)
+    jobs, status_code, headers = @api.jobs_common(page, per_page, search, folder)
     total_jobs = headers['Total'].to_i
 
     render json: { total: total_jobs, data: jobs_to_uijobs(jobs) }, status: status_code

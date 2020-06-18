@@ -10,9 +10,10 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
+//= require rails-ujs
 //= require turbolinks
 //= require js/common.min
-//= require rails-ujs
 //= require js/sweetalert2.min
 //= require js.cookie
 //= require browser_timezone_rails/set_time_zone

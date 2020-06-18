@@ -36,12 +36,33 @@ const ClearButton = styled(Button)`
 `;
 
 export default class FilterComponent extends React.Component {
+  tableLoadedToken;
+
   constructor(props) {
     super(props);
     this.state = {
-      value: ''
+      value: props.expression
     };
   }
+
+  componentDidMount() {
+    this.tableLoadedToken = PubSub.subscribe('TableLoaded', this.listen);
+  }
+
+  componentWillUnmount() {
+    PubSub.unsubscribe(this.tableLoadedToken);
+  }
+
+  listen = (msg, data) => {
+    switch(msg)
+    {
+      case "TableLoaded":
+        this.notify();
+        break;
+      default:
+        break;
+    }
+  };
 
   onFilter = (e) => {
     this.setValue(e.target.value);
@@ -54,15 +75,21 @@ export default class FilterComponent extends React.Component {
   setValue = (value: string) => {
     setAsyncState(this, {value: value})
     .then(() => {
-      PubSub.publish('SearchingJobs', this.state.value);
+      this.notify();
     });
   }
 
+  notify = () => {
+    PubSub.publish('SearchingJobs', this.state.value);
+  }
+
   render() {
+    const { value } = this.state;
+
     return (
       <React.Fragment>
         <HelpIcon tooltip={I18n.t('jobs.tooltips.filter_jobs')}/>&nbsp;&nbsp;
-        <TextField id="search" type="text" value={this.state.value} placeholder="Filter By Name" onChange={this.onFilter} />
+        <TextField id="search" type="text" value={value} placeholder="Filter By Name" onChange={this.onFilter} />
         <ClearButton type="button" onClick={this.onClear}>X</ClearButton>
       </React.Fragment>
     )

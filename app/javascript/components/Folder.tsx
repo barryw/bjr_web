@@ -7,7 +7,7 @@ export default function Folder(props) {
 
   return (
     <li>
-      <a href={`/jobs?folder_id=${props.id}`} style={{cursor: 'pointer'}}>
+      <a aria-expanded="false" data-method="get" href={`/jobs?folder_id=${props.id}`}>
         <i className="icon-folder menu-icon"></i>
         <span className="nav-text">
           {props.name}&nbsp;&nbsp;<Badge variant="light">{props.count}</Badge>

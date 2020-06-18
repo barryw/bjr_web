@@ -85,6 +85,11 @@ class ApiClient
     api.get_job_with_http_info(id)
   end
 
+  def jobs_common(page, per_page, search, folder_id)
+    return jobs(page, per_page, search) if folder_id.blank?
+    return folder_jobs(page, per_page, folder_id)
+  end
+
   #
   # Get jobs matching some criteria
   #
@@ -96,6 +101,18 @@ class ApiClient
     opts[:expression] = expression unless expression.nil?
 
     api.get_jobs_with_http_info(opts)
+  end
+
+  #
+  # Get a folder's jobs
+  #
+  def folder_jobs(page, per_page=25, folder_id)
+    api = folder_api
+    opts = {}
+    opts[:page] = page unless page.nil?
+    opts[:per_page] = per_page
+
+    api.get_folder_jobs_with_http_info(folder_id, opts)
   end
 
   #

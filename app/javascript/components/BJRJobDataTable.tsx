@@ -91,11 +91,9 @@ export default class BJRJobDataTable extends React.Component {
       search: null,
       showEditModal: false,
       showDeleteModal: false,
-      editJob: null
+      editJob: null,
+      folderSelected: props.folder_selected
     };
-
-    this.searchToken = PubSub.subscribe('SearchingJobs', this.listen);
-    this.refreshToken = PubSub.subscribe('RefreshJobs', this.listen);
 
     /*
     This is used for the recent and upcoming jobs
@@ -136,14 +134,19 @@ export default class BJRJobDataTable extends React.Component {
   }
 
   async componentDidMount() {
+    this.searchToken = PubSub.subscribe('SearchingJobs', this.listen);
+    this.refreshToken = PubSub.subscribe('RefreshJobs', this.listen);
+
     const { perPage, page } = this.state;
     await this.fetchJobData(page, perPage);
 
     this.intervalID = setInterval(this.refresh.bind(this), 5000);
+    PubSub.publish('TableLoaded', null);
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalID);
+
     PubSub.unsubscribe(this.searchToken);
     PubSub.unsubscribe(this.refreshToken);
   }
@@ -152,11 +155,14 @@ export default class BJRJobDataTable extends React.Component {
     switch(msg)
     {
       case "SearchingJobs":
-        this.setState({search: data});
-        this.refresh();
+        setAsyncState(this, {search: data})
+        .then(() => {
+          this.refresh();
+        });
         break;
       case "RefreshJobs":
-      this.refresh();
+        this.refresh();
+        break;
       default:
         break;
     }
@@ -179,7 +185,10 @@ export default class BJRJobDataTable extends React.Component {
 
   async fetchJobData(page: number, perPage: number) {
     configureAxios();
-    const { search, source } = this.state;
+    const { search, source, folderSelected } = this.state;
+    if(folderSelected && search == null) {
+      return;
+    }
     const response = await axios.get(
       source, {
         params: {
