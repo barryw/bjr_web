@@ -79,8 +79,8 @@ export default class BJRJobDataTable extends React.Component {
       data: [],
       loading: false,
       totalRows: 0,
-      perPage: 10,
-      page: 1,
+      perPage: props.perPage,
+      page: props.Page,
       title: props.title,
       selectedRows: [],
       toggleClearedRows: false,
@@ -345,14 +345,15 @@ export default class BJRJobDataTable extends React.Component {
           data={data}
           striped
           highlightOnHover
-          selectableRows={displayFull ? true : false}
+          selectableRows={displayFull}
           sortIcon={sortIcon}
           progressPending={loading}
-          pagination={displayFull ? true : false}
+          pagination={displayFull}
           paginationServer
           paginationTotalRows={totalRows}
           paginationComponentOptions={{rowsPerPageText: 'Jobs per page: ', rangeSeparatorText: 'of', noRowsPerPage: false, selectAllRowsItem: false, selectAllRowsItemText: 'All'}}
-          expandableRows
+          paginationRowsPerPageOptions={[10,20,50,100]}
+          expandableRows={displayFull}
           expandableRowsComponent={<JobRunsComponent />}
           onChangeRowsPerPage={this.handlePerRowsChange}
           onChangePage={this.handlePageChange}
@@ -362,7 +363,6 @@ export default class BJRJobDataTable extends React.Component {
           contextMessage={ {singular: I18n.t('jobs.singular'), plural: I18n.t('jobs.plural'), message: I18n.t('common.selected')} }
           selectableRowDisabled={row => row.running}
           clearSelectedRows={this.state.toggledClearRows}
-          paginationRowsPerPageOptions={[10,20,50,100]}
           noDataComponent={<div>{I18n.t('jobs.no_jobs')}</div>}
         />
         <Modal show={showDeleteModal} onHide={this.cancelDelete} size="sm" centered>

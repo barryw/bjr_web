@@ -5,14 +5,14 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <%= react_component('BJRJobDataTable', { title: t('.recent_title'), full: false, source: '/recent_jobs', pagination: false }) %>
+                    <%= react_component('BJRJobDataTable', { title: t('.recent_title'), full: false, source: '/recent_jobs', pagination: false, perPage: 5, page: 1 }) %>
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <%= react_component('BJRJobDataTable', { title: t('.upcoming_title'), full: false, source: '/upcoming_jobs', pagination: false }) %>
+                    <%= react_component('BJRJobDataTable', { title: t('.upcoming_title'), full: false, source: '/upcoming_jobs', pagination: false, perPage: 5, page: 1 }) %>
                 </div>
             </div>
         </div>
