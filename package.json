@@ -11,7 +11,7 @@
     "@types/react-dom": "^16.9.8",
     "axios": "^0.19.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "date-fns": "^2.14.0",
     "formik": "^2.1.4",
     "i18n-js": "^3.7.0",
